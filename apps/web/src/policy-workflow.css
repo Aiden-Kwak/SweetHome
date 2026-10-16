@@ -1,4 +1,19 @@
 .policy-dialog.policy-dialog { width: min(1180px, calc(100vw - 32px)); }
+.workflow-progress { list-style:none; display:flex; gap:12px; padding:0; margin:0 0 16px; }
+.workflow-progress li { flex:1; display:flex; align-items:center; gap:8px; border-bottom:3px solid #e5e8eb; padding:8px 0; color:#6b7684; font-size:13px; }
+.workflow-progress li.reached { color:#1b64da; border-color:#3182f6; }
+.workflow-progress li[aria-current] { font-weight:700; }
+.workflow-progress li span { display:grid; place-items:center; background:#f2f4f6; border-radius:50%; width:24px; height:24px; flex-shrink:0; }
+.workflow-session { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:16px; color:#6b7684; font-size:12px; }
+.workflow-household-actions,.experiment-actions { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:12px 0; font-size:13px; }
+.workflow-hint { padding:12px; background:#f2f7ff; border-radius:8px; font-size:13px; color:#42536b; }
+.workflow-run { padding:16px; background:#f7faff; border:1px solid #dbe8fb; border-radius:12px; }
+.workflow-run p { margin-bottom:12px; font-size:13px; color:#4e5968; }
+.experiment-region-comparison table { width:100%; border-collapse:collapse; font-size:13px; }
+.experiment-region-comparison th,.experiment-region-comparison td { text-align:left; padding:8px; border-bottom:1px solid #e5e8eb; }
+.experiment-region-comparison td { font-variant-numeric:tabular-nums; }
+.workflow-map-label .secondary text { font-size:11px; stroke-width:3px; }
+.workflow-map-label .active text { fill:#1b64da; }
 .policy-workflow fieldset { border: 0; margin: 16px 0; padding: 0; min-width: 0; }
 .policy-workflow label:not(.workflow-check) { display: block; margin: 16px 0; font-size: 14px; }
 .policy-workflow input:not([type="checkbox"]), .policy-workflow select { display: block; width: 100%; min-width: 0; margin-top: 6px; padding: 10px; border: 1px solid #d1d6db; border-radius: 8px; }
@@ -12,8 +27,19 @@
 .workflow-candidate blockquote { border-left: 3px solid #3182f6; margin: 16px 0; padding-left: 16px; line-height: 1.7; }
 .workflow-fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
 .workflow-fields small { display: block; line-height: 1.6; color: #6b7684; }
-.workflow-regions { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 4px 12px; max-height: 220px; overflow: auto; }
-.workflow-regions label { display: flex!important; align-items: center; gap: 8px; margin: 6px 0!important; }
+.workflow-regions { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; }
+.policy-workflow .workflow-regions label { display: flex; align-items: center; gap: 8px; margin: 0; padding:10px 8px; min-height:44px; border-radius:8px; cursor:pointer; }
+.workflow-regions label:has(input:checked) { background:#e8f3ff; color:#1b64da; }
+.workflow-regions input { margin:0; }
+.region-picker { margin-top:16px; border:1px solid #e5e8eb; border-radius:12px; overflow:hidden; }
+.region-picker-toolbar { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; padding:12px 16px; background:#f7f8fa; }
+.region-picker-actions { display:flex; flex-wrap:wrap; gap:8px; }
+.policy-workflow .region-group-check { margin:0; align-items:center; font-size:14px; }
+.policy-workflow .region-picker-group { margin:0; padding:16px; border-top:1px solid #e5e8eb; }
+.region-picker-group summary { margin-bottom:12px; }
+.region-picker-group summary span { margin-left:12px; color:#6b7684; font-size:12px; font-weight:400; }
+.region-picker-group > .region-group-check { margin-bottom:12px; }
+.workflow-household h4 { margin:0 0 12px; }
 .workflow-household { padding: 16px; border: 1px solid #e5e8eb; border-radius: 12px; margin: 12px 0; }
 .workflow-result-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; margin: 24px 0; }
 .workflow-map { width: 100%; background: #f7f8fa; border-radius: 16px; }

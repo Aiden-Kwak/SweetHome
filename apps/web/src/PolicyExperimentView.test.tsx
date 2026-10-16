@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import fixture from "../../../data/fixtures/demo_policy-experiment-response.json";
-import { PolicyExperimentView } from "./PolicyExperimentView";
+import { experimentColor, PolicyExperimentView } from "./PolicyExperimentView";
 import { emptySupply } from "./SupplyScenarioEditor";
 import type { PolicyExperimentResult } from "./policy-pipeline";
 
@@ -11,6 +11,18 @@ const render = (data: PolicyExperimentResult) => renderToStaticMarkup(
 );
 
 describe("policy-specific result presentation", () => {
+  it("distinguishes changes in magnitude without inventing numerical effects",()=>{
+    expect(experimentColor(-1)).not.toBe(experimentColor(-0.5));
+    expect(experimentColor(0)).toBe(experimentColor(null));
+    expect(experimentColor(1)).not.toBe(experimentColor(-1));
+  });
+  it("puts recalculation and export before the map, and exposes every regional result",()=>{
+    const data=result();
+    const html=render(data);
+    expect(html.indexOf("조건을 바꿔 다시 계산")).toBeLessThan(html.indexOf("workflow-result-hero"));
+    expect(html).toContain(`${data.regions.length}개 지역 결과 비교`);
+    for(const region of data.regions) expect(html).toContain(region.name);
+  });
   it("shows budget changes when no purchase-price coefficient was supplied", () => {
     const data=result();
     data.assumptions.price_elasticity=null;

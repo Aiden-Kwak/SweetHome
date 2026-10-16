@@ -1,0 +1,13 @@
+{
+  "region_code": "11110",
+  "region_name": "서울 종로구",
+  "price_change": null,
+  "transaction_change": null,
+  "confidence": "low",
+  "effect_type": "baseline",
+  "coverage_status": "context_only",
+  "driving_rule_ids": [],
+  "supporting_claim_ids": [],
+  "related_cohort_ids": [],
+  "spillover_from_region_codes": []
+}

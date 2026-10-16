@@ -1,6 +1,6 @@
 # Project instructions
 
-This repository contains PolicyMap, a Korean real-estate policy knowledge graph and impact-simulation prototype for the Google DeepMind AI Hackathon.
+This repository contains SweetHome, a Korean real-estate policy knowledge graph and impact-simulation prototype for the Google DeepMind AI Hackathon.
 
 ## Read before changing code
 

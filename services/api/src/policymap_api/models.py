@@ -181,7 +181,7 @@ class ScenarioRequest(StrictModel):
     baseline_date: date
     region_code: str
     horizon_months: int = Field(ge=0, le=60)
-    change_ids: list[str] = Field(min_length=1)
+    change_ids: list[str]
     allow_demo: bool = False
     base_rate_delta_bp: int = 0
     policy_lead_months: int = 0
@@ -199,8 +199,9 @@ class ValueRange(StrictModel):
 class RegionResult(StrictModel):
     region_code: str
     region_name: str
-    price_change: ValueRange
-    transaction_change: ValueRange
+    price_change: ValueRange | None
+    transaction_change: ValueRange | None
+    coverage_status: Literal["scenario", "context_only"] = "scenario"
     mortgage_limit_change: ValueRange | None = None
     confidence: Literal["low", "medium", "high"]
     effect_type: Literal["direct", "spillover", "baseline"]

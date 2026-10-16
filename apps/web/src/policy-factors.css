@@ -1,3 +1,12 @@
+.factor-disclosure { margin-top: 20px; }
+.factor-disclosure-button { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 22px; border: 1px solid #dbe8fb; border-radius: 16px; background: #f7faff; color: #246be9; text-align: left; cursor: pointer; }
+.factor-disclosure-button strong, .factor-disclosure-button small { display: block; }
+.factor-disclosure-button strong { font-size: 16px; }
+.factor-disclosure-button small { margin-top: 4px; color: #687485; font-size: 12px; }
+.factor-disclosure-button > span:last-child { white-space: nowrap; font-weight: 600; }
+.factor-disclosure-button:hover, .factor-disclosure-button:focus-visible { border-color: #246be9; background: #eef5ff; }
+.factor-disclosure .policy-factors { margin-top: 12px; }
+.factor-disclosure + .policy-section { margin-top: 20px; }
 .policy-factors { margin: 4px 0 24px; }
 .policy-factors .section-heading { margin-bottom: 12px; }
 .factors-context { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px; color:#4e5968; font-size:13px; }

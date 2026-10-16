@@ -18,7 +18,7 @@ api_pid=$!
 npm run dev:web &
 web_pid=$!
 
-printf 'PolicyMap API: http://localhost:8000/docs\n'
-printf 'PolicyMap web: http://localhost:5173\n'
+printf 'SweetHome API: http://localhost:8000/docs\n'
+printf 'SweetHome web: http://localhost:5173\n'
 
 wait "$api_pid" "$web_pid"

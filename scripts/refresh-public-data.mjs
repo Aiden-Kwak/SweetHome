@@ -1,5 +1,5 @@
 /** Refresh public, attributed snapshots. No credentials or model outputs are used. */
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
@@ -31,17 +31,18 @@ const arcs = topo.arcs.map(arc => {
 const codes = { '노원구':'11350', '마포구':'11440', '하남시':'41450', '성동구':'11200',
   '강동구':'11740', '서초구':'11650', '강남구':'11680', '송파구':'11710',
   '과천시':'41290', '성남시분당구':'41135', '연수구':'28185' };
+const seoulCodes = JSON.parse(await readFile(`${dir}/seoul-districts.json`, 'utf8')).districts;
 const geometries = topo.objects.skorea_municipalities_2018_geo.geometries;
 const boundaries = geometries.filter(g => /^(11|23|31)/.test(g.properties.code)).map(g => ({
   code: g.properties.code,
-  region_code: codes[g.properties.name.replaceAll(' ', '')] ?? null,
+  region_code: (g.properties.code.startsWith('11') ? seoulCodes : codes)[g.properties.name.replaceAll(' ', '')] ?? null,
   name: g.properties.name,
   rings: (g.type === 'MultiPolygon' ? g.arcs.flat() : g.arcs).map(ring => ring.flatMap((index, i) => {
     const points = index < 0 ? [...arcs[~index]].reverse() : arcs[index];
     return (i ? points.slice(1) : points).map(([x, y]) => [+x.toFixed(5), +y.toFixed(5)]);
   })),
 }));
-if (boundaries.filter(b => b.region_code).length !== 11) throw new Error('Region code mapping incomplete');
+if (boundaries.filter(b => b.code.startsWith('11') && b.region_code).length !== 25) throw new Error('Seoul district mapping incomplete');
 
 const queries = [], transactions = [];
 for (const code of ['11680', '11200', '11440']) {

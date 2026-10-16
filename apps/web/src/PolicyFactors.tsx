@@ -1,5 +1,5 @@
 import { GlossaryText } from "./GlossaryHelp";
-import { formatKrwEok } from "./format";
+import { ExchangeRateNote, MoneyAmount } from "./MoneyAmount";
 import type { CohortResult, PolicyRule, PolicySnapshot } from "./types";
 import "./policy-factors.css";
 
@@ -36,7 +36,7 @@ export function PolicyFactors({snapshot,cohorts,cohort,selectedRules,regionCode,
     </select></div>
     <div className="factor-table-scroll" tabIndex={0} role="region" aria-label="주요 규제 비교표, 작은 화면에서는 좌우로 이동">
       <table className="factor-table"><caption className="sr-only">선택 시나리오의 대출과 규제 조건 비교</caption><thead><tr><th scope="col">주요 요인</th><th scope="col">변경 전</th><th scope="col">변경 후</th><th scope="col">범위와 근거</th></tr></thead><tbody>
-        {cohort&&<tr className="factor-household"><th scope="row">가구 대출 금액<small>선택 가구의 비교값</small></th><td><strong>{formatKrwEok(cohort.max_loan_before_krw)}</strong></td><td><strong>{formatKrwEok(cohort.max_loan_after_krw)}</strong></td><td><small>가구 프로필의 고정 비교값</small><details className="factor-source"><summary>가구 조건</summary><p>{cohort.label}</p><p>{cohort.assumptions}</p><p>정책 선택과 별도로 제공되는 합성 가구 값이며 실제 대출 승인액과 구분합니다.</p></details></td></tr>}
+        {cohort&&<tr className="factor-household"><th scope="row">가구 대출 금액<small>선택 가구의 비교값</small></th><td><strong><MoneyAmount value={cohort.max_loan_before_krw}/></strong></td><td><strong><MoneyAmount value={cohort.max_loan_after_krw}/></strong></td><td><small>선택 정책을 반영한 합성 계산값</small><details className="factor-source"><summary>가구 조건</summary><p>{cohort.label}</p><p>{cohort.assumptions}</p><p>정책 선택과 기간에 따라 다시 계산한 합성 값이며 실제 대출 승인액과 구분합니다.</p></details></td></tr>}
         {reference&&<tr><th scope="row"><GlossaryText text="LTV / DSR"/><small>대출 규칙의 참조 기준</small></th><td colSpan={2}><span className="factor-reference-label">기준 정책에 기재된 조건</span><p><GlossaryText text={reference.previous_summary}/></p></td><td><small>개별 변경값과 구분하는 기준 문구</small><SourceDetails rule={reference}/></td></tr>}
         {rules.map(rule=><tr key={rule.rule_id} className={selectedRules.includes(rule.rule_id)?"":"factor-excluded"}>
           <th scope="row"><GlossaryText text={labels[rule.rule_id]??rule.title}/><small>{selectedRules.includes(rule.rule_id)?"변경 규칙 선택됨":"비교에서 제외"}</small></th>
@@ -47,6 +47,6 @@ export function PolicyFactors({snapshot,cohorts,cohort,selectedRules,regionCode,
         {rules.length===0&&<tr><td colSpan={4}>정책 문서를 추가하면 추출한 규칙을 비교할 수 있습니다.</td></tr>}
       </tbody></table>
     </div>
-    <p className="factor-footnote">{snapshot.coverage.status==="DEMO_INCOMPLETE"?"시나리오에 등록된 합성 정책과 가구 비교값입니다. ":""}시행일과 대상 조건을 함께 확인하세요. 지역 목록 포함은 개별 물건의 허가 대상 판정과 구분됩니다.</p>
+    <p className="factor-footnote">{snapshot.coverage.status==="DEMO_INCOMPLETE"?"시나리오에 등록된 합성 정책과 가구 비교값입니다. ":""}시행일과 대상 조건을 함께 확인하세요. 지역 목록 포함은 개별 물건의 허가 대상 판정과 구분됩니다.<ExchangeRateNote/></p>
   </section>;
 }

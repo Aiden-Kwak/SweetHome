@@ -32,7 +32,7 @@ function show(index, updateHash = true) {
   paragraphs($('slide-text'), slide.text);
   paragraphs($('slide-notes'), slide.notes);
   if (updateHash) history.replaceState(null, '', `#slide-${current + 1}`);
-  document.title = `PolicyMap | ${current + 1}. ${slide.title}`;
+  document.title = `SweetHome | ${current + 1}. ${slide.title.replaceAll('PolicyMap', 'SweetHome')}`;
 }
 
 function hashIndex() { return Math.max(0, Number(location.hash.match(/^#slide-(\d+)$/)?.[1] || 1) - 1); }
@@ -57,15 +57,16 @@ addEventListener('keydown', (event) => {
   if (event.key.toLowerCase() === 'f') { event.preventDefault(); fullscreen(); }
 });
 try {
-  const response = await fetch('./deck.json');
+  const response = await fetch('./deck.json', { cache: 'no-store' });
   if (!response.ok) throw new Error('Deck unavailable');
   const deck = await response.json();
-  slides = deck.slides;
+  $('download-pptx').href = `./${encodeURIComponent(deck.source)}`;
+  slides = deck.slides.map(slide => ({ ...slide, image: `${slide.image}?v=${deck.sha256.slice(0, 12)}` }));
   if (!slides.length) throw new Error('Empty deck');
   slides.forEach((slide, i) => {
     const button = document.createElement('button');
     button.className = 'thumbnail'; button.setAttribute('aria-label', `${i + 1}. ${slide.title}`);
-    const img = document.createElement('img'); img.src = slide.image; img.alt = ''; img.loading = 'lazy';
+    const img = document.createElement('img'); img.src = slide.thumbnail ? `${slide.thumbnail}?v=${deck.sha256.slice(0, 12)}` : slide.image; img.alt = ''; img.loading = 'lazy';
     const label = document.createElement('span'); label.textContent = `${String(i + 1).padStart(2, '0')} ${slide.title}`;
     button.append(img, label); button.onclick = () => show(i); $('thumbnails').append(button);
   });

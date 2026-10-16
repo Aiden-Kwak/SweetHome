@@ -66,8 +66,9 @@
         "properties": {
           "region_code": { "type": "string" },
           "region_name": { "type": "string" },
+          "coverage_status": { "enum": ["scenario", "context_only"], "default": "scenario" },
           "price_change": {
-            "type": "object",
+            "type": ["object", "null"],
             "additionalProperties": false,
             "required": ["low", "high", "unit"],
             "properties": {
@@ -80,7 +81,7 @@
             }
           },
           "transaction_change": {
-            "type": "object",
+            "type": ["object", "null"],
             "additionalProperties": false,
             "required": ["low", "high", "unit"],
             "properties": {

@@ -18,11 +18,15 @@ def test_public_context_is_observed_not_a_forecast() -> None:
     assert context.status == "OBSERVED_SAMPLE"
     assert len(context.transactions) == 30
     assert len(context.queries) == 6
-    assert len({b.region_code for b in context.boundaries if b.region_code}) == 11
+    assert len({b.region_code for b in context.boundaries if b.region_code}) == 29
+    seoul = [b for b in context.boundaries if b.code.startswith("11")]
+    assert len(seoul) == 25
+    assert len({b.region_code for b in seoul}) == 25
+    assert all(b.region_code and b.region_code.startswith("11") for b in seoul)
     scenario = json.loads(
         (Path(__file__).resolve().parents[3] / "data/fixtures/scenario_result.json").read_text()
     )
-    assert {b.region_code for b in context.boundaries if b.region_code} == {
+    assert {b.region_code for b in context.boundaries if b.region_code} >= {
         r["region_code"] for r in scenario["regions"]
     }
     assert context.boundary_source.reference_year == 2018

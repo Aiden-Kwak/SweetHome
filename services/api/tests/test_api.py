@@ -77,7 +77,7 @@ def test_simulation_returns_synthetic_status_and_limitations() -> None:
     assert payload["data_status"] == "DEMO_INCOMPLETE"
     assert payload["model_status"] == "SYNTHETIC_FIXTURE"
     assert payload["is_investment_advice"] is False
-    assert len(payload["regions"]) == 11
+    assert len(payload["regions"]) == 29
     assert len(payload["cohorts"]) == 4
     assert payload["regions"][0]["region_code"] == "11680"
     assert payload["regions"][0]["effect_type"] == "direct"
@@ -85,7 +85,12 @@ def test_simulation_returns_synthetic_status_and_limitations() -> None:
     for region in payload["regions"]:
         code = region["region_code"]
         assert code in payload["structured_causal_chains"]
-        assert len(payload["structured_causal_chains"][code]) == 5
+        if region["coverage_status"] == "context_only":
+            assert payload["structured_causal_chains"][code] == []
+            assert region["price_change"] is None
+            assert region["transaction_change"] is None
+        else:
+            assert len(payload["structured_causal_chains"][code]) == 5
 
 
 def test_multi_horizon_simulation_scales_deterministically() -> None:
@@ -108,6 +113,8 @@ def test_multi_horizon_simulation_scales_deterministically() -> None:
         )
         assert resp.status_code == 200
         results[h] = resp.json()
+        assert len(results[h]["regions"]) == 29
+        assert sum(r["region_code"].startswith("11") for r in results[h]["regions"]) == 25
 
     # Immediate (0m) price effect magnitude is smaller than 6m medium-run effect
     assert abs(results[0]["regions"][0]["price_change"]["low"]) < abs(
@@ -115,6 +122,44 @@ def test_multi_horizon_simulation_scales_deterministically() -> None:
     )
     assert results[0]["horizon_months"] == 0
     assert results[12]["horizon_months"] == 12
+
+
+def test_household_budget_and_behavior_recalculate_with_selected_rules() -> None:
+    def run(rule_ids: list[str]) -> dict:
+        response = client.post(
+            "/api/v1/scenarios/simulate",
+            json={
+                "baseline_date": "2025-06-28",
+                "region_code": "11680",
+                "horizon_months": 6,
+                "change_ids": rule_ids,
+                "allow_demo": True,
+            },
+        )
+        assert response.status_code == 200
+        return response.json()
+
+    baseline = run([])
+    partial = run(["demo_rule_mortgage_cap"])
+    full = run([
+        "demo_rule_mortgage_cap", "demo_rule_land_permit",
+        "demo_rule_stress_dsr_phase3", "demo_rule_one_home_disposal_deadline",
+    ])
+    for result in (baseline, partial, full):
+        for cohort in result["cohorts"]:
+            probabilities = cohort["action_probabilities_after"]
+            assert abs(sum(probabilities.values()) - 1) < 1e-5
+
+    base_cohort = baseline["cohorts"][1]
+    partial_cohort = partial["cohorts"][1]
+    full_cohort = full["cohorts"][1]
+    assert base_cohort["purchasing_power_after"] == base_cohort["purchasing_power_before"]
+    assert base_cohort["action_probabilities_after"] == base_cohort["action_probabilities_before"]
+    assert partial_cohort["purchasing_power_after"] != base_cohort["purchasing_power_after"]
+    assert partial_cohort["action_probabilities_after"] != base_cohort["action_probabilities_after"]
+    assert full_cohort["purchasing_power_after"] != partial_cohort["purchasing_power_after"]
+    assert full_cohort["action_probabilities_after"] != partial_cohort["action_probabilities_after"]
+    assert len({baseline["scenario_id"], partial["scenario_id"], full["scenario_id"]}) == 3
 
 
 def test_claims_preserve_conflicting_research_and_null_unverified_effects() -> None:
@@ -158,6 +203,12 @@ def test_graph_contains_policy_and_mechanism_relationships() -> None:
     payload = response.json()
     assert payload["data_status"] == "DEMO_INCOMPLETE"
     node_kinds = {node["kind"] for node in payload["nodes"]}
+    seoul_edges = [
+        edge for edge in payload["edges"]
+        if edge["source"] == "region:11000" and edge["relation"] == "CONTAINS"
+    ]
+    assert len(seoul_edges) == 25
+    assert any(edge["target"] == "region:11110" for edge in seoul_edges)
     assert {
         "policy_package",
         "measure",

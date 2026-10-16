@@ -11,14 +11,32 @@ export function boundaryPath(boundary: Boundary): string {
   return boundary.rings.map(ring => ring.map((p, i) => `${i ? "L" : "M"}${project(p).map(v => v.toFixed(1)).join(",")}`).join("") + "Z").join("");
 }
 
+const labelPoints = new WeakMap<Boundary, [number, number]>();
 export function boundaryLabelPoint(boundary: Boundary): [number, number] {
+  const cached = labelPoints.get(boundary);
+  if (cached) return cached;
   const ring = [...boundary.rings].sort((a,b)=>b.length-a.length)[0] ?? [];
   if (!ring.length) return [0,0];
   const projected = ring.map(project);
-  return [
-    (Math.min(...projected.map(p=>p[0])) + Math.max(...projected.map(p=>p[0]))) / 2,
-    (Math.min(...projected.map(p=>p[1])) + Math.max(...projected.map(p=>p[1]))) / 2,
-  ];
+  const minX=Math.min(...projected.map(p=>p[0])), maxX=Math.max(...projected.map(p=>p[0]));
+  const minY=Math.min(...projected.map(p=>p[1])), maxY=Math.max(...projected.map(p=>p[1]));
+  const rings=boundary.rings.map(r=>r.map(project));
+  let best: [number,number]=[projected[0][0],projected[0][1]], clearance=-1;
+  // Pick an interior point with space around it; a bounding-box center can lie in a neighboring district.
+  for(let ix=0;ix<20;ix++) for(let iy=0;iy<20;iy++) {
+    const x=minX+(ix+.5)*(maxX-minX)/20, y=minY+(iy+.5)*(maxY-minY)/20;
+    let inside=false, distance=Infinity;
+    for(const points of rings) for(let i=0,j=points.length-1;i<points.length;j=i++) {
+      const [ax,ay]=points[j], [bx,by]=points[i];
+      if((ay>y)!==(by>y)&&x<(bx-ax)*(y-ay)/(by-ay)+ax) inside=!inside;
+      const dx=bx-ax,dy=by-ay, length=dx*dx+dy*dy;
+      const t=length?Math.max(0,Math.min(1,((x-ax)*dx+(y-ay)*dy)/length)):0;
+      distance=Math.min(distance,(x-ax-t*dx)**2+(y-ay-t*dy)**2);
+    }
+    if(inside&&distance>clearance) {best=[x,y];clearance=distance;}
+  }
+  labelPoints.set(boundary,best);
+  return best;
 }
 
 export function boundaryViewBox(boundaries: Boundary[]): string {
@@ -62,7 +80,7 @@ export function ImpactMap({ context, regions, selected, metric, cohort, onSelect
   const target = cohortCodes.before.find(code => anchors[code] && !cohortCodes.after.includes(code));
   const substitutes = cohortCodes.after.filter(code => anchors[code] && !cohortCodes.before.includes(code));
   return <div className="map-stage">
-    <div className="map-overlay top-left"><span className="map-dot" />수도권 <span className="muted">/ {regions.length}개 시나리오 지역</span></div>
+    <div className="map-overlay top-left"><span className="map-dot" />서울 {regions.filter(r=>r.region_code.startsWith("11")).length}개 구 <span className="muted">/ 수도권 {regions.length}개 지역 연결</span></div>
     <div className="map-controls">
       <button onClick={() => setZoom(!zoom)} aria-pressed={zoom}>{zoom ? "수도권 전체" : "서울 확대"}</button>
       <button onClick={() => setShowRoutes(!showRoutes)} aria-pressed={showRoutes}>선택지 변화 {showRoutes ? "켜짐" : "꺼짐"}</button>
@@ -74,8 +92,8 @@ export function ImpactMap({ context, regions, selected, metric, cohort, onSelect
           const region = boundary.region_code ? regionMap.get(boundary.region_code) : null;
           const range = region ? metricRange(region, metric) : null;
           return <path key={boundary.code} d={boundaryPath(boundary)} fillRule="evenodd" data-region-code={boundary.region_code}
-            className={`geo-region ${range ? `tone-${getDivergingTone(range, threshold)}` : "no-result"} ${boundary.region_code === selected ? "selected" : ""} ${region?.effect_type === "spillover" ? "spillover" : ""}`}
-            {...(region ? { role:"button", tabIndex:0, "aria-label":`${region.region_name} ${range ? formatRange(range) : "자료 없음"}`, "aria-pressed":region.region_code === selected,
+            className={`geo-region ${range ? `tone-${getDivergingTone(range, threshold)}` : region ? "context-region" : "no-result"} ${boundary.region_code === selected ? "selected" : ""} ${region?.effect_type === "spillover" ? "spillover" : ""}`}
+            {...(region ? { role:"button", tabIndex:0, "aria-label":`${region.region_name} ${range ? formatRange(range) : "지역 분석"}`, "aria-pressed":region.region_code === selected,
               onPointerEnter:() => setHovered(region.region_code), onPointerLeave:() => setHovered(null),
               onFocus:(e: React.FocusEvent<SVGPathElement>) => setFocused(e.currentTarget.matches(":focus-visible") ? region.region_code : null), onBlur:() => setFocused(null),
               onClick:() => onSelect(region.region_code), onKeyDown:(e: React.KeyboardEvent) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(region.region_code); } } } : {})} />;
@@ -95,16 +113,17 @@ export function ImpactMap({ context, regions, selected, metric, cohort, onSelect
           )}
         </g>
         {regions.map(region => {
-          const anchor = anchors[region.region_code]; if (!anchor) return null;
-          const [x,y] = project(anchor); const range = metricRange(region, metric);
-          return <g key={region.region_code} transform={`translate(${x},${y})`} className={`geo-label ${region.region_code === selected ? "active" : ""}`} pointerEvents="none">
-            <text textAnchor="middle">{labels[region.region_code]}{region.region_code === selected ? " ●" : ""}</text>
-            <text textAnchor="middle" y="16" className="geo-value">{range ? formatMedian(range) : "미확보"}</text>
+          const boundary = context.boundaries.find(b=>b.region_code===region.region_code);
+          const anchor = anchors[region.region_code]; if (!anchor&&!boundary) return null;
+          const [x,y] = anchor?project(anchor):boundaryLabelPoint(boundary!); const range = metricRange(region, metric);
+          return <g key={region.region_code} transform={`translate(${x},${y})`} className={`geo-label ${region.coverage_status==="context_only"?"context-label":""} ${region.region_code === selected ? "active" : ""}`} pointerEvents="none">
+            <text textAnchor="middle">{labels[region.region_code]??region.region_name.replace(/^서울 /,"")}{region.region_code === selected ? " ●" : ""}</text>
+            {(range||region.region_code===selected)&&<text textAnchor="middle" y="16" className="geo-value">{range ? formatMedian(range) : "지역 분석"}</text>}
           </g>;
         })}
         <text x="80" y="295" className="area-label">인천</text><text x="360" y="110" className="area-label">서울</text><text x="670" y="420" className="area-label">경기</text>
       </svg>}
-    <div className="map-key"><span><i className="key-down" />하방</span><span><i className="key-neutral" />보합</span><span><i className="key-up" />상방</span><span>보합 ±{threshold * 0.2}% / 진한 색 ±{threshold}% 이상</span><span>회색: 미산출</span><span>점선: 전이 가정</span></div>
+    <div className="map-key"><span><i className="key-down" />하방</span><span><i className="key-neutral" />보합</span><span><i className="key-up" />상방</span><span>보합 ±{threshold * 0.2}% / 진한 색 ±{threshold}% 이상</span><span>옅은 청회색: 지역 분석</span><span>점선: 전이 가정</span></div>
     <div className="map-attribution"><a href="https://github.com/southkorea/southkorea-maps/tree/master/kostat/2018/json" target="_blank" rel="noreferrer">통계청 SGIS 2018 경계</a> / 공공누리 제1유형 / 숫자는 합성 중앙값, 연결선은 선택지 변화 예시</div>
   </div>;
 }

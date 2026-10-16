@@ -7,6 +7,7 @@ COPY apps/web/package.json ./apps/web/package.json
 RUN npm ci
 
 COPY apps/web ./apps/web
+COPY data/fixtures ./data/fixtures
 
 ARG VITE_API_URL
 ENV VITE_API_URL=$VITE_API_URL

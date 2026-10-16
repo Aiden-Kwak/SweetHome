@@ -1,0 +1,17 @@
+.result-guidance { margin: 24px 0; padding: 24px; border: 1px solid #d5e6fc; border-radius: 20px; background: #f7faff; word-break: keep-all; overflow-wrap: anywhere; }
+.result-guidance h3 { font-size: 22px; margin: 8px 0 20px; }
+.guidance-audience { display: flex; gap: 8px; flex-wrap: wrap; }
+.guidance-audience button { flex: 1; min-height: 44px; background: white; border: 1px solid #d1d6db; }
+.guidance-audience button[aria-pressed="true"] { color: white; background: #246be9; border-color: #246be9; }
+.result-guidance button:focus-visible, .result-guidance a:focus-visible { outline: 3px solid #1b64da; outline-offset: 3px; }
+.guidance-context { color: #6b7684; font-size: 13px; margin: 16px 0; }
+.guidance-headline { font-size: 21px; line-height: 1.5; margin: 24px 0 16px; }
+.guidance-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.result-guidance h5 { font-size: 14px; color: #1b64da; margin: 16px 0 8px; }
+.result-guidance p, .result-guidance li { line-height: 1.75; }
+.guidance-columns p { font-size: 16px; margin: 0; }
+.result-guidance ol { padding-left: 24px; font-size: 15px; }
+.guidance-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin: 24px 0 16px; }
+.guidance-actions button { color: #1b64da; background: #e8f3ff; border: 1px solid #b8d5fb; }
+.result-guidance small { display: block; color: #6b7684; font-size: 12px; line-height: 1.6; }
+@media (max-width: 700px) { .result-guidance { padding: 16px; }.guidance-columns { grid-template-columns: 1fr; gap: 8px; }.guidance-audience button { font-size: 14px; } }

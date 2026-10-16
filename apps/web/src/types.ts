@@ -111,8 +111,9 @@ export interface ValueRange {
 export interface RegionResult {
   region_code: string;
   region_name: string;
-  price_change: ValueRange;
-  transaction_change: ValueRange;
+  price_change: ValueRange | null;
+  transaction_change: ValueRange | null;
+  coverage_status?: "scenario" | "context_only";
   mortgage_limit_change?: ValueRange | null;
   confidence: "low" | "medium" | "high";
   effect_type: "direct" | "spillover" | "baseline";

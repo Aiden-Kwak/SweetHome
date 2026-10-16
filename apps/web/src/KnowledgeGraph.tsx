@@ -49,7 +49,7 @@ export function KnowledgeGraph({source,snapshot,claims,regionCode}:{source:Graph
   function redo() {const next=future[0];if(next){setPast(p=>[...p,graph]);setFuture(f=>f.slice(1));persist(next);}}
   function exportGraph() {
     const url=URL.createObjectURL(new Blob([JSON.stringify(graph,null,2)],{type:"application/json"}));
-    const a=document.createElement("a");a.href=url;a.download=`policymap-graph-draft-${graph.as_of}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    const a=document.createElement("a");a.href=url;a.download=`sweethome-graph-draft-${graph.as_of}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
     setNotice("편집본 파일을 내보냈습니다. 다른 환경에서는 가져오기로 열 수 있습니다.");
   }
   const rule=selectedNode && snapshot.rules.find(r=>r.rule_id===selectedNode.id||`legal_source:${r.rule_id}`===selectedNode.id);

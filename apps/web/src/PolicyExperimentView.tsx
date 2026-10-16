@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { ExchangeRateNote, MoneyAmount } from "./MoneyAmount";
+import { ResultGuidance } from "./ResultGuidance";
 import { boundaryPath, boundaryLabelPoint, boundaryViewBox } from "./ImpactMap";
 import { experimentRegionCode } from "./policy-pipeline";
 import type { PolicyExperimentResult } from "./policy-pipeline";
@@ -6,12 +8,17 @@ import type { PublicContext } from "./types";
 
 const number = (v:number) => v.toLocaleString("ko-KR", {maximumFractionDigits:2});
 const signed = (v:number) => `${v>0?"+":""}${number(v)}`;
-const money = (v:number|null) => v==null?"-":`${number(v/1e8)}억 원`;
+export function experimentColor(value: number|null): string {
+  if(value==null||value===0)return "#d7e4f4";
+  if(value<0)return value<=-1?"#70a8ee":value<=-0.5?"#a8ccff":"#d3e5fc";
+  return value>=1?"#e9b76d":value>=0.5?"#f6dcae":"#faecd3";
+}
 
 export function PolicyExperimentView({result, context, onEdit}: {
   result: PolicyExperimentResult; context: PublicContext|null; onEdit:()=>void;
 }) {
   const [picked,setPicked]=useState(result.regions[0]?.code??"");
+  const guidanceRef = useRef<HTMLDivElement>(null);
   const active=result.regions.find(r=>r.code===picked)??result.regions[0];
   const supply=result.supply.find(s=>s.region_code===active?.code);
   const input=result.assumptions.supply_assumptions?.find(s=>s.region_code===active?.code);
@@ -25,20 +32,24 @@ export function PolicyExperimentView({result, context, onEdit}: {
   }
   return <section className="workflow-result">
     <div className="workflow-meta"><span className="badge plain">입력 가정 기반 시나리오</span><span>단일 규칙 비교 / 기준일 {result.simulation_date}</span></div>
+    <ExchangeRateNote/>
+    <div className="experiment-actions"><button onClick={onEdit}>조건을 바꿔 다시 계산</button><button onClick={save}>원문과 계산 조건 JSON 저장</button><button onClick={()=>{guidanceRef.current?.scrollIntoView({block:"start"});guidanceRef.current?.focus({preventScroll:true});}}>대상별 인사이트 보기</button></div>
     <div className="workflow-result-hero">
-      <div><p className="eyebrow">{result.candidate.label}</p><h3>{result.candidate.unit==="KRW"?`${money(result.candidate.before)} → ${money(result.candidate.after)}`:`${number(result.candidate.before)} → ${number(result.candidate.after)} ${result.candidate.unit}`}</h3><p>{result.hypothetical?"정책 시행을 가정하여 비교":result.applied?"시행 후 조건 적용":"시행 전 조건 유지"}{supply?` / ${supply.horizon_months}개월 비교`:""}</p></div>
+      <div><p className="eyebrow">{result.candidate.label}</p><h3>{result.candidate.unit==="KRW"?<><MoneyAmount value={result.candidate.before}/> → <MoneyAmount value={result.candidate.after}/></>:`${number(result.candidate.before)} → ${number(result.candidate.after)} ${result.candidate.unit}`}</h3><p>{result.hypothetical?"정책 시행을 가정하여 비교":result.applied?"시행 후 조건 적용":"시행 전 조건 유지"}{supply?` / ${supply.horizon_months}개월 비교`:""}</p></div>
       <div><p>{active?.name} {active?.metric_label}</p><strong className="workflow-result-number">{metric(active)}</strong><small>{price?"입력 계수에 따른 민감도 (실제 가격 전망과 구분)":"선택한 정책으로 직접 계산한 변화"}</small></div>
     </div>
+    {financial&&<p className="workflow-hint">지도 지표는 입력한 {result.households.length}개 가구 사례의 예산 변화율 단순평균입니다. 적용 대상은 {result.households.filter(h=>h.eligible).length}가구이며, 각 가구의 변화는 오른쪽에서 비교할 수 있습니다.</p>}
     <div className="workflow-result-layout"><div>
       <h3>지역별 {active?.metric_label}</h3>
       <p className="muted">선택한 지역의 조건을 비교합니다. 회색은 이번 계산 범위 밖입니다.</p>
       {context&&<svg viewBox={boundaryViewBox(context.boundaries.filter(b=>result.regions.some(r=>r.code===experimentRegionCode(b))))} className="workflow-map" aria-label={`정책 ${active?.metric_label} 지도`}>
-        {context.boundaries.map(b=>{const code=experimentRegionCode(b);const impact=result.regions.find(r=>r.code===code);const value=impact?.metric_value??0;return <path key={b.code} d={boundaryPath(b)} fill={impact?(value<0?"#a8ccff":value>0?"#f6dcae":"#d7e4f4"):"#e5e8eb"} stroke="white" fillRule="evenodd" {...(impact?{role:"button",tabIndex:0,"aria-label":`${impact.name} ${metric(impact)} 선택`,"aria-pressed":code===active?.code,onClick:()=>setPicked(code),onKeyDown:(e:React.KeyboardEvent)=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();setPicked(code);}}}:{})}/>;})}
+        {context.boundaries.map(b=>{const code=experimentRegionCode(b);const impact=result.regions.find(r=>r.code===code);return <path key={b.code} d={boundaryPath(b)} fill={impact?experimentColor(impact.metric_value):"#e5e8eb"} stroke="white" fillRule="evenodd" {...(impact?{role:"button",tabIndex:0,"aria-label":`${impact.name} ${metric(impact)} 선택`,"aria-pressed":code===active?.code,onClick:()=>setPicked(code),onKeyDown:(e:React.KeyboardEvent)=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();setPicked(code);}}}:{})}/>;})}
         <g pointerEvents="none">{context.boundaries.filter(b=>experimentRegionCode(b)===active?.code).map(b=><path key={b.code} d={boundaryPath(b)} fill="none" stroke="#1b64da" strokeWidth="3"/>)}</g>
-        <g className="workflow-map-label" pointerEvents="none">{context.boundaries.filter(b=>experimentRegionCode(b)===active?.code).map(b=>{const [x,y]=boundaryLabelPoint(b);return <g key={b.code} transform={`translate(${x},${y})`}><text textAnchor="middle">{b.name}</text><text textAnchor="middle" y="20">{metric(active)}</text></g>;})}</g>
+        <g className="workflow-map-label" pointerEvents="none">{context.boundaries.filter(b=>result.regions.some(r=>r.code===experimentRegionCode(b))).map(b=>{const [x,y]=boundaryLabelPoint(b);const impact=result.regions.find(r=>r.code===experimentRegionCode(b));const selected=impact?.code===active?.code;return <g key={b.code} className={selected?"active":"secondary"} transform={`translate(${x},${y})`}><text textAnchor="middle">{b.name}</text>{selected&&<text textAnchor="middle" y="20">{metric(active)}</text>}</g>;})}</g>
       </svg>}
-      <p className="muted">파랑: 감소 / 노랑: 증가 / 옅은 파랑: 변화 없음<br/>경계: 통계청 SGIS 2018, 공공누리 제1유형</p>
+      <p className="muted">파랑: 감소 / 노랑: 증가 / 옅은 파랑: 변화 없음 / 진한 색: 변화 절댓값 1 이상<br/>경계: 통계청 SGIS 2018, 공공누리 제1유형</p>
       <label>지역 선택<select aria-label="지역 선택" value={active?.code??""} onChange={e=>setPicked(e.target.value)}>{result.regions.map(r=><option key={r.code} value={r.code}>{r.name}: {metric(r)}</option>)}</select></label>
+      <details className="experiment-region-comparison"><summary>{result.regions.length}개 지역 결과 비교</summary><div className="table-scroll"><table><thead><tr><th>지역</th><th>{active?.metric_label}</th></tr></thead><tbody>{result.regions.map(r=><tr key={r.code} className={r.code===active?.code?"selected-row":""}><th><button onClick={()=>setPicked(r.code)}>{r.name}</button></th><td>{metric(r)}</td></tr>)}</tbody></table></div></details>
       {financial&&!price&&result.candidate.kind!=="guarantee_cap"&&<button onClick={onEdit}>가격 반응 계수를 설정해 가격 비교로 확장</button>}
     </div><aside>
       {supply&&input?<>
@@ -53,11 +64,11 @@ export function PolicyExperimentView({result, context, onEdit}: {
         {input.source_url&&<a href={input.source_url} target="_blank" rel="noreferrer">지역 입력 자료 출처</a>}
       </>:financial?<><h3>{result.candidate.kind==="guarantee_cap"?"가구별 전세보증과 임차 예산":"가구별 자금과 구매 예산"}</h3>
         <p className="muted">입력한 가구 프로필 기준</p>
-        {result.households.map(h=><article key={h.id} className="workflow-household"><strong>{h.label}</strong><p className="muted">{h.eligible?"정책 적용 대상":"기존 조건 유지"}</p><p>{result.candidate.kind==="guarantee_cap"?"보증 범위":"선택 규칙 자금 상한"}<br/>{money(h.financing_before_krw)} → {money(h.financing_after_krw)}</p><p>현금 포함 예산<br/>{money(h.budget_before_krw)} → {money(h.budget_after_krw)}</p><strong>{h.budget_change_percent==null?"예산 기준값 0원":`${signed(h.budget_change_percent)}%`}</strong></article>)}
+        {result.households.map(h=><article key={h.id} className="workflow-household"><strong>{h.label}</strong><p className="muted">{h.eligible?"정책 적용 대상":"기존 조건 유지"}</p><p>{result.candidate.kind==="guarantee_cap"?"보증 범위":"선택 규칙 자금 상한"}<br/><MoneyAmount value={h.financing_before_krw}/> → <MoneyAmount value={h.financing_after_krw}/></p><p>현금 포함 예산<br/><MoneyAmount value={h.budget_before_krw}/> → <MoneyAmount value={h.budget_after_krw}/></p><strong>{h.budget_change_percent==null?"예산 기준값 0원":`${signed(h.budget_change_percent)}%`}</strong></article>)}
       </>:<><h3>정책 대상 기준 비교</h3><article className="workflow-household"><p>변경 전 {number(result.candidate.before)}{result.candidate.unit}</p><p>적용 후 {number(result.applied?result.candidate.after:result.candidate.before)}{result.candidate.unit}</p><strong>{active?.metric_label}: {metric(active)}</strong></article><p>지역 선택은 적용 범위를 나타냅니다. 이 화면의 지표는 정책 대상 기준입니다.</p></>}
     </aside></div>
+    <div ref={guidanceRef} tabIndex={-1}><ResultGuidance result={result} regionCode={active?.code??""} onEdit={onEdit}/></div>
     <article className="workflow-candidate"><h3>계산에 반영한 입력 내용과 출처</h3><blockquote>{result.candidate.quote}</blockquote>{result.source_url&&<a href={result.source_url} target="_blank" rel="noreferrer">출처 원문 확인 ↗</a>}</article>
     <details><summary>계산 근거 및 적용 범위</summary><h4>계산식</h4><p>{result.formula}</p>{price&&!supply&&<p>가격 민감도 = 가구 예산 변화율의 단순평균 × 입력 계수 {result.assumptions.price_elasticity}</p>}<ul>{result.limitations.map(l=><li key={l}>{l}</li>)}</ul><p>지도는 2018년 경계를 사용합니다. 현행 행정구역과 차이가 있을 수 있습니다.</p><p>데이터: 사용자 입력 / 모형: 민감도 실험</p><code>{result.scenario_id} / {result.model_version}</code><p>본문 SHA-256: <code>{result.text_hash}</code></p></details>
-    <div className="dialog-actions"><button onClick={onEdit}>조건을 바꿔 다시 계산</button><button onClick={save}>원문과 계산 조건 JSON 저장</button></div>
   </section>;
 }

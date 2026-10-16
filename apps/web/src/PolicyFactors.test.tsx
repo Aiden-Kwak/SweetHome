@@ -16,17 +16,17 @@ describe("policy factors overview",()=>{
   it("displays the snapshot date, lending comparison, restrictions and sources",()=>{
     const html=render();
     expect(html).toContain("2025-06-28 스냅샷 기준");
-    expect(html).toContain("8.5억 원");
-    expect(html).toContain("6.0억 원");
+    expect(html).toContain("KRW 850M");
+    expect(html).toContain("KRW 600M");
     expect(html).toContain("LTV (담보인정비율) 용어 설명");
     expect(html).toContain("DSR (총부채원리금상환비율) 용어 설명");
     expect(html).toContain("토지거래허가");
-    expect(html).toContain("가구 프로필의 고정 비교값");
+    expect(html).toContain("선택 정책을 반영한 합성 계산값");
     expect(html).not.toContain('href="https://example.invalid');
   });
-  it("follows cohort selection without recalculating loan values in the UI",()=>{
-    expect(render(0)).toContain("4.8억 원");
-    expect(render(1)).toContain("5.6억 원");
+  it("follows the cohort result supplied by the simulation",()=>{
+    expect(render(0)).toContain("KRW 480M");
+    expect(render(1)).toContain("KRW 560M");
   });
   it("separates scenario inclusion from region membership",()=>{
     const html=render(2,[],"unknown-region");

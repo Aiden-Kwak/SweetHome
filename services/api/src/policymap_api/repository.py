@@ -7,10 +7,13 @@ import io
 import json
 import xml.etree.ElementTree as ET
 import zipfile
+from calendar import monthrange
+from datetime import date
 from pathlib import Path
 from typing import Any
 
 from policymap_api.models import (
+    ActionProbabilities,
     CausalNode,
     Claim,
     DataStatus,
@@ -26,6 +29,7 @@ from policymap_api.models import (
     ScenarioResult,
     ValueRange,
 )
+from policymap_api.public_data import load_public_context
 
 MECHANISM_LABELS: dict[str, str] = {
     "borrowing_capacity": "차입 한도 제약",
@@ -48,6 +52,79 @@ HORIZON_FACTORS: dict[int, tuple[float, float, str]] = {
     6: (1.00, 1.00, "6개월 후"),
     12: (0.85, 0.72, "12개월 후"),
 }
+
+
+def _months_after(start: date, months: int) -> date:
+    month = start.month - 1 + months
+    year = start.year + month // 12
+    month = month % 12 + 1
+    return date(year, month, min(start.day, monthrange(year, month)[1]))
+
+
+def _recalculate_cohorts(result: ScenarioResult, active: set[str],
+                         horizon_strength: float) -> None:
+    """Reweight the explicit synthetic full-policy example by selected applicable rules."""
+    unchanged = {"demo_rule_policy_loan_exception"}
+    for cohort in result.cohorts:
+        relevant = set(cohort.driving_rule_ids or []) - unchanged
+        chosen = relevant & active
+        strength = min(1.0, len(chosen) / len(relevant) * horizon_strength) if relevant else 0.0
+        finance_rules = relevant & {"demo_rule_mortgage_cap", "demo_rule_stress_dsr_phase3"}
+        loan_strength = (
+            min(1.0, len(chosen & finance_rules) / len(finance_rules) * horizon_strength)
+            if finance_rules else 0.0
+        )
+
+        def scaled(before: float, full: float, weight: float = strength) -> float:
+            return round(before + (full - before) * weight, 6)
+
+        baseline_power, full_power = cohort.purchasing_power_before, cohort.purchasing_power_after
+        if baseline_power and full_power:
+            cohort.purchasing_power_after = ValueRange(
+                low=scaled(baseline_power.low, full_power.low),
+                median=(scaled(baseline_power.median, full_power.median)
+                        if baseline_power.median is not None and full_power.median is not None
+                        else None),
+                high=scaled(baseline_power.high, full_power.high),
+                unit=baseline_power.unit,
+            )
+        if cohort.max_loan_before_krw is not None and cohort.max_loan_after_krw is not None:
+            cohort.max_loan_after_krw = round(scaled(
+                cohort.max_loan_before_krw, cohort.max_loan_after_krw, loan_strength
+            ))
+        if cohort.dsr_before_percent is not None and cohort.dsr_after_percent is not None:
+            cohort.dsr_after_percent = scaled(
+                cohort.dsr_before_percent, cohort.dsr_after_percent,
+                horizon_strength if "demo_rule_stress_dsr_phase3" in chosen else 0.0,
+            )
+        baseline, full = cohort.action_probabilities_before, cohort.action_probabilities_after
+        if baseline and full:
+            values = {key: scaled(getattr(baseline, key), getattr(full, key))
+                      for key in ("buy", "sell", "lease", "gift")}
+            values["wait"] = round(1.0 - sum(values.values()), 6)
+            cohort.action_probabilities_after = ActionProbabilities(**values)
+        cohort.driving_rule_ids = sorted(chosen)
+        if strength < 1:
+            # Region choices are categorical; partial synthetic weights do not locate a move.
+            cohort.selectable_regions_after = cohort.selectable_regions_before
+        if strength == 0:
+            cohort.selectable_regions_after = cohort.selectable_regions_before
+            cohort.response = (
+                "선택한 정책 중 이 가구에 적용된 변경 규칙이 없어 기준 상태를 유지합니다."
+            )
+            cohort.dominant_constraint = "적용된 변경 규칙 없음"
+        else:
+            cohort.response = (
+                f"선택한 변경 규칙 {len(chosen)}개가 이 가구에 적용됩니다. "
+                f"6개월 기준 합성 예시 변화량의 {strength * 100:.0f}%를 "
+                "선택한 정책과 기간의 민감도로 반영했습니다."
+            )
+            cohort.dominant_constraint = "적용 규칙: " + ", ".join(sorted(chosen))
+        cohort.assumptions = (
+            f"{cohort.assumptions or ''} / 적용 변경 규칙 {len(chosen)}개, "
+            f"기간 계수 {horizon_strength:.2f}, 합성 민감도 가중치 {strength:.2f}. "
+            "규칙별 독립 효과를 측정한 값은 아닙니다."
+        )
 
 
 class FixtureNotFoundError(LookupError):
@@ -255,12 +332,38 @@ class FixtureRepository:
             unit=value_range.unit,
         )
 
+    def _include_seoul_districts(self, result: ScenarioResult) -> ScenarioResult:
+        existing = {r.region_code for r in result.regions}
+        for boundary in load_public_context().boundaries:
+            code = boundary.region_code
+            if not boundary.code.startswith("11") or not code or code in existing:
+                continue
+            result.regions.append(
+                RegionResult(
+                    region_code=code,
+                    region_name=f"서울 {boundary.name}",
+                    price_change=None,
+                    transaction_change=None,
+                    confidence="low",
+                    effect_type="baseline",
+                    coverage_status="context_only",
+                    driving_rule_ids=[],
+                    supporting_claim_ids=[],
+                    related_cohort_ids=[],
+                    spillover_from_region_codes=[],
+                )
+            )
+            if result.structured_causal_chains is not None:
+                result.structured_causal_chains[code] = []
+            existing.add(code)
+        return result
+
     def get_scenario_result(self, request: ScenarioRequest | None = None) -> ScenarioResult:
         result = ScenarioResult.model_validate(self._read_json("scenario_result.json"))
         result.structured_causal_chains = self._ensure_all_region_causal_chains(result)
 
         if request is None:
-            return result
+            return self._include_seoul_districts(result)
 
         horizon = request.horizon_months
         if horizon in HORIZON_FACTORS:
@@ -273,7 +376,17 @@ class FixtureRepository:
             price_mult, tx_mult, horizon_label = (0.85, 0.72, f"{horizon}개월 후")
 
         selected = set(request.change_ids)
-        rule_weight = max(0.45, min(1.0, 0.40 + 0.15 * len(selected)))
+        snapshot = self.get_policy_snapshot(request.baseline_date.isoformat(), request.region_code)
+        end_date = _months_after(request.baseline_date, horizon)
+        active = {
+            rule.rule_id for rule in snapshot.rules
+            if rule.rule_id in selected
+            and (rule.effective_from is None or rule.effective_from <= end_date)
+            and (rule.effective_to is None or rule.effective_to >= end_date)
+        }
+        household_active = active - {"demo_rule_policy_loan_exception"}
+        _recalculate_cohorts(result, household_active, min(1.0, price_mult))
+        rule_weight = min(1.0, len(household_active) / 4) if household_active else 0.0
         rate_adj = 1.0 + (request.base_rate_delta_bp / 500.0)
         combined_price_mult = price_mult * rule_weight * rate_adj
         combined_tx_mult = tx_mult * rule_weight
@@ -293,20 +406,40 @@ class FixtureRepository:
 
             if region.mortgage_limit_change is not None:
                 loan_mult = (
-                    1.0
-                    if "demo_rule_mortgage_cap" in selected
-                    or "demo_rule_stress_dsr_phase3" in selected
-                    else 0.35
+                    1.0 if household_active & {
+                        "demo_rule_mortgage_cap", "demo_rule_stress_dsr_phase3"
+                    } else 0.0
                 )
                 region.mortgage_limit_change = self._scale_range(
                     region.mortgage_limit_change, loan_mult
                 )
 
         result.horizon_months = horizon
+        result.model_version = "synthetic-sensitivity-0.2.0"
+        result.scenario_id = "demo_scenario_" + hashlib.sha256(json.dumps({
+            "date": request.baseline_date.isoformat(), "region": request.region_code,
+            "horizon": horizon, "rules": sorted(active), "rate_bp": request.base_rate_delta_bp,
+        }, sort_keys=True).encode()).hexdigest()[:16]
+        result.limitations.append(
+            "가구 예산과 행동 비중은 선택한 유효 규칙 수와 기간에 따라 "
+            "6개월 합성 예시 변화량을 가중한 민감도입니다. 실측 행동 확률이나 "
+            "규칙별 검증 효과가 아닙니다."
+        )
         result.structured_causal_chains = self._ensure_all_region_causal_chains(result)
         for region in result.regions:
             chain = result.structured_causal_chains.get(region.region_code, [])
             if chain:
+                chain[0].label = (
+                    f"적용된 변경 규칙 {len(active)}개"
+                    if active else "변경 규칙 없음"
+                )
+                chain[2].label = (
+                    f"가구 예산과 행동 비중을 {len(household_active)}개 변경 규칙으로 계산"
+                    if household_active else "가구 예산과 행동 비중은 기준 상태 유지"
+                )
+                if not household_active:
+                    chain[1].label = "변경된 구매력 제약 없음"
+                    chain[3].label = "정책 변경으로 인한 추가 수요 이동 없음"
                 p_low, p_high = region.price_change.low, region.price_change.high
                 t_low, t_high = region.transaction_change.low, region.transaction_change.high
                 chain[-1].label = (
@@ -316,12 +449,11 @@ class FixtureRepository:
                 )
 
         result.summary = (
-            f"합성 시나리오 기준({horizon_label}): 수도권 주담대 한도 축소 및 "
-            "토지거래허가구역 결합 시 강남권과 과천, 분당 등 규제 직격 권역은 "
-            "단기 거래 급감과 하방 압력이 우세하며, 마포, 성동, 강동, 하남, 노원 등 "
-            "인접 및 중저가 대체 권역으로 차입 제약 가구의 탐색 수요가 전이됩니다."
+            f"합성 시나리오 기준({horizon_label}): 선택한 {len(active)}개 변경 규칙 중 "
+            f"{len(household_active)}개를 가구 민감도에 반영했습니다. "
+            "지역별 가격과 거래량은 별도의 합성 범위 계산입니다."
         )
-        return result
+        return self._include_seoul_districts(result)
 
     def extract_policy_document(self, request: PolicyExtractRequest) -> PolicyExtractResponse:
         snapshot = PolicySnapshot.model_validate(self._read_json("policy_snapshot.json"))
@@ -556,6 +688,7 @@ class FixtureRepository:
             add_node(metric_id, metric_label, "market_metric", status="tracked")
 
         # 3. Regions & Spatial Relations
+        add_node("region:11000", "서울특별시", "region", status="administrative")
         region_name_to_code: dict[str, str] = {}
         for region in result.regions:
             region_name_to_code[region.region_name] = region.region_code
@@ -571,8 +704,13 @@ class FixtureRepository:
                     "region_code": region.region_code,
                     "effect_type": region.effect_type,
                     "confidence": region.confidence,
+                    "coverage_status": region.coverage_status,
                 },
             )
+            if region.region_code.startswith("11"):
+                edges.append(
+                    GraphEdge(source="region:11000", target=region_node_id, relation="CONTAINS")
+                )
             if region.driving_rule_ids:
                 for r_id in region.driving_rule_ids:
                     edges.append(

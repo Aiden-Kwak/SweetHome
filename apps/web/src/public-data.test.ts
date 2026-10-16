@@ -1,11 +1,18 @@
 import { describe, expect, it } from "vitest";
 import { formatObservedPrice, formatPercent, formatPurchasingPower } from "./format";
-import { boundaryPath, cohortRegions, metricRange } from "./ImpactMap";
+import { boundaryLabelPoint, boundaryPath, cohortRegions, metricRange } from "./ImpactMap";
 import type { CohortResult, RegionResult } from "./types";
 
 const region: RegionResult = { region_code:"11680", region_name:"서울 강남구", price_change:{low:-2,high:-1,unit:"percent"}, transaction_change:{low:-10,high:-5,unit:"percent"}, confidence:"low", effect_type:"direct" };
 
 describe("public data presentation", () => {
+  it("keeps connected districts without numerical results distinct from zero", () => {
+    const connected: RegionResult = {...region, region_code:"11110", coverage_status:"context_only", price_change:null, transaction_change:null};
+    expect(metricRange(connected,"price_change")).toBeNull();
+    expect(metricRange(connected,"transaction_change")).toBeNull();
+    const point = boundaryLabelPoint({code:"11010",name:"종로구",region_code:"11110",rings:[[[127,37.5],[127.1,37.6],[127,37.6]]]});
+    expect(point.every(Number.isFinite)).toBe(true);
+  });
   it("preserves reported price precision", () => {
     expect(formatObservedPrice(1_595_000_000)).toBe("15.95억 원");
     expect(formatObservedPrice(851_230_000)).toBe("8.5123억 원");

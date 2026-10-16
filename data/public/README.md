@@ -4,7 +4,7 @@
 
 ## 출처와 이용 조건
 
-- 경계: [통계청 SGIS 자료를 변환한 southkorea-maps 2018 데이터](https://github.com/southkorea/southkorea-maps/tree/master/kostat/2018/json)입니다. 해당 배포처의 LICENSE.md는 공공누리 제1유형을 명시합니다. 수도권 77개 시군구 경계를 단순화된 TopoJSON에서 해석했습니다. 11개 시나리오 지역만 법정동 시군구 코드와 명시적으로 대응했습니다. 이 경계를 현재 행정구역이나 규제구역의 법적 경계로 사용하지 않습니다.
+- 경계: [통계청 SGIS 자료를 변환한 southkorea-maps 2018 데이터](https://github.com/southkorea/southkorea-maps/tree/master/kostat/2018/json)입니다. 해당 배포처의 LICENSE.md는 공공누리 제1유형을 명시합니다. 수도권 77개 시군구 경계를 단순화된 TopoJSON에서 해석했습니다. 서울 25개 자치구와 기존 수도권 4개 지역을 국가 시군구 코드와 명시적으로 대응했습니다. 서울 코드 원본과 출처는 `seoul-districts.json`에 보관합니다. 지도 연결 범위의 확대이며 거래 표본이나 가격 모형의 확대는 아닙니다. 이 경계를 현재 행정구역이나 규제구역의 법적 경계로 사용하지 않습니다.
 - 거래: [서울특별시 부동산 실거래가 정보](https://data.seoul.go.kr/dataList/OA-21275/S/1/datasetView.do)입니다. 서울시가 국토교통부 자료를 연계하며 공공누리 제1유형으로 제공합니다. 공식 sample API가 반환한 강남구, 성동구, 마포구의 2025년 6월 26일과 27일 아파트 계약을 보관합니다.
 - 거래당 금액은 원본 `THING_AMT`의 만원 단위를 원 단위로 변환했습니다. 전용면적, 층, 계약일, 취소일은 원본 값을 유지합니다.
 

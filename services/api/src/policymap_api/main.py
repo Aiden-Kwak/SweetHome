@@ -1,4 +1,4 @@
-"""PolicyMap FastAPI application."""
+"""SweetHome FastAPI application."""
 
 from __future__ import annotations
 
@@ -33,7 +33,7 @@ settings = get_settings()
 repository = FixtureRepository(settings.fixture_dir)
 
 app = FastAPI(
-    title="PolicyMap API",
+    title="SweetHome API",
     version=__version__,
     description=(
         "Korean real-estate policy graph and scenario API. "
