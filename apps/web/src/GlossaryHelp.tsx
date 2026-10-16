@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { glossary } from "./glossary-data";
 import { splitTerms, termsIn } from "./glossary";
 import type { GlossaryEntry } from "./glossary";
+import { savedLocale, translateCopy, type Locale } from "./i18n";
 import "./glossary.css";
 
 function TermInfo({term}:{term:GlossaryEntry}) {
@@ -40,7 +41,11 @@ function TermInfo({term}:{term:GlossaryEntry}) {
   </span>;
 }
 export function GlossaryText({text}:{text:string|null|undefined}) {
-  return <>{splitTerms(text??"").map((part,index)=>part.term?<span key={index} className="term-pair">{part.text}<TermInfo term={part.term}/></span>:<span key={index}>{part.text}</span>)}</>;
+  const [locale,setLocale]=useState<Locale>(savedLocale);
+  useEffect(()=>{const update=(event:Event)=>setLocale((event as CustomEvent<Locale>).detail);window.addEventListener("sweethome:locale",update);return()=>window.removeEventListener("sweethome:locale",update);},[]);
+  const source=text??"";
+  const display=locale==="en"?translateCopy(source):source;
+  return <>{splitTerms(display).map((part,index)=>part.term?<span key={index} className="term-pair">{part.text}<TermInfo term={part.term}/></span>:<span key={index}>{part.text}</span>)}</>;
 }
 export function TermHints({text}:{text:string}) {
   return <span className="term-hints">{termsIn(text).map(term=><TermInfo term={term} key={term.id}/>)}</span>;

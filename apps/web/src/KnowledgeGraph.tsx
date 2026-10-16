@@ -1,9 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Claim, GraphResponse, PolicySnapshot } from "./types";
 import { draftKey, graphLayout, graphView, initialGraph, nodeKinds, relations, removeNode, safeGraphUrl, saveEdge, saveNode, validateDraft } from "./graph-editor";
 import type { EditorEdge, EditorNode, GraphDraft } from "./graph-editor";
 import "./knowledge-graph.css";
 import { GlossaryText } from "./GlossaryHelp";
+import { savedLocale, translateCopy, type Locale } from "./i18n";
 
 type Selection = {kind:"node";id:string} | {kind:"edge";id:string};
 const valueText=(value:unknown) => typeof value === "string" ? value : "";
@@ -11,6 +12,8 @@ const short=(text:string,max=30) => text.length>max ? `${text.slice(0,max)}…` 
 const kindClass=(kind:string) => ["policy_package","measure","policy_rule","legal_source"].includes(kind)?"policy": ["claim","evidence"].includes(kind)?"research":kind==="region"?"region":kind==="household_cohort"?"household":"mechanism";
 
 export function KnowledgeGraph({source,snapshot,claims,regionCode}:{source:GraphResponse;snapshot:PolicySnapshot;claims:Claim[];regionCode:string}) {
+  const [locale,setLocale]=useState<Locale>(savedLocale);
+  useEffect(()=>{const update=(event:Event)=>setLocale((event as CustomEvent<Locale>).detail);window.addEventListener("sweethome:locale",update);return()=>window.removeEventListener("sweethome:locale",update);},[]);
   const [loaded] = useState(() => {
     try {const saved=localStorage.getItem(draftKey(source));return {graph:saved ? validateDraft(JSON.parse(saved)) : initialGraph(source),note:saved?"이 브라우저에 저장한 편집본을 불러왔습니다.":"API 원본을 표시합니다. 수정하면 이 브라우저에 자동 저장됩니다."};}
     catch {return {graph:initialGraph(source),note:"저장된 편집본을 읽지 못했습니다. API 원본을 표시합니다. 다음 수정부터 새 편집본으로 저장됩니다."};}
@@ -79,7 +82,7 @@ export function KnowledgeGraph({source,snapshot,claims,regionCode}:{source:Graph
       </div>
       <aside className="kg-inspector" aria-label="선택 항목 편집"><div className="kg-inspector-heading"><p className="eyebrow">NO-CODE</p><h2>{selectedEdge?"관계 편집":"노드 편집"}</h2></div>
         {selectedNode&&<p className="kg-term-context"><GlossaryText text={selectedNode.label}/></p>}
-        {selectedNode&&<><NodeForm key={`${selectedNode.id}:${JSON.stringify(selectedNode)}`} node={selectedNode} onSave={node=>{try{commit(saveNode(graph,node));}catch(e){setError((e as Error).message);}}}/>
+        {selectedNode&&<><NodeForm key={`${selectedNode.id}:${JSON.stringify(selectedNode)}`} node={selectedNode} locale={locale} onSave={node=>{try{commit(saveNode(graph,node));}catch(e){setError((e as Error).message);}}}/>
           <div className="kg-detail-actions"><button onClick={()=>{setFocus(selectedNode.id);setAll(false);viewport.current?.scrollTo(0,0);}}>이 노드 중심으로 보기</button><button onClick={()=>{const target=graph.nodes.find(n=>n.id!==selectedNode.id);if(!target){setError("연결하려면 노드를 하나 더 추가해 주세요.");return;}setFocus(selectedNode.id);setSelection({kind:"edge",id:"new"});}}>＋ 관계 추가</button></div>
           {originalSource&&<div className="kg-original"><strong>API 원본 출처 (읽기 전용)</strong><p>{originalSource.title}</p><p>{originalSource.locator}</p>{originalUrl&&!originalUrl.includes("example.invalid")?<a href={originalUrl} target="_blank" rel="noreferrer">원문 확인</a>:<span className="warning-copy">실제 원문이 연결되지 않았습니다.</span>}</div>}
           <details className="kg-metadata"><summary>원본 속성과 식별자</summary><p>{selectedNode.id}</p><p>원본 또는 편집 상태: {selectedNode.status??"미지정"}</p><pre>{JSON.stringify(selectedNode.metadata??{},null,2)}</pre></details>
@@ -92,14 +95,14 @@ export function KnowledgeGraph({source,snapshot,claims,regionCode}:{source:Graph
   </section>;
 }
 
-function NodeForm({node,onSave}:{node:EditorNode;onSave:(node:EditorNode)=>void}) {
+function NodeForm({node,onSave,locale}:{node:EditorNode;onSave:(node:EditorNode)=>void;locale:Locale}) {
   const [label,setLabel]=useState(node.label),[kind,setKind]=useState(node.kind);
   const [note,setNote]=useState(valueText(node.metadata?.editor_note));
   const [url,setUrl]=useState(valueText(node.metadata?.editor_source_url));
   const [locator,setLocator]=useState(valueText(node.metadata?.editor_source_locator));
   const [error,setError]=useState("");
   return <form className="kg-form" onSubmit={e=>{e.preventDefault();if(url&&!safeGraphUrl(url)){setError("출처는 http 또는 https 주소로 입력해 주세요.");return;}if(kind==="policy_rule"&&(!safeGraphUrl(url)||!locator.trim())){setError("정책 규칙을 수정하려면 출처 URL과 원문 위치 또는 발췌문을 입력해 주세요. 공식 출처 여부는 별도로 검토해야 합니다.");return;}setError("");onSave({...node,label,kind,metadata:{...node.metadata,editor_note:note,editor_source_url:url,editor_source_locator:locator}});}}>
-    <label>노드 이름<input required maxLength={500} value={label} onChange={e=>setLabel(e.target.value)}/></label><label>노드 유형<select value={kind} onChange={e=>setKind(e.target.value)}>{Object.entries(nodeKinds).map(([key,name])=><option key={key} value={key}>{name}</option>)}</select></label><label>검토 메모<textarea rows={3} maxLength={5000} value={note} onChange={e=>setNote(e.target.value)} placeholder="이 연결의 근거와 확인할 내용을 적어 주세요."/></label><label>검토용 출처 URL<input type="url" value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://…"/></label><label>원문 위치 또는 발췌문<textarea rows={2} maxLength={5000} value={locator} onChange={e=>setLocator(e.target.value)} placeholder="페이지, 조항 또는 원문 문장"/></label><p className="muted">수정한 항목은 미검증 상태로 저장됩니다. 원본의 검증 상태를 승계하지 않습니다.</p>{error&&<p role="alert" className="warning-copy">{error}</p>}<button type="submit" className="primary">노드 변경 저장</button>
+    <label>노드 이름<input required maxLength={500} value={locale==="en"?translateCopy(label):label} onChange={e=>setLabel(e.target.value)}/></label><label>노드 유형<select value={kind} onChange={e=>setKind(e.target.value)}>{Object.entries(nodeKinds).map(([key,name])=><option key={key} value={key}>{name}</option>)}</select></label><label>검토 메모<textarea rows={3} maxLength={5000} value={note} onChange={e=>setNote(e.target.value)} placeholder="이 연결의 근거와 확인할 내용을 적어 주세요."/></label><label>검토용 출처 URL<input type="url" value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://…"/></label><label>원문 위치 또는 발췌문<textarea rows={2} maxLength={5000} value={locator} onChange={e=>setLocator(e.target.value)} placeholder="페이지, 조항 또는 원문 문장"/></label><p className="muted">수정한 항목은 미검증 상태로 저장됩니다. 원본의 검증 상태를 승계하지 않습니다.</p>{error&&<p role="alert" className="warning-copy">{error}</p>}<button type="submit" className="primary">노드 변경 저장</button>
   </form>;
 }
 function EdgeForm({edge,nodes,onSave,onDelete}:{edge:EditorEdge;nodes:EditorNode[];onSave:(edge:EditorEdge)=>void;onDelete?:()=>void}) {

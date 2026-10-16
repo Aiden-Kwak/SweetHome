@@ -72,6 +72,8 @@ export const graphCopy: Record<string, string> = {
   "수도권 주택담보대출 및 신용대출 스트레스 DSR 3단계 가산금리 상향 (합성 예시…": "Higher phase-three stress DSR add-on rate for metro-area loans (illustrative…",
   "표시 중: 노드": "Showing: nodes", "개, 관계": "items, links", "개 / 화살표는 관계의 방향입니다.": "items / arrows show link direction.",
   "노드 편집": "Edit node", "노드 이름": "Node name", "노드 유형": "Node type", "검토 메모": "Review note",
+  "이 연결의 근거와 확인할 내용을 적어 주세요.": "Add the evidence for this link and any points to verify.",
+  "페이지, 조항 또는 원문 문장": "Page, section or source excerpt",
   "검토용 출처 URL": "Review source URL", "원문 위치 또는 발췌문": "Source location or excerpt",
   "수정한 항목은 미검증 상태로 저장됩니다. 원본의 검증 상태를 승계하지 않습니다.": "Edited items are saved as unverified; they do not inherit the source's review status.",
   "노드 변경 저장": "Save node changes", "이 노드 중심으로 보기": "Center on this node",

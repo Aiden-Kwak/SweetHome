@@ -31,4 +31,11 @@ describe("policy example review drafts", () => {
     expect(text).toContain("PDF 첨부: https://www.fsc.go.kr/file.pdf");
     expect(text).not.toContain("문서 상태: 입법예고");
   });
+  it("creates an English review draft without treating a proposal as enacted", () => {
+    const text = policyExampleDraft(example, "en");
+    expect(text).toContain("Draft for review");
+    expect(text).toContain("Proposed amendment (not final)");
+    expect(text).toContain(example.source_url);
+    expect(text).not.toContain("입법예고 중인 개정안");
+  });
 });

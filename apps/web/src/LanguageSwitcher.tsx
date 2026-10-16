@@ -86,6 +86,7 @@ export default function LanguageSwitcher() {
 
   function choose(next: Locale) {
     try { localStorage.setItem(LOCALE_KEY, next); } catch { /* private browsing still supports this session */ }
+    window.dispatchEvent(new CustomEvent("sweethome:locale", { detail: next }));
     setLocale(next);
   }
 

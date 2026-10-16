@@ -1,4 +1,10 @@
 export const evidenceCopy: Record<string, string> = {
+  "한국은행": "Bank of Korea",
+  "summary_verified_pdf_tables_pending": "Summary verified; PDF tables pending",
+  "원문 표의 대출 유형 간 대체 탄력성 확인 전까지 정량 수치는 null로 유지하고 지식그래프의 SUBSTITUTES_TO 경로 근거로 사용합니다.": "Quantitative values remain null until substitution elasticities across loan types are verified in the source tables. This supports the graph's SUBSTITUTES_TO pathway only.",
+  "차주 집단별로 대출 및 매수 반응이 상이하므로 단일 평균 계수로 축약할 수 없으며, 원문 세부 계수 확인 전까지 effect_value를 null로 유지합니다.": "Loan and purchase responses vary by borrower group, so they cannot be reduced to one average coefficient. Keep effect_value null until the detailed source coefficients are verified.",
+  "민간 주담대 규제 시 비규제 대출 및 정책모기지로 차입 수요가 대체 이동하는 경로를 함께 구성합니다.": "Together, these describe borrowing demand shifting from private mortgages to less-regulated loans and policy mortgages.",
+  "규제 강화 시 전세대출 및 신용대출 등 비규제 여신으로의 풍선효과(누출)": "Tighter mortgage rules may shift borrowing to less-regulated rental-deposit and unsecured loans (leakage).",
   "금융위원회 가계부채 점검회의 보도자료 (합성 대조본)": "Financial Services Commission household-debt briefing (illustrative comparison)",
   "제2장 수도권 주담대 관리 강화 제1항 표1": "Chapter 2, metro-area mortgage measures, section 1, table 1",
   "수도권 및 규제지역 내 주택구입목적 주택담보대출(집단대출 중 잔금대출 포함)의 최대한도를 6억 원으로 제한한다. 다만 시행일 전 매매계약을 체결한 경우 종전 규정을 적용한다.": "The maximum home-purchase mortgage in metro and regulated areas, including final-payment group loans, is limited to KRW 600 million. Contracts signed before the effective date follow the previous rules.",

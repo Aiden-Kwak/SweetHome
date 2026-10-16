@@ -3,6 +3,8 @@ import { fixtureCopy, regionCopy } from "./i18n-fixtures";
 import { detailCopy } from "./i18n-details";
 import { evidenceCopy } from "./i18n-evidence";
 import { graphCopy } from "./i18n-graph";
+import { exampleCopy } from "./i18n-examples";
+import { workflowCopy } from "./i18n-workflow";
 
 export const LOCALE_KEY = "sweethome.locale";
 
@@ -320,6 +322,7 @@ const patterns: Array<[RegExp, (...parts: string[]) => string]> = [
   [/^(\d+)개 수치 변경 후보$/, n => `${n} numeric change candidates`],
   [/^(\d+)개 지역의 입력 조건을 계산할 준비가 되었습니다\.$/, n => `Ready to calculate inputs for ${n} regions.`],
   [/^(\d+)개 선택$/, n => `${n} selected`],
+  [/^실행 전 확인: (.+)$/, items => `Check before running: ${items.split(" / ").map(translateCopy).join(" / ")}`],
   [/^(\d+)가구 적용$/, n => `${n} households selected`],
   [/^적용된 변경 규칙 (\d+)개$/, n => `${n} applied policy changes`],
   [/^가구 예산과 행동 비중을 (\d+)개 변경 규칙으로 계산$/, n => `Household budgets and behavior shares calculated using ${n} policy changes`],
@@ -333,15 +336,20 @@ const patterns: Array<[RegExp, (...parts: string[]) => string]> = [
   [/^(\d+)층$/, n => `floor ${n}`],
   [/^(\d+)개 용어$/, n => `${n} terms`],
   [/^(.+) 용어 설명$/, term => `${translateCopy(term)} definition`],
+  [/^(.+) 검토 요약 추가$/, title => `${translateCopy(title)}: add review summary`],
   [/^조회 표본 (\d+)건 중 (\d+)건 표시$/, (total, shown) => `Showing ${shown} of ${total} sampled transactions`],
   [/^(\d+)건 중 첫 (\d+)건$/, (total, shown) => `first ${shown} of ${total}`],
+  [/^선택한 변경 규칙 (\d+)개가 이 가구에 적용됩니다\. (\d+)개월 기준 합성 예시 변화량의 (\d+)%를 선택한 정책과 기간의 민감도로 반영했습니다\.$/, (count, months, share) => `${count} selected policy changes apply to this household. At ${months} months, ${share}% of the illustrative change is reflected as sensitivity to the selected policy and horizon.`],
+  [/^(.+) \/ 적용 변경 규칙 (\d+)개, 기간 계수 ([\d.]+), 합성 민감도 가중치 ([\d.]+)\. 규칙별 독립 효과를 측정한 값은 아닙니다\.$/, (assumptions, count, horizon, weight) => `${translateCopy(assumptions)} / ${count} selected policy changes, time factor ${horizon}, illustrative sensitivity weight ${weight}. The independent effect of each rule has not been measured.`],
+  [/^(.+) 원문 보기$/, title => `${translateCopy(title)}: view source`],
+  [/^(.+) 대체 수요 유입 \(공간 전이 효과\)$/, region => `${translateCopy(region)} substitute-demand inflow (spatial spillover effect)`],
 ];
 
 export function translateCopy(input: string): string {
   const match = input.match(/^(\s*)([\s\S]*?)(\s*)$/);
   if (!match) return input;
   const [, before, value, after] = match;
-  let translated = copy[value] ?? fixtureCopy[value] ?? detailCopy[value] ?? evidenceCopy[value] ?? graphCopy[value] ?? regionCopy[value];
+  let translated = copy[value] ?? fixtureCopy[value] ?? detailCopy[value] ?? evidenceCopy[value] ?? graphCopy[value] ?? exampleCopy[value] ?? workflowCopy[value] ?? regionCopy[value];
   if (!translated) {
     const places = value.split(", ");
     if (places.length > 1 && places.every(place => Boolean(regionCopy[place]))) {
