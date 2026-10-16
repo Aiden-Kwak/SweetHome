@@ -1,0 +1,1312 @@
+[
+  {
+    "claim_id": "demo_claim_finance_price",
+    "evidence_id": "demo_evidence_synthetic",
+    "title": "차주 단위 대출 한도 축소의 단기 매수 수요 억제 경로 (합성 예시)",
+    "policy_type": "finance",
+    "target_region": "demo_region",
+    "sample_period": {
+      "start": "2020-01-01",
+      "end": "2024-12-31"
+    },
+    "outcome_metric": "housing_price_index",
+    "effect_direction": "decrease",
+    "effect_semantics": "synthetic_demo_placeholder",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 6,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": false,
+    "scenario_match": "PARTIAL_MATCH",
+    "method": "synthetic_demo_placeholder",
+    "market_regime": "demo_unspecified",
+    "evidence_grade": "D",
+    "mechanisms": ["borrowing_capacity", "buyer_demand"],
+    "limitations": [
+      "이 레코드는 데이터 스키마 검증용 합성 예시이며 실제 연구 수치가 아닙니다.",
+      "실제 근거는 아래 KDI 및 한국은행 연구 보고서에서 추출한 조건부 Claim 레코드를 참조하십시오."
+    ],
+    "source": {
+      "title": "PolicyMap Synthetic Claim Fixture",
+      "publisher": "PolicyMap Demo",
+      "url": "https://example.invalid/policymap/demo-claim",
+      "published_at": "2025-06-28",
+      "series": "Synthetic Validation Fixture",
+      "source_type": "synthetic",
+      "review_status": "synthetic_fixture",
+      "locator": "Fixture 0"
+    }
+  },
+  {
+    "claim_id": "CL-KDI23-LTP-VOLUME-DIRECT",
+    "evidence_id": "EV-KDI-2023-06",
+    "title": "토지거래허가구역 지정 지역의 아파트 거래량 직접 감소 효과",
+    "policy_type": "land_transaction_permit",
+    "target_region": "11680,11710",
+    "sample_period": {
+      "start": "2020-06-23",
+      "end": "2022-06-30"
+    },
+    "outcome_metric": "transaction_volume",
+    "effect_direction": "decrease",
+    "effect_semantics": "direct_empirical",
+    "effect_value": -38.3,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": "percent",
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": true,
+    "scenario_match": "MATCHED",
+    "method": "difference_in_differences_spatial_discontinuity",
+    "market_regime": "low_rate_expansion_to_tightening_2020_2022",
+    "evidence_grade": "B",
+    "mechanisms": [
+      "transaction_eligibility",
+      "residency_obligation",
+      "investor_demand"
+    ],
+    "related_claims": [
+      {
+        "claim_id": "CL-KDI23-LTP-PRICE-DIRECT",
+        "relation": "COMPLEMENTS",
+        "reason": "동일한 토지거래허가구역 지정 사건에서 거래량 급감과 단기 가격 조정이 동반됨을 보여줍니다."
+      },
+      {
+        "claim_id": "CL-KDI23-LTP-PRICE-SPILLOVER",
+        "relation": "COMPLEMENTS",
+        "reason": "직접 규제 구역의 거래 위축이 인접 비규제 지역의 풍선효과와 동시에 발생함을 설명합니다."
+      }
+    ],
+    "limitations": [
+      "2020년 6월 잠실, 삼성, 대치, 청담 지정 사례를 기반으로 추정된 값입니다.",
+      "KDI 2025년 후속 해설(EV-KDI-2025-COLUMN, 등급 D)에 따르면 지정 2년 경과 후에도 거래량 감소는 지속되나 가격 안정 효과는 감쇠하는 양상이 관찰됩니다.",
+      "원문 본문 표의 표준오차 및 신뢰구간은 추가 검증 전까지 비워 둡니다."
+    ],
+    "source": {
+      "title": "부동산시장 규제의 효과 분석: 토지거래허가제, 분양가상한제, 주택임대차보호법을 중심으로",
+      "publisher": "한국개발연구원(KDI)",
+      "url": "https://www.kdi.re.kr/research/reportView?pub_no=18015",
+      "published_at": "2023-07-31",
+      "series": "정책연구시리즈 2023-06",
+      "source_type": "research_report",
+      "review_status": "abstract_verified_pdf_tables_pending",
+      "locator": "요약 및 제2장 토지거래허가제 효과 분석"
+    }
+  },
+  {
+    "claim_id": "CL-KDI23-LTP-PRICE-DIRECT",
+    "evidence_id": "EV-KDI-2023-06",
+    "title": "토지거래허가구역 지정 지역의 아파트 매매가격 직접 하락 효과",
+    "policy_type": "land_transaction_permit",
+    "target_region": "11680,11710",
+    "sample_period": {
+      "start": "2020-06-23",
+      "end": "2022-06-30"
+    },
+    "outcome_metric": "housing_price_index",
+    "effect_direction": "decrease",
+    "effect_semantics": "direct_empirical",
+    "effect_value": -4.3,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": "percent",
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": true,
+    "scenario_match": "MATCHED",
+    "method": "difference_in_differences_spatial_discontinuity",
+    "market_regime": "low_rate_expansion_to_tightening_2020_2022",
+    "evidence_grade": "B",
+    "mechanisms": ["transaction_eligibility", "investor_demand"],
+    "related_claims": [
+      {
+        "claim_id": "CL-KDI23-LTP-PRICE-SPILLOVER",
+        "relation": "COMPLEMENTS",
+        "reason": "규제 구역 내 가격 하락(-4.3%)과 인접 비규제 구역 가격 상승(+2.3%)이 한 쌍으로 작동합니다."
+      }
+    ],
+    "limitations": [
+      "실거주 의무 부과로 갭투자 수요가 차단된 직접 규제 행정동에 한정된 결과입니다.",
+      "KDI 2025년 후속 해설(EV-KDI-2025-COLUMN, 등급 D)은 지정 2년 이후 규제 지역과 비규제 지역 간 가격 격차가 통계적으로 유의하지 않게 축소되었다고 지적합니다."
+    ],
+    "source": {
+      "title": "부동산시장 규제의 효과 분석: 토지거래허가제, 분양가상한제, 주택임대차보호법을 중심으로",
+      "publisher": "한국개발연구원(KDI)",
+      "url": "https://www.kdi.re.kr/research/reportView?pub_no=18015",
+      "published_at": "2023-07-31",
+      "series": "정책연구시리즈 2023-06",
+      "source_type": "research_report",
+      "review_status": "abstract_verified_pdf_tables_pending",
+      "locator": "요약 및 제2장 토지거래허가제 직접 가격 효과"
+    }
+  },
+  {
+    "claim_id": "CL-KDI23-LTP-PRICE-SPILLOVER",
+    "evidence_id": "EV-KDI-2023-06",
+    "title": "토지거래허가구역 인접 비규제 지역의 매매가격 풍선효과",
+    "policy_type": "land_transaction_permit",
+    "target_region": "11200,11440,11740,41135,41290",
+    "sample_period": {
+      "start": "2020-06-23",
+      "end": "2022-06-30"
+    },
+    "outcome_metric": "adjacent_housing_price_index",
+    "effect_direction": "increase",
+    "effect_semantics": "spillover_empirical",
+    "effect_value": 2.3,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": "percent",
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": true,
+    "scenario_match": "MATCHED",
+    "method": "difference_in_differences_spatial_discontinuity",
+    "market_regime": "low_rate_expansion_to_tightening_2020_2022",
+    "evidence_grade": "B",
+    "mechanisms": ["spatial_substitution", "buyer_demand"],
+    "related_claims": [
+      {
+        "claim_id": "CL-KDI23-LTP-PRICE-DIRECT",
+        "relation": "COMPLEMENTS",
+        "reason": "직접 규제 구역에서 이탈한 매수 및 투자 수요가 인접 비규제 구역으로 이동한 결과입니다."
+      }
+    ],
+    "limitations": [
+      "행정동 경계 인접 비규제 아파트를 대상으로 측정된 풍선효과이며, 지정 범위가 구 단위 전체로 넓어질 경우 전이 대상 지역이 성동구, 마포구, 강동구, 분당구, 과천시 등 외곽 대체지로 이동할 수 있습니다(EV-KDI-2025-COLUMN 보완 맥락)."
+    ],
+    "source": {
+      "title": "부동산시장 규제의 효과 분석: 토지거래허가제, 분양가상한제, 주택임대차보호법을 중심으로",
+      "publisher": "한국개발연구원(KDI)",
+      "url": "https://www.kdi.re.kr/research/reportView?pub_no=18015",
+      "published_at": "2023-07-31",
+      "series": "정책연구시리즈 2023-06",
+      "source_type": "research_report",
+      "review_status": "abstract_verified_pdf_tables_pending",
+      "locator": "요약 및 제2장 인접 지역 풍선효과 분석"
+    }
+  },
+  {
+    "claim_id": "CL-KDI23-PRICECAP-SUPPLY",
+    "evidence_id": "EV-KDI-2023-06",
+    "title": "민간택지 분양가상한제 지정 이후 단기 주택 공급 감소 미확인",
+    "policy_type": "presale_price_cap",
+    "target_region": "11",
+    "sample_period": {
+      "start": "2019-11-01",
+      "end": "2022-12-31"
+    },
+    "outcome_metric": "new_housing_supply",
+    "effect_direction": "unknown",
+    "effect_semantics": "unknown_with_no_detected_decrease",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 24,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": false,
+    "scenario_match": "PARTIAL_MATCH",
+    "method": "empirical_supply_comparison",
+    "market_regime": "seoul_presale_cap_designation_2019_2022",
+    "evidence_grade": "B",
+    "mechanisms": ["developer_supply_incentive"],
+    "limitations": [
+      "관측 기간 내 유의한 공급 감소가 확인되지 않았다는 결과이므로, 효과가 0이라고 단정하지 않고 미확인 상태로 보존합니다.",
+      "정비사업 인허가부터 준공까지의 장기 시차(5년 이상)는 표본 기간에 완전히 반영되지 않았습니다."
+    ],
+    "source": {
+      "title": "부동산시장 규제의 효과 분석: 토지거래허가제, 분양가상한제, 주택임대차보호법을 중심으로",
+      "publisher": "한국개발연구원(KDI)",
+      "url": "https://www.kdi.re.kr/research/reportView?pub_no=18015",
+      "published_at": "2023-07-31",
+      "series": "정책연구시리즈 2023-06",
+      "source_type": "research_report",
+      "review_status": "abstract_verified_pdf_tables_pending",
+      "locator": "요약 및 제3장 분양가상한제 공급 효과 분석"
+    }
+  },
+  {
+    "claim_id": "CL-KDI23-LEASE-DEPOSIT-KR",
+    "evidence_id": "EV-KDI-2023-06",
+    "title": "주택임대차보호법(계약갱신청구권 및 전월세상한제) 도입 직후 전국 전세보증금 상승",
+    "policy_type": "lease_protection_act",
+    "target_region": "KR",
+    "sample_period": {
+      "start": "2020-07-31",
+      "end": "2022-07-31"
+    },
+    "outcome_metric": "jeonse_deposit",
+    "effect_direction": "increase",
+    "effect_semantics": "direct_empirical",
+    "effect_value": 0.97,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": "percent",
+    "horizon_months": 1,
+    "horizon_class": "immediate",
+    "is_quantitative_candidate": true,
+    "scenario_match": "PARTIAL_MATCH",
+    "method": "event_window_regression",
+    "market_regime": "low_rate_jeonse_scarcity_2020",
+    "evidence_grade": "C",
+    "mechanisms": ["renewal_option_pricing", "jeonse_supply"],
+    "related_claims": [
+      {
+        "claim_id": "CL-KDI23-LEASE-DEPOSIT-SEOUL",
+        "relation": "COMPLEMENTS",
+        "reason": "전국 평균(+0.97%) 대비 서울(+4.8%)에서 신규 계약 전세보증금 선반영 폭이 훨씬 크게 나타났습니다."
+      }
+    ],
+    "limitations": [
+      "2020년 7월 법 개정 직후 신규 전세계약 선반영 효과이며, 당시 저금리 및 매매시장 상승 기대가 공존했던 시기의 결과입니다."
+    ],
+    "source": {
+      "title": "부동산시장 규제의 효과 분석: 토지거래허가제, 분양가상한제, 주택임대차보호법을 중심으로",
+      "publisher": "한국개발연구원(KDI)",
+      "url": "https://www.kdi.re.kr/research/reportView?pub_no=18015",
+      "published_at": "2023-07-31",
+      "series": "정책연구시리즈 2023-06",
+      "source_type": "research_report",
+      "review_status": "abstract_verified_pdf_tables_pending",
+      "locator": "요약 및 제4장 주택임대차보호법 효과 분석"
+    }
+  },
+  {
+    "claim_id": "CL-KDI23-LEASE-DEPOSIT-SEOUL",
+    "evidence_id": "EV-KDI-2023-06",
+    "title": "주택임대차보호법 도입 직후 서울 신규 전세보증금 상승",
+    "policy_type": "lease_protection_act",
+    "target_region": "11",
+    "sample_period": {
+      "start": "2020-07-31",
+      "end": "2022-07-31"
+    },
+    "outcome_metric": "jeonse_deposit",
+    "effect_direction": "increase",
+    "effect_semantics": "direct_empirical",
+    "effect_value": 4.8,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": "percent",
+    "horizon_months": 1,
+    "horizon_class": "immediate",
+    "is_quantitative_candidate": true,
+    "scenario_match": "PARTIAL_MATCH",
+    "method": "event_window_regression",
+    "market_regime": "low_rate_jeonse_scarcity_2020",
+    "evidence_grade": "C",
+    "mechanisms": ["renewal_option_pricing", "jeonse_supply"],
+    "limitations": [
+      "임대인이 향후 4년간의 임대료 인상 제한을 신규 계약 보증금에 선반영한 단기 충격 수치입니다."
+    ],
+    "source": {
+      "title": "부동산시장 규제의 효과 분석: 토지거래허가제, 분양가상한제, 주택임대차보호법을 중심으로",
+      "publisher": "한국개발연구원(KDI)",
+      "url": "https://www.kdi.re.kr/research/reportView?pub_no=18015",
+      "published_at": "2023-07-31",
+      "series": "정책연구시리즈 2023-06",
+      "source_type": "research_report",
+      "review_status": "abstract_verified_pdf_tables_pending",
+      "locator": "요약 및 제4장 서울 전세보증금 분석"
+    }
+  },
+  {
+    "claim_id": "CL-BOK16-DTI-PRICE-TIGHTEN",
+    "evidence_id": "EV-BOK-2016-10",
+    "title": "DTI 규제 강화 시 단기 및 중기 주택매매가격 상승률 둔화",
+    "policy_type": "dti_tightening",
+    "target_region": "KR_98_SIGUNGU",
+    "sample_period": {
+      "start": "2006-03-01",
+      "end": "2015-06-30"
+    },
+    "outcome_metric": "housing_price_index",
+    "effect_direction": "decrease",
+    "effect_semantics": "direct_empirical_table_pending",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 6,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": false,
+    "scenario_match": "MATCHED",
+    "method": "narrative_policy_index_panel_regression",
+    "market_regime": "multi_cycle_2006_2015",
+    "evidence_grade": "B",
+    "mechanisms": [
+      "borrowing_capacity",
+      "debt_service_constraint",
+      "buyer_demand"
+    ],
+    "related_claims": [
+      {
+        "claim_id": "CL-KDI22-LTV-PRICE-LONGRUN",
+        "relation": "CONFLICTS_WITH",
+        "reason": "단기 및 중기 시군구 패널 분석에서는 원리금 상환 규제 강화가 주택가격을 억제하나, KDI 2022 장기 일반균형 모형에서는 예비적 저축 증가로 인한 실질금리 하락으로 장기 상대 주택가격이 소폭 상승할 수 있음을 제시합니다."
+      },
+      {
+        "claim_id": "CL-BOK16-LTV-PRICE-TIGHTEN",
+        "relation": "COMPLEMENTS",
+        "reason": "동일 표본에서 LTV 단독 강화보다 소득 연계 DTI 강화의 가격 억제 유의성이 더 뚜렷하게 확인되었습니다."
+      }
+    ],
+    "limitations": [
+      "원문 PDF 회귀표의 정확한 탄력성 계수를 확인하기 전까지 effect_value를 null로 유지하고 방향성(하락) 근거로만 사용합니다.",
+      "2006년부터 2015년까지의 DTI 제도 표본이므로 현행 차주단위 스트레스 DSR과 직접 동일시할 수 없습니다."
+    ],
+    "source": {
+      "title": "주택담보대출 규제가 주택가격에 미치는 영향",
+      "publisher": "한국은행 경제연구원",
+      "url": "https://www.bok.or.kr/portal/bbs/P0002353/view.do?nttId=217635&menuNo=200433",
+      "published_at": "2016-03-01",
+      "series": "BOK 경제연구 제2016-10호",
+      "source_type": "working_paper",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "요약 및 제4장 DTI 강화 회귀분석 결과"
+    }
+  },
+  {
+    "claim_id": "CL-BOK16-DTI-PRICE-LOOSEN",
+    "evidence_id": "EV-BOK-2016-10",
+    "title": "DTI 규제 완화 시 주택매매가격 상승 압력 확대",
+    "policy_type": "dti_loosening",
+    "target_region": "KR_98_SIGUNGU",
+    "sample_period": {
+      "start": "2006-03-01",
+      "end": "2015-06-30"
+    },
+    "outcome_metric": "housing_price_index",
+    "effect_direction": "increase",
+    "effect_semantics": "direct_empirical_table_pending",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 6,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": false,
+    "scenario_match": "PARTIAL_MATCH",
+    "method": "narrative_policy_index_panel_regression",
+    "market_regime": "multi_cycle_2006_2015",
+    "evidence_grade": "B",
+    "mechanisms": ["borrowing_capacity", "buyer_demand"],
+    "limitations": [
+      "원문 PDF 회귀표의 수치 검증 전까지 effect_value를 null로 유지합니다."
+    ],
+    "source": {
+      "title": "주택담보대출 규제가 주택가격에 미치는 영향",
+      "publisher": "한국은행 경제연구원",
+      "url": "https://www.bok.or.kr/portal/bbs/P0002353/view.do?nttId=217635&menuNo=200433",
+      "published_at": "2016-03-01",
+      "series": "BOK 경제연구 제2016-10호",
+      "source_type": "working_paper",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "요약 및 제4장 비대칭 효과 분석"
+    }
+  },
+  {
+    "claim_id": "CL-BOK16-LTV-PRICE-TIGHTEN",
+    "evidence_id": "EV-BOK-2016-10",
+    "title": "LTV 단독 규제 강화 시 주택매매가격 억제 효과의 통계적 유의성 미확인",
+    "policy_type": "ltv_tightening",
+    "target_region": "KR_98_SIGUNGU",
+    "sample_period": {
+      "start": "2006-03-01",
+      "end": "2015-06-30"
+    },
+    "outcome_metric": "housing_price_index",
+    "effect_direction": "unknown",
+    "effect_semantics": "statistically_insignificant_do_not_fix_zero",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 6,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": false,
+    "scenario_match": "MATCHED",
+    "method": "narrative_policy_index_panel_regression",
+    "market_regime": "multi_cycle_2006_2015",
+    "evidence_grade": "B",
+    "mechanisms": ["collateral_constraint", "borrowing_capacity"],
+    "related_claims": [
+      {
+        "claim_id": "CL-BOK16-DTI-PRICE-TIGHTEN",
+        "relation": "COMPLEMENTS",
+        "reason": "담보비율(LTV) 단독 제한보다 원리금상환비율(DTI/DSR) 제한이 결합될 때 실수요 차입 제약이 실질적으로 작동함을 시사합니다."
+      }
+    ],
+    "limitations": [
+      "유의한 효과를 확인하지 못했다는 분석 결과이므로, 효과를 0으로 고정하지 않고 불확실성 상태로 기록합니다."
+    ],
+    "source": {
+      "title": "주택담보대출 규제가 주택가격에 미치는 영향",
+      "publisher": "한국은행 경제연구원",
+      "url": "https://www.bok.or.kr/portal/bbs/P0002353/view.do?nttId=217635&menuNo=200433",
+      "published_at": "2016-03-01",
+      "series": "BOK 경제연구 제2016-10호",
+      "source_type": "working_paper",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "요약 및 제4장 LTV 강화 추정 결과"
+    }
+  },
+  {
+    "claim_id": "CL-BOK16-LTV-PRICE-LOOSEN",
+    "evidence_id": "EV-BOK-2016-10",
+    "title": "LTV 규제 완화 시 주택매매가격 상승 압력 발생",
+    "policy_type": "ltv_loosening",
+    "target_region": "KR_98_SIGUNGU",
+    "sample_period": {
+      "start": "2006-03-01",
+      "end": "2015-06-30"
+    },
+    "outcome_metric": "housing_price_index",
+    "effect_direction": "increase",
+    "effect_semantics": "direct_empirical_table_pending",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 6,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": false,
+    "scenario_match": "PARTIAL_MATCH",
+    "method": "narrative_policy_index_panel_regression",
+    "market_regime": "multi_cycle_2006_2015",
+    "evidence_grade": "B",
+    "mechanisms": ["collateral_constraint", "buyer_demand"],
+    "limitations": [
+      "규제 완화 국면과 강화 국면의 비대칭성을 보여주며, 원문 계수 표 확인 전까지 effect_value는 null로 둡니다."
+    ],
+    "source": {
+      "title": "주택담보대출 규제가 주택가격에 미치는 영향",
+      "publisher": "한국은행 경제연구원",
+      "url": "https://www.bok.or.kr/portal/bbs/P0002353/view.do?nttId=217635&menuNo=200433",
+      "published_at": "2016-03-01",
+      "series": "BOK 경제연구 제2016-10호",
+      "source_type": "working_paper",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "요약 및 제4장 LTV 완화 비대칭 분석"
+    }
+  },
+  {
+    "claim_id": "CL-KDI22-LTV-LOAN-LONGRUN",
+    "evidence_id": "EV-KDI-2022-09",
+    "title": "LTV 상한 축소(70%에서 40%) 시 장기 정상상태 가계 주택담보대출 감소",
+    "policy_type": "ltv_tightening_70_to_40",
+    "target_region": "KR",
+    "sample_period": {
+      "start": "2010-01-01",
+      "end": "2022-12-31"
+    },
+    "outcome_metric": "household_mortgage_debt",
+    "effect_direction": "decrease",
+    "effect_semantics": "structural_long_run",
+    "effect_value": -31.0,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": "percent",
+    "horizon_months": 60,
+    "horizon_class": "long_run_equilibrium",
+    "is_quantitative_candidate": true,
+    "scenario_match": "DIFFERENT_REGIME",
+    "method": "heterogeneous_agent_general_equilibrium_calibration",
+    "market_regime": "long_run_steady_state_calibration",
+    "evidence_grade": "C",
+    "mechanisms": ["borrowing_capacity", "precautionary_saving"],
+    "related_claims": [
+      {
+        "claim_id": "CL-KDI22-LTV-PRICE-LONGRUN",
+        "relation": "COMPLEMENTS",
+        "reason": "장기 주담대 잔액은 크게 감소(-31.0%)하지만 저축 증가와 실질금리 하락 경로를 통해 상대 주택가격은 오히려 소폭 상승(+0.005%)할 수 있음을 함께 제시합니다."
+      }
+    ],
+    "limitations": [
+      "생애주기 이질적 가구 일반균형 모형의 장기 정상상태 비교정학 결과이므로 3개월에서 12개월 단기 시장 예측치로 직접 사용할 수 없습니다."
+    ],
+    "source": {
+      "title": "가계부채와 주택시장 거시건전성 정책에 대한 연구",
+      "publisher": "한국개발연구원(KDI)",
+      "url": "https://www.kdi.re.kr/research/reportView?pub_no=17777",
+      "published_at": "2022-12-30",
+      "series": "연구보고서 2022-09",
+      "source_type": "research_report",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "요약 및 제4장 LTV 규제 정상상태 시뮬레이션"
+    }
+  },
+  {
+    "claim_id": "CL-KDI22-LTV-PRICE-LONGRUN",
+    "evidence_id": "EV-KDI-2022-09",
+    "title": "LTV 상한 축소 시 예비적 저축 및 실질금리 하락 경로에 따른 장기 상대 주택가격 미소 상승",
+    "policy_type": "ltv_tightening_70_to_40",
+    "target_region": "KR",
+    "sample_period": {
+      "start": "2010-01-01",
+      "end": "2022-12-31"
+    },
+    "outcome_metric": "relative_housing_price",
+    "effect_direction": "increase",
+    "effect_semantics": "structural_long_run",
+    "effect_value": 0.005,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": "percent",
+    "horizon_months": 60,
+    "horizon_class": "long_run_equilibrium",
+    "is_quantitative_candidate": false,
+    "scenario_match": "DIFFERENT_REGIME",
+    "method": "heterogeneous_agent_general_equilibrium_calibration",
+    "market_regime": "long_run_steady_state_calibration",
+    "evidence_grade": "C",
+    "mechanisms": [
+      "precautionary_saving",
+      "real_interest_rate_decline",
+      "wealthy_portfolio_reallocation"
+    ],
+    "related_claims": [
+      {
+        "claim_id": "CL-BOK16-DTI-PRICE-TIGHTEN",
+        "relation": "CONFLICTS_WITH",
+        "reason": "단기 실증 연구(BOK 2016)는 차입 제약 강화 시 매수 수요 위축에 따른 가격 하락을 보고하나, 장기 구조 모형(KDI 2022)은 현금 자산가의 주택 보유 확대와 실질금리 하락으로 장기 가격 억제 효과가 나타나지 않을 수 있음을 경고합니다."
+      }
+    ],
+    "limitations": [
+      "단기 수요 충격이 소멸된 이후의 장기 균형 결과이므로 단기(0~12개월) 가격 계수와 평균하거나 합산해서는 안 됩니다."
+    ],
+    "source": {
+      "title": "가계부채와 주택시장 거시건전성 정책에 대한 연구",
+      "publisher": "한국개발연구원(KDI)",
+      "url": "https://www.kdi.re.kr/research/reportView?pub_no=17777",
+      "published_at": "2022-12-30",
+      "series": "연구보고서 2022-09",
+      "source_type": "research_report",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "요약 및 제4장 장기 상대 주택가격 효과"
+    }
+  },
+  {
+    "claim_id": "CL-KDI22-HOLDINGTAX-PRICE-LONGRUN",
+    "evidence_id": "EV-KDI-2022-09",
+    "title": "보유세 인상 시 장기 구조모형 내 자산재배치 경로에 따른 상대 주택가격 상승 가능성",
+    "policy_type": "holding_tax_increase",
+    "target_region": "KR",
+    "sample_period": {
+      "start": "2010-01-01",
+      "end": "2022-12-31"
+    },
+    "outcome_metric": "relative_housing_price",
+    "effect_direction": "increase",
+    "effect_semantics": "structural_long_run_table_pending",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 60,
+    "horizon_class": "long_run_equilibrium",
+    "is_quantitative_candidate": false,
+    "scenario_match": "DIFFERENT_REGIME",
+    "method": "heterogeneous_agent_general_equilibrium_calibration",
+    "market_regime": "long_run_steady_state_calibration",
+    "evidence_grade": "C",
+    "mechanisms": ["after_tax_return", "lock_in_and_asset_reallocation"],
+    "limitations": [
+      "모형 내 조세 귀착 및 임대공급 축소 가정에 의존하는 장기 구조모형 결과이며, 원문 표 검증 전까지 수치는 null로 유지합니다."
+    ],
+    "source": {
+      "title": "가계부채와 주택시장 거시건전성 정책에 대한 연구",
+      "publisher": "한국개발연구원(KDI)",
+      "url": "https://www.kdi.re.kr/research/reportView?pub_no=17777",
+      "published_at": "2022-12-30",
+      "series": "연구보고서 2022-09",
+      "source_type": "research_report",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "요약 및 제5장 보유세 개편 시뮬레이션"
+    }
+  },
+  {
+    "claim_id": "CL-KDI22-SUPPLY-PRICE-LONGRUN",
+    "evidence_id": "EV-KDI-2022-09",
+    "title": "주택 공급 확대 시 장기 균형 주택가격 안정 및 주거 후생 개선",
+    "policy_type": "housing_supply_expansion",
+    "target_region": "KR",
+    "sample_period": {
+      "start": "2010-01-01",
+      "end": "2022-12-31"
+    },
+    "outcome_metric": "housing_price_index",
+    "effect_direction": "decrease",
+    "effect_semantics": "structural_long_run_table_pending",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 60,
+    "horizon_class": "long_run_equilibrium",
+    "is_quantitative_candidate": false,
+    "scenario_match": "DIFFERENT_REGIME",
+    "method": "heterogeneous_agent_general_equilibrium_calibration",
+    "market_regime": "long_run_steady_state_calibration",
+    "evidence_grade": "C",
+    "mechanisms": ["new_housing_supply", "long_run_stock_equilibrium"],
+    "limitations": [
+      "장기 정상상태 공급 확대 시나리오의 방향성 결과이며, 원문 표 확인 전까지 정량 수치는 null로 둡니다."
+    ],
+    "source": {
+      "title": "가계부채와 주택시장 거시건전성 정책에 대한 연구",
+      "publisher": "한국개발연구원(KDI)",
+      "url": "https://www.kdi.re.kr/research/reportView?pub_no=17777",
+      "published_at": "2022-12-30",
+      "series": "연구보고서 2022-09",
+      "source_type": "research_report",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "요약 및 결론 정책 시사점"
+    }
+  },
+  {
+    "claim_id": "CL-BOK25-RATE-PRICE-12M",
+    "evidence_id": "EV-BOK-2025-26",
+    "title": "기준금리 25bp 인하 충격 시 1년 후 서울 아파트 가격지수 상승",
+    "policy_type": "base_rate_cut_25bp",
+    "target_region": "11",
+    "sample_period": {
+      "start": "2008-04-01",
+      "end": "2025-07-31"
+    },
+    "outcome_metric": "housing_price_index",
+    "effect_direction": "increase",
+    "effect_semantics": "sign_restricted_var_irf",
+    "effect_value": 1.4,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": "percent",
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": true,
+    "scenario_match": "MATCHED",
+    "method": "sign_restricted_structural_var_counterfactual",
+    "market_regime": "monetary_easing_cycle_with_macroprudential_mix",
+    "evidence_grade": "C",
+    "mechanisms": ["financing_cost", "buyer_demand", "market_expectation"],
+    "related_claims": [
+      {
+        "claim_id": "CL-BOK25-MPP-PREEMPTIVE-LOAN",
+        "relation": "COMPLEMENTS",
+        "reason": "금리 인하기의 주택가격 및 가계부채 상승 압력을 선제적 거시건전성 정책으로 얼마나 완충할 수 있는지 결합 분석합니다."
+      }
+    ],
+    "limitations": [
+      "부호제약 구조적 VAR 모형의 충격반응함수 추정치이므로 인과 식별 시 모형 부호 가정에 의존합니다.",
+      "금리 인하 국면에서 대출 규제가 동시에 시행될 때는 순효과가 상쇄될 수 있습니다."
+    ],
+    "source": {
+      "title": "금리 인하기 통화정책과 거시건전성정책의 공조",
+      "publisher": "한국은행 경제연구원",
+      "url": "https://www.bok.or.kr/portal/bbs/B0000347/view.do?nttId=10093600&menuNo=201106",
+      "published_at": "2025-09-01",
+      "series": "BOK 이슈노트 제2025-26호",
+      "source_type": "issue_note",
+      "review_status": "summary_verified_pdf_charts_pending",
+      "locator": "요약 및 그림 3 금리 인하 충격 반응"
+    }
+  },
+  {
+    "claim_id": "CL-BOK25-RATE-MORTGAGE-12M",
+    "evidence_id": "EV-BOK-2025-26",
+    "title": "기준금리 25bp 인하 충격 시 1년 후 가계 주택담보대출 증가",
+    "policy_type": "base_rate_cut_25bp",
+    "target_region": "11",
+    "sample_period": {
+      "start": "2008-04-01",
+      "end": "2025-07-31"
+    },
+    "outcome_metric": "household_mortgage_debt",
+    "effect_direction": "increase",
+    "effect_semantics": "sign_restricted_var_irf",
+    "effect_value": 1.2,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": "percent",
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": true,
+    "scenario_match": "MATCHED",
+    "method": "sign_restricted_structural_var_counterfactual",
+    "market_regime": "monetary_easing_cycle_with_macroprudential_mix",
+    "evidence_grade": "C",
+    "mechanisms": ["financing_cost", "borrowing_capacity"],
+    "limitations": [
+      "부호제약 VAR 충격반응 결과이며 원문 그림의 신뢰구간 밴드는 추가 검증 전까지 비워 둡니다."
+    ],
+    "source": {
+      "title": "금리 인하기 통화정책과 거시건전성정책의 공조",
+      "publisher": "한국은행 경제연구원",
+      "url": "https://www.bok.or.kr/portal/bbs/B0000347/view.do?nttId=10093600&menuNo=201106",
+      "published_at": "2025-09-01",
+      "series": "BOK 이슈노트 제2025-26호",
+      "source_type": "issue_note",
+      "review_status": "summary_verified_pdf_charts_pending",
+      "locator": "요약 및 금리 인하 시 가계대출 반응"
+    }
+  },
+  {
+    "claim_id": "CL-BOK25-MPP-PREEMPTIVE-LOAN",
+    "evidence_id": "EV-BOK-2025-26",
+    "title": "금리 인하 전 선제적 거시건전성 강화 시 1년간 주택담보대출 증가세 완화",
+    "policy_type": "preemptive_macroprudential_tightening",
+    "target_region": "11",
+    "sample_period": {
+      "start": "2008-04-01",
+      "end": "2025-07-31"
+    },
+    "outcome_metric": "mortgage_growth_pressure",
+    "effect_direction": "decrease",
+    "effect_semantics": "counterfactual_var_simulation",
+    "effect_value": -0.4,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": "percentage_point",
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": true,
+    "scenario_match": "MATCHED",
+    "method": "sign_restricted_structural_var_counterfactual",
+    "market_regime": "monetary_easing_cycle_with_macroprudential_mix",
+    "evidence_grade": "C",
+    "mechanisms": [
+      "policy_sequencing",
+      "borrowing_capacity",
+      "expectation_anchoring"
+    ],
+    "related_claims": [
+      {
+        "claim_id": "CL-BOK25-MPP-DELAYED-LOAN",
+        "relation": "COMPLEMENTS",
+        "reason": "선제적 시행(-0.4%p)이 4개월에서 6개월 지연 시행(-0.2%p)보다 대출 증가 억제 효과가 약 2배 크게 나타납니다."
+      }
+    ],
+    "limitations": [
+      "반사실적 시나리오 비교 결과이며, 정책 발표 시점과 금리 인하 시점 간 선후 관계(policy_lead_months)가 핵심 조건입니다."
+    ],
+    "source": {
+      "title": "금리 인하기 통화정책과 거시건전성정책의 공조",
+      "publisher": "한국은행 경제연구원",
+      "url": "https://www.bok.or.kr/portal/bbs/B0000347/view.do?nttId=10093600&menuNo=201106",
+      "published_at": "2025-09-01",
+      "series": "BOK 이슈노트 제2025-26호",
+      "source_type": "issue_note",
+      "review_status": "summary_verified_pdf_charts_pending",
+      "locator": "요약 및 반사실적 정책 시차 시뮬레이션"
+    }
+  },
+  {
+    "claim_id": "CL-BOK25-MPP-DELAYED-LOAN",
+    "evidence_id": "EV-BOK-2025-26",
+    "title": "금리 인하 후 4개월에서 6개월 지연된 거시건전성 강화 시 대출 억제 효과 반감",
+    "policy_type": "delayed_macroprudential_tightening_4_6m",
+    "target_region": "11",
+    "sample_period": {
+      "start": "2008-04-01",
+      "end": "2025-07-31"
+    },
+    "outcome_metric": "mortgage_growth_pressure",
+    "effect_direction": "decrease",
+    "effect_semantics": "counterfactual_var_simulation",
+    "effect_value": -0.2,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": "percentage_point",
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": true,
+    "scenario_match": "MATCHED",
+    "method": "sign_restricted_structural_var_counterfactual",
+    "market_regime": "monetary_easing_cycle_with_macroprudential_mix",
+    "evidence_grade": "C",
+    "mechanisms": ["policy_sequencing", "borrowing_capacity"],
+    "limitations": [
+      "금리 인하로 가격 상승 기대가 이미 형성된 뒤 규제를 도입하면 억제 폭이 축소된다는 조건부 결과입니다."
+    ],
+    "source": {
+      "title": "금리 인하기 통화정책과 거시건전성정책의 공조",
+      "publisher": "한국은행 경제연구원",
+      "url": "https://www.bok.or.kr/portal/bbs/B0000347/view.do?nttId=10093600&menuNo=201106",
+      "published_at": "2025-09-01",
+      "series": "BOK 이슈노트 제2025-26호",
+      "source_type": "issue_note",
+      "review_status": "summary_verified_pdf_charts_pending",
+      "locator": "요약 및 지연 대응 반사실적 시뮬레이션"
+    }
+  },
+  {
+    "claim_id": "CL-BOK25-MPP-GROWTH",
+    "evidence_id": "EV-BOK-2025-26",
+    "title": "거시건전성 정책 강화가 단기 실질 GDP 성장률(GDP 갭)에 미치는 영향 미유의",
+    "policy_type": "macroprudential_tightening",
+    "target_region": "KR",
+    "sample_period": {
+      "start": "2008-04-01",
+      "end": "2025-07-31"
+    },
+    "outcome_metric": "gdp_gap_growth",
+    "effect_direction": "unknown",
+    "effect_semantics": "statistically_insignificant",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": false,
+    "scenario_match": "PARTIAL_MATCH",
+    "method": "sign_restricted_structural_var_counterfactual",
+    "market_regime": "monetary_easing_cycle_with_macroprudential_mix",
+    "evidence_grade": "C",
+    "mechanisms": ["macro_growth_channel"],
+    "limitations": [
+      "거시경제 전체 GDP 갭에 대한 영향이 유의하지 않다는 결과이며, 개별 고DSR 가구의 소비 조정(EV-BOK-2022-45)과는 분석 단위가 다릅니다."
+    ],
+    "source": {
+      "title": "금리 인하기 통화정책과 거시건전성정책의 공조",
+      "publisher": "한국은행 경제연구원",
+      "url": "https://www.bok.or.kr/portal/bbs/B0000347/view.do?nttId=10093600&menuNo=201106",
+      "published_at": "2025-09-01",
+      "series": "BOK 이슈노트 제2025-26호",
+      "source_type": "issue_note",
+      "review_status": "summary_verified_pdf_charts_pending",
+      "locator": "요약 및 실물경제 영향 분석"
+    }
+  },
+  {
+    "claim_id": "CL-BOK25HH-MPP-HETEROGENEITY",
+    "evidence_id": "EV-BOK-2025-HHDEBT",
+    "title": "차주 특성(소득, 자산, 연령) 및 시장 국면에 따른 거시건전성 규제 효과의 이질성",
+    "policy_type": "borrower_macroprudential_regulation",
+    "target_region": "KR",
+    "sample_period": {
+      "start": "2013-01-01",
+      "end": "2025-06-30"
+    },
+    "outcome_metric": "household_debt_and_housing_price",
+    "effect_direction": "mixed",
+    "effect_semantics": "heterogeneous_borrower_response_table_pending",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": false,
+    "scenario_match": "MATCHED",
+    "method": "household_credit_panel_and_macro_synthesis",
+    "market_regime": "structural_household_debt_accumulation_2013_2025",
+    "evidence_grade": "C",
+    "mechanisms": ["borrower_heterogeneity", "borrowing_capacity"],
+    "limitations": [
+      "차주 집단별로 대출 및 매수 반응이 상이하므로 단일 평균 계수로 축약할 수 없으며, 원문 세부 계수 확인 전까지 effect_value를 null로 유지합니다."
+    ],
+    "source": {
+      "title": "가계부채 누증의 구조적 요인과 거시건전성정책에 대한 시사점",
+      "publisher": "한국은행",
+      "url": "https://www.bok.or.kr/portal/bbs/B0000232/list.do?menuNo=200706",
+      "published_at": "2025-07-01",
+      "series": "한국은행 분석보고서 2025",
+      "source_type": "policy_report",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "요약 및 차주별 이질성 분석"
+    }
+  },
+  {
+    "claim_id": "CL-BOK25HH-LEAKAGE",
+    "evidence_id": "EV-BOK-2025-HHDEBT",
+    "title": "주택담보대출 규제 강화 시 전세대출 및 신용대출 등 비규제 여신으로의 풍선효과(누출)",
+    "policy_type": "mortgage_regulation",
+    "target_region": "KR",
+    "sample_period": {
+      "start": "2013-01-01",
+      "end": "2025-06-30"
+    },
+    "outcome_metric": "non_regulated_loan_demand",
+    "effect_direction": "increase",
+    "effect_semantics": "loan_substitution_leakage_pathway",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 6,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": false,
+    "scenario_match": "MATCHED",
+    "method": "household_credit_panel_and_macro_synthesis",
+    "market_regime": "structural_household_debt_accumulation_2013_2025",
+    "evidence_grade": "C",
+    "mechanisms": [
+      "loan_substitution_leakage",
+      "jeonse_and_credit_loan_demand"
+    ],
+    "related_claims": [
+      {
+        "claim_id": "CL-BOK25HH-POLICYLOAN",
+        "relation": "COMPLEMENTS",
+        "reason": "민간 주담대 규제 시 비규제 대출 및 정책모기지로 차입 수요가 대체 이동하는 경로를 함께 구성합니다."
+      }
+    ],
+    "limitations": [
+      "원문 표의 대출 유형 간 대체 탄력성 확인 전까지 정량 수치는 null로 유지하고 지식그래프의 SUBSTITUTES_TO 경로 근거로 사용합니다."
+    ],
+    "source": {
+      "title": "가계부채 누증의 구조적 요인과 거시건전성정책에 대한 시사점",
+      "publisher": "한국은행",
+      "url": "https://www.bok.or.kr/portal/bbs/B0000232/list.do?menuNo=200706",
+      "published_at": "2025-07-01",
+      "series": "한국은행 분석보고서 2025",
+      "source_type": "policy_report",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "요약 및 규제 우회와 전세대출 누출 경로"
+    }
+  },
+  {
+    "claim_id": "CL-BOK25HH-POLICYLOAN",
+    "evidence_id": "EV-BOK-2025-HHDEBT",
+    "title": "정책모기지 및 특례 대출 예외 확대 시 가계부채 및 중저가 주택 수요 지지 효과",
+    "policy_type": "policy_mortgage_expansion",
+    "target_region": "11350,28185,KR",
+    "sample_period": {
+      "start": "2013-01-01",
+      "end": "2025-06-30"
+    },
+    "outcome_metric": "household_mortgage_debt",
+    "effect_direction": "increase",
+    "effect_semantics": "policy_loan_exemption_pathway",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": false,
+    "scenario_match": "MATCHED",
+    "method": "household_credit_panel_and_macro_synthesis",
+    "market_regime": "structural_household_debt_accumulation_2013_2025",
+    "evidence_grade": "C",
+    "mechanisms": ["policy_loan_exemption", "borrowing_capacity"],
+    "limitations": [
+      "무주택 신혼부부 및 정책대출 적격 가구가 중저가 지역(노원구, 인천 연수구 등)으로 수요를 이동시키는 조건부 경로 근거이며, 원문 표 검증 전까지 수치는 null로 둡니다."
+    ],
+    "source": {
+      "title": "가계부채 누증의 구조적 요인과 거시건전성정책에 대한 시사점",
+      "publisher": "한국은행",
+      "url": "https://www.bok.or.kr/portal/bbs/B0000232/list.do?menuNo=200706",
+      "published_at": "2025-07-01",
+      "series": "한국은행 분석보고서 2025",
+      "source_type": "policy_report",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "요약 및 정책금융 공급 영향"
+    }
+  },
+  {
+    "claim_id": "CL-BOK25HH-POLICYMIX",
+    "evidence_id": "EV-BOK-2025-HHDEBT",
+    "title": "통화정책과 거시건전성 정책의 일관된 공조 시 정책 유효성 제고",
+    "policy_type": "macroprudential_and_monetary_coordination",
+    "target_region": "KR",
+    "sample_period": {
+      "start": "2013-01-01",
+      "end": "2025-06-30"
+    },
+    "outcome_metric": "policy_effectiveness",
+    "effect_direction": "increase",
+    "effect_semantics": "qualitative_policy_mix_interaction",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": false,
+    "scenario_match": "MATCHED",
+    "method": "policy_regime_comparison",
+    "market_regime": "structural_household_debt_accumulation_2013_2025",
+    "evidence_grade": "C",
+    "mechanisms": ["policy_sequencing", "financing_cost"],
+    "limitations": [
+      "정책 조합의 방향성 일치 여부에 관한 구조적 진단으로, 단일 정량 계수가 아닌 시나리오 조건(금리 및 정책대출 동시 방향) 검증에 활용합니다."
+    ],
+    "source": {
+      "title": "가계부채 누증의 구조적 요인과 거시건전성정책에 대한 시사점",
+      "publisher": "한국은행",
+      "url": "https://www.bok.or.kr/portal/bbs/B0000232/list.do?menuNo=200706",
+      "published_at": "2025-07-01",
+      "series": "한국은행 분석보고서 2025",
+      "source_type": "policy_report",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "결론 및 정책 공조 시사점"
+    }
+  },
+  {
+    "claim_id": "CL-BOK22-DSR-CONSUMPTION-AVG",
+    "evidence_id": "EV-BOK-2022-45",
+    "title": "차주 DSR 1%p 상승 시 연간 가계 소비지출 평균 0.37% 감소",
+    "policy_type": "dsr_increase_1pp",
+    "target_region": "KR",
+    "sample_period": {
+      "start": "2012-01-01",
+      "end": "2021-12-31"
+    },
+    "outcome_metric": "annual_household_consumption",
+    "effect_direction": "decrease",
+    "effect_semantics": "direct_empirical",
+    "effect_value": -0.37,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": "percent",
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": true,
+    "scenario_match": "MATCHED",
+    "method": "household_panel_fixed_effects_regression",
+    "market_regime": "household_panel_2012_2021",
+    "evidence_grade": "B",
+    "mechanisms": ["debt_service_constraint", "discretionary_consumption_cut"],
+    "related_claims": [
+      {
+        "claim_id": "CL-BOK22-DSR-CONSUMPTION-VULNERABLE",
+        "relation": "COMPLEMENTS",
+        "reason": "전체 차주 평균(-0.37%) 대비 저소득 및 저자산 취약 차주에서 소비 위축 폭이 더 크게 나타납니다."
+      }
+    ],
+    "limitations": [
+      "가계금융복지조사 미시 패널에서 추정된 가계 소비 반응 계수이므로 주택매매가격 변화율이 아니라 JEV 고DSR 가구의 원리금 상환 부담 및 소비 조정 경로에만 적용해야 합니다."
+    ],
+    "source": {
+      "title": "가계부채 증가의 원인과 영향, 연착륙 방안",
+      "publisher": "한국은행",
+      "url": "https://www.bok.or.kr/portal/bbs/B0000347/view.do?nttId=10074418&menuNo=201106",
+      "published_at": "2022-12-01",
+      "series": "BOK 이슈노트 제2022-45호",
+      "source_type": "issue_note",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "요약 및 제3장 DSR 상승의 소비 제약 효과"
+    }
+  },
+  {
+    "claim_id": "CL-BOK22-DSR-CONSUMPTION-VULNERABLE",
+    "evidence_id": "EV-BOK-2022-45",
+    "title": "저소득 및 저자산 취약 차주의 DSR 상승 시 평균 대비 큰 폭의 소비 위축",
+    "policy_type": "dsr_increase_1pp",
+    "target_region": "KR",
+    "sample_period": {
+      "start": "2012-01-01",
+      "end": "2021-12-31"
+    },
+    "outcome_metric": "annual_household_consumption",
+    "effect_direction": "decrease",
+    "effect_semantics": "heterogeneous_subgroups_table_pending",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": false,
+    "scenario_match": "MATCHED",
+    "method": "household_panel_fixed_effects_regression",
+    "market_regime": "household_panel_2012_2021",
+    "evidence_grade": "B",
+    "mechanisms": ["debt_service_constraint", "discretionary_consumption_cut"],
+    "limitations": [
+      "원문 표의 분위별 세부 계수 확인 전까지 effect_value를 null로 유지합니다."
+    ],
+    "source": {
+      "title": "가계부채 증가의 원인과 영향, 연착륙 방안",
+      "publisher": "한국은행",
+      "url": "https://www.bok.or.kr/portal/bbs/B0000347/view.do?nttId=10074418&menuNo=201106",
+      "published_at": "2022-12-01",
+      "series": "BOK 이슈노트 제2022-45호",
+      "source_type": "issue_note",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "제3장 취약 차주 소비 민감도 분석"
+    }
+  },
+  {
+    "claim_id": "CL-BOK22-DSR-CONSUMPTION-INCOME",
+    "evidence_id": "EV-BOK-2022-45",
+    "title": "고DSR 차주의 소득 충격 결합 시 선택적 소비지출 급감",
+    "policy_type": "dsr_increase_1pp",
+    "target_region": "KR",
+    "sample_period": {
+      "start": "2012-01-01",
+      "end": "2021-12-31"
+    },
+    "outcome_metric": "discretionary_consumption",
+    "effect_direction": "decrease",
+    "effect_semantics": "heterogeneous_subgroups_table_pending",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": false,
+    "scenario_match": "MATCHED",
+    "method": "household_panel_fixed_effects_regression",
+    "market_regime": "household_panel_2012_2021",
+    "evidence_grade": "B",
+    "mechanisms": ["debt_service_constraint", "discretionary_consumption_cut"],
+    "limitations": [
+      "원문 표의 비필수 소비 항목별 계수 확인 전까지 effect_value를 null로 유지합니다."
+    ],
+    "source": {
+      "title": "가계부채 증가의 원인과 영향, 연착륙 방안",
+      "publisher": "한국은행",
+      "url": "https://www.bok.or.kr/portal/bbs/B0000347/view.do?nttId=10074418&menuNo=201106",
+      "published_at": "2022-12-01",
+      "series": "BOK 이슈노트 제2022-45호",
+      "source_type": "issue_note",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "제3장 소득 구간 및 소비 항목별 영향"
+    }
+  },
+  {
+    "claim_id": "CL-BOK22-DEBT-CONSUMPTION-NONLINEAR",
+    "evidence_id": "EV-BOK-2022-45",
+    "title": "임계 수준(DTI 200% 및 고DSR 구간) 초과 시 가계부채의 소비 제약 비선형 확대",
+    "policy_type": "dti_above_200_percent",
+    "target_region": "KR",
+    "sample_period": {
+      "start": "2012-01-01",
+      "end": "2021-12-31"
+    },
+    "outcome_metric": "annual_household_consumption",
+    "effect_direction": "decrease",
+    "effect_semantics": "nonlinear_threshold_table_pending",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": false,
+    "scenario_match": "MATCHED",
+    "method": "threshold_panel_regression",
+    "market_regime": "household_panel_2012_2021",
+    "evidence_grade": "B",
+    "mechanisms": ["nonlinear_debt_overhang", "discretionary_consumption_cut"],
+    "limitations": [
+      "부채 임계점 초과 차주에게 원리금 상환 부담이 비선형적으로 작동한다는 근거이며, 원문 임계 계수 표 확인 전까지 effect_value를 null로 유지합니다."
+    ],
+    "source": {
+      "title": "가계부채 증가의 원인과 영향, 연착륙 방안",
+      "publisher": "한국은행",
+      "url": "https://www.bok.or.kr/portal/bbs/B0000347/view.do?nttId=10074418&menuNo=201106",
+      "published_at": "2022-12-01",
+      "series": "BOK 이슈노트 제2022-45호",
+      "source_type": "issue_note",
+      "review_status": "summary_verified_pdf_tables_pending",
+      "locator": "제3장 부채 임계수준 비선형 효과 분석"
+    }
+  },
+  {
+    "claim_id": "CL-KDI25-LTP-DECAY-VOLUME",
+    "evidence_id": "EV-KDI-2025-COLUMN",
+    "title": "토지거래허가제 시행 2년 이후 가격 억제 강도 감쇠 및 거래량 둔화 지속",
+    "policy_type": "land_transaction_permit_zone",
+    "target_region": "서울 강남구 삼성동, 대치동, 청담동 및 송파구 잠실동",
+    "sample_period": {
+      "start": "2020-07-01",
+      "end": "2024-12-31"
+    },
+    "outcome_metric": "apartment_transaction_volume_and_price_lag",
+    "effect_direction": "decrease",
+    "effect_semantics": "qualitative_commentary_no_coefficient",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 24,
+    "horizon_class": "dynamic_path",
+    "is_quantitative_candidate": false,
+    "scenario_match": "MATCHED",
+    "method": "expert_commentary_and_descriptive_trend",
+    "market_regime": "post_2023_permit_zone_extension",
+    "evidence_grade": "D",
+    "mechanisms": ["transaction_eligibility", "residency_obligation"],
+    "related_claims": [
+      {
+        "claim_id": "CL-KDI23-LTP-PRICE-DIRECT",
+        "relation": "CONTEXTUALIZES",
+        "reason": "KDI 2023 실증연구의 직접효과가 2년 경과 후 가격 차이보다 거래 지연으로 나타난다는 후속 해설입니다."
+      },
+      {
+        "claim_id": "CL-KDI23-LTP-VOLUME-DIRECT",
+        "relation": "CONTEXTUALIZES",
+        "reason": "가격 수준보다 거래량 위축이 더 오래 지속된다는 시차 구성을 뒷받침하는 보조 자료입니다."
+      }
+    ],
+    "limitations": [
+      "동료심사를 거친 별도 회귀모형이 아니라 KDI 2023 연구 저자의 후속 해설 칼럼(등급 D)이므로 정량 계수로 사용하지 않습니다."
+    ],
+    "source": {
+      "title": "토지거래허가제와 주택시장 규제",
+      "publisher": "KDI 경제교육정보센터 나라경제",
+      "url": "https://eiec.kdi.re.kr/publish/naraView.do?cidx=15127&fcode=00002000040000100012",
+      "published_at": "2025-04-01",
+      "series": "나라경제 2025년 4월호",
+      "source_type": "expert_column",
+      "review_status": "web_article_reviewed",
+      "locator": "핵심 관찰 및 2023년 이후 시장 흐름 해설"
+    }
+  },
+  {
+    "claim_id": "CL-KDI25-LTP-SPILLOVER-EXPANSION",
+    "evidence_id": "EV-KDI-2025-COLUMN",
+    "title": "선별적 토지거래허가구역 확대 시 마포구, 성동구 등 차상위 대체지역으로의 수요 전이 관찰 필요성",
+    "policy_type": "land_transaction_permit_zone_spillover",
+    "target_region": "서울 마포구, 성동구, 강동구 등 대체 주거 권역",
+    "sample_period": {
+      "start": "2020-07-01",
+      "end": "2025-03-31"
+    },
+    "outcome_metric": "apartment_sale_price_index",
+    "effect_direction": "increase",
+    "effect_semantics": "qualitative_commentary_no_coefficient",
+    "effect_value": null,
+    "lower_bound": null,
+    "upper_bound": null,
+    "unit": null,
+    "horizon_months": 12,
+    "horizon_class": "short_to_medium_run",
+    "is_quantitative_candidate": false,
+    "scenario_match": "MATCHED",
+    "method": "expert_commentary_and_descriptive_trend",
+    "market_regime": "post_2023_permit_zone_extension",
+    "evidence_grade": "D",
+    "mechanisms": ["spatial_substitution", "buyer_demand"],
+    "related_claims": [
+      {
+        "claim_id": "CL-KDI23-LTP-PRICE-SPILLOVER",
+        "relation": "CONTEXTUALIZES",
+        "reason": "규제 범위가 동 단위에서 구 단위로 넓어질 때 근거리 전이효과가 마포구, 성동구 등 차상위 대체 권역으로 이동할 수 있음을 설명합니다."
+      }
+    ],
+    "limitations": [
+      "별도 식별 전략이나 회귀표가 없는 전문가 칼럼(등급 D)이므로 정량 계수로 사용하지 않고 전이 경로 설명의 보조 맥락으로만 활용합니다."
+    ],
+    "source": {
+      "title": "토지거래허가제와 주택시장 규제",
+      "publisher": "KDI 경제교육정보센터 나라경제",
+      "url": "https://eiec.kdi.re.kr/publish/naraView.do?cidx=15127&fcode=00002000040000100012",
+      "published_at": "2025-04-01",
+      "series": "나라경제 2025년 4월호",
+      "source_type": "expert_column",
+      "review_status": "web_article_reviewed",
+      "locator": "선별 규제와 인접 비규제 대체지역 관찰 제언"
+    }
+  }
+]
+

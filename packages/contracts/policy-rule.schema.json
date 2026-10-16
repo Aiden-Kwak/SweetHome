@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://policymap.local/contracts/policy-rule.schema.json",
+  "title": "PolicyRule",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "rule_id",
+    "title",
+    "category",
+    "change_type",
+    "parameters",
+    "announced_at",
+    "effective_from",
+    "effective_to",
+    "applies_to",
+    "exceptions",
+    "mechanisms",
+    "source",
+    "verification_status"
+  ],
+  "properties": {
+    "rule_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "category": {
+      "enum": [
+        "finance",
+        "tax",
+        "supply",
+        "subscription",
+        "land_use",
+        "lease",
+        "macro"
+      ]
+    },
+    "change_type": {
+      "enum": [
+        "new",
+        "tightened",
+        "loosened",
+        "extended",
+        "expired",
+        "superseded",
+        "corrected",
+        "unchanged"
+      ]
+    },
+    "package_id": {
+      "type": ["string", "null"]
+    },
+    "measure_id": {
+      "type": ["string", "null"]
+    },
+    "previous_rule_id": {
+      "type": ["string", "null"]
+    },
+    "previous_summary": {
+      "type": ["string", "null"]
+    },
+    "proposed_summary": {
+      "type": ["string", "null"]
+    },
+    "impact_priority": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20
+    },
+    "source_priority": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "value", "unit"],
+        "properties": {
+          "name": { "type": "string" },
+          "previous_value": { "type": ["number", "string", "boolean", "null"] },
+          "value": { "type": ["number", "string", "boolean"] },
+          "unit": { "type": "string" }
+        }
+      }
+    },
+    "announced_at": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "promulgated_at": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "effective_from": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "effective_to": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "grace_period_from": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "grace_period_to": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "grace_period_note": {
+      "type": ["string", "null"]
+    },
+    "recorded_from": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "recorded_to": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "applies_to": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["region_codes", "household_cohorts", "property_types"],
+      "properties": {
+        "region_codes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "region_names": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "household_cohorts": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "property_types": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "exceptions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "mechanisms": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["relation", "target_rule_id"],
+        "properties": {
+          "relation": {
+            "enum": ["AMENDS", "SUPERSEDES", "EXEMPTS", "INTERACTS_WITH"]
+          },
+          "target_rule_id": { "type": "string" },
+          "note": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "url", "authority", "locator", "is_official"],
+      "properties": {
+        "title": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "authority": { "type": "string" },
+        "locator": { "type": "string" },
+        "excerpt": { "type": ["string", "null"] },
+        "is_official": { "type": "boolean" },
+        "content_hash": { "type": ["string", "null"] }
+      }
+    },
+    "verification_status": {
+      "enum": ["verified", "unverified", "conflicted", "synthetic"]
+    }
+  }
+}

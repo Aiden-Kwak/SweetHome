@@ -1,0 +1,271 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://policymap.local/contracts/scenario-result.schema.json",
+  "title": "ScenarioResult",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "scenario_id",
+    "data_status",
+    "model_status",
+    "model_version",
+    "is_investment_advice",
+    "summary",
+    "regions",
+    "cohorts",
+    "causal_paths",
+    "limitations"
+  ],
+  "properties": {
+    "scenario_id": { "type": "string" },
+    "baseline_date": { "type": "string", "format": "date" },
+    "horizon_months": { "type": "integer", "minimum": 0, "maximum": 60 },
+    "data_version": { "type": "string" },
+    "cache_status": {
+      "enum": ["LIVE", "VERIFIED_SNAPSHOT_CACHE", "SYNTHETIC_FIXTURE"]
+    },
+    "data_status": {
+      "enum": ["COMPLETE", "INCOMPLETE", "CONFLICTED", "DEMO_INCOMPLETE"]
+    },
+    "model_status": {
+      "enum": ["VALIDATED", "EXPERIMENTAL", "SYNTHETIC_FIXTURE", "UNAVAILABLE"]
+    },
+    "model_version": { "type": "string" },
+    "is_investment_advice": { "const": false },
+    "trust_dimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_completeness",
+        "data_completeness",
+        "evidence_fitness",
+        "model_reproducibility"
+      ],
+      "properties": {
+        "policy_completeness": { "type": "string" },
+        "data_completeness": { "type": "string" },
+        "evidence_fitness": { "type": "string" },
+        "model_reproducibility": { "type": "string" }
+      }
+    },
+    "summary": { "type": "string" },
+    "regions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "region_code",
+          "region_name",
+          "price_change",
+          "transaction_change",
+          "confidence",
+          "effect_type"
+        ],
+        "properties": {
+          "region_code": { "type": "string" },
+          "region_name": { "type": "string" },
+          "price_change": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["low", "high", "unit"],
+            "properties": {
+              "low": { "type": "number" },
+              "median": { "type": "number" },
+              "high": { "type": "number" },
+              "ci80_low": { "type": "number" },
+              "ci80_high": { "type": "number" },
+              "unit": { "type": "string" }
+            }
+          },
+          "transaction_change": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["low", "high", "unit"],
+            "properties": {
+              "low": { "type": "number" },
+              "median": { "type": "number" },
+              "high": { "type": "number" },
+              "ci80_low": { "type": "number" },
+              "ci80_high": { "type": "number" },
+              "unit": { "type": "string" }
+            }
+          },
+          "mortgage_limit_change": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["low", "high", "unit"],
+            "properties": {
+              "low": { "type": "number" },
+              "median": { "type": "number" },
+              "high": { "type": "number" },
+              "ci80_low": { "type": "number" },
+              "ci80_high": { "type": "number" },
+              "unit": { "type": "string" }
+            }
+          },
+          "confidence": { "enum": ["low", "medium", "high"] },
+          "effect_type": { "enum": ["direct", "spillover", "baseline"] },
+          "primary_mechanism": { "type": "string" },
+          "driving_rule_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "supporting_claim_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "related_cohort_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "spillover_from_region_codes": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "cohorts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["cohort_id", "label", "response", "exposure"],
+        "properties": {
+          "cohort_id": { "type": "string" },
+          "label": { "type": "string" },
+          "response": { "type": "string" },
+          "exposure": { "type": "number", "minimum": 0, "maximum": 1 },
+          "purchasing_power_before": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["low", "high", "unit"],
+            "properties": {
+              "low": { "type": "number" },
+              "median": { "type": "number" },
+              "high": { "type": "number" },
+              "unit": { "type": "string" }
+            }
+          },
+          "purchasing_power_after": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["low", "high", "unit"],
+            "properties": {
+              "low": { "type": "number" },
+              "median": { "type": "number" },
+              "high": { "type": "number" },
+              "unit": { "type": "string" }
+            }
+          },
+          "max_loan_before_krw": { "type": "number" },
+          "max_loan_after_krw": { "type": "number" },
+          "dsr_before_percent": { "type": "number" },
+          "dsr_after_percent": { "type": "number" },
+          "selectable_regions_before": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "selectable_regions_after": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "action_probabilities_before": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["buy", "sell", "lease", "gift", "wait"],
+            "properties": {
+              "buy": { "type": "number" },
+              "sell": { "type": "number" },
+              "lease": { "type": "number" },
+              "gift": { "type": "number" },
+              "wait": { "type": "number" }
+            }
+          },
+          "action_probabilities_after": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["buy", "sell", "lease", "gift", "wait"],
+            "properties": {
+              "buy": { "type": "number" },
+              "sell": { "type": "number" },
+              "lease": { "type": "number" },
+              "gift": { "type": "number" },
+              "wait": { "type": "number" }
+            }
+          },
+          "dominant_constraint": { "type": "string" },
+          "assumptions": { "type": "string" },
+          "related_region_codes": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "driving_rule_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "supporting_claim_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "causal_paths": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "array",
+        "minItems": 2,
+        "items": { "type": "string" }
+      }
+    },
+    "structured_causal_chains": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["node_id", "stage", "label"],
+          "properties": {
+            "node_id": { "type": "string" },
+            "stage": {
+              "enum": [
+                "policy_rule",
+                "mechanism",
+                "household_behavior",
+                "demand_shift",
+                "regional_outcome"
+              ]
+            },
+            "label": { "type": "string" },
+            "detail": { "type": "string" },
+            "is_uncertain": { "type": "boolean" },
+            "rule_id": { "type": "string" },
+            "claim_ids": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "data_fields": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "relevant_claim_ids": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    }
+  }
+}

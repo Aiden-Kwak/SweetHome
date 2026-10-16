@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://policymap.local/contracts/policy-snapshot.schema.json",
+  "title": "PolicySnapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "snapshot_id",
+    "as_of",
+    "as_of_date",
+    "region",
+    "region_code",
+    "data_status",
+    "is_investment_advice",
+    "coverage",
+    "rules",
+    "missing_requirements"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "snapshot_id": { "type": "string" },
+    "package_title": { "type": "string" },
+    "as_of": { "type": "string", "format": "date" },
+    "as_of_date": { "type": "string", "format": "date" },
+    "region": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "name"],
+      "properties": {
+        "code": { "type": "string" },
+        "name": { "type": "string" }
+      }
+    },
+    "region_code": { "type": "string" },
+    "data_status": {
+      "enum": ["COMPLETE", "INCOMPLETE", "CONFLICTED", "DEMO_INCOMPLETE"]
+    },
+    "is_investment_advice": { "const": false },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "policy_coverage",
+        "evidence_coverage",
+        "limitations",
+        "verified_rules",
+        "required_rules"
+      ],
+      "properties": {
+        "status": {
+          "enum": ["COMPLETE", "INCOMPLETE", "CONFLICTED", "DEMO_INCOMPLETE"]
+        },
+        "policy_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "evidence_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "limitations": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "verified_rules": { "type": "integer", "minimum": 0 },
+        "required_rules": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "document_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "document_id",
+        "filename",
+        "format",
+        "authority",
+        "announced_at",
+        "document_hash",
+        "extraction_status",
+        "cache_status"
+      ],
+      "properties": {
+        "document_id": { "type": "string" },
+        "filename": { "type": "string" },
+        "format": { "enum": ["TEXT", "PDF", "HWPX", "HWP"] },
+        "authority": { "type": "string" },
+        "announced_at": { "type": "string", "format": "date" },
+        "document_hash": { "type": "string" },
+        "extraction_status": { "type": "string" },
+        "cache_status": { "type": "string" }
+      }
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "./policy-rule.schema.json"
+      }
+    },
+    "missing_requirements": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: infra/cloudrun/api.Dockerfile
+    environment:
+      POLICYMAP_ALLOWED_ORIGINS: http://localhost:5173
+      POLICYMAP_FIXTURE_DIR: /app/data/fixtures
+    ports:
+      - "8000:8080"
+
+  web:
+    build:
+      context: .
+      dockerfile: infra/cloudrun/web.Dockerfile
+      args:
+        VITE_API_URL: http://localhost:8000
+    ports:
+      - "5173:8080"
+    depends_on:
+      - api

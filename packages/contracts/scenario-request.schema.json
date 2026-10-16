@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://policymap.local/schemas/scenario-request.schema.json",
+  "title": "ScenarioRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["baseline_date", "region_code", "horizon_months", "change_ids"],
+  "properties": {
+    "baseline_date": {"type": "string", "format": "date"},
+    "region_code": {"type": "string"},
+    "horizon_months": {"type": "integer", "minimum": 1, "maximum": 60},
+    "change_ids": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "allow_demo": {"type": "boolean", "default": false}
+  }
+}

@@ -1,0 +1,907 @@
+{
+  "scenario_id": "demo_scenario_gangnam_6m",
+  "baseline_date": "2025-06-28",
+  "horizon_months": 6,
+  "data_version": "demo_v2025.06.28",
+  "cache_status": "VERIFIED_SNAPSHOT_CACHE",
+  "data_status": "DEMO_INCOMPLETE",
+  "model_status": "SYNTHETIC_FIXTURE",
+  "model_version": "synthetic-0.1.0",
+  "is_investment_advice": false,
+  "trust_dimensions": {
+    "policy_completeness": "DEMO_INCOMPLETE",
+    "data_completeness": "DEMO_INCOMPLETE",
+    "evidence_fitness": "PARTIAL",
+    "model_reproducibility": "SYNTHETIC_FIXTURE"
+  },
+  "summary": "인터페이스 검증용 합성 시나리오입니다. 강남구, 서초구, 송파구 등 직접 규제 지역은 주담대 6억 원 상한과 토지거래허가 실거주 의무가 결합되어 단기 거래량이 먼저 위축되고 매매가격 하방 압력이 나타나며, 성동구, 마포구, 분당구, 과천시 등 인접 비규제 대체지와 노원구 등 정책대출 적격 권역으로 수요 일부가 전이되는 조건부 경로를 보여줍니다.",
+  "regions": [
+    {
+      "region_code": "11680",
+      "region_name": "서울 강남구",
+      "price_change": {
+        "low": -2.1,
+        "median": -1.4,
+        "high": -0.7,
+        "ci80_low": -2.6,
+        "ci80_high": -0.3,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "transaction_change": {
+        "low": -22.0,
+        "median": -15.5,
+        "high": -9.0,
+        "ci80_low": -28.0,
+        "ci80_high": -6.0,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "mortgage_limit_change": {
+        "low": -38.0,
+        "median": -31.0,
+        "high": -24.0,
+        "ci80_low": -42.0,
+        "ci80_high": -18.0,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "confidence": "low",
+      "effect_type": "direct",
+      "primary_mechanism": "주담대 6억 상한 및 토지거래허가 2년 실거주 결합",
+      "driving_rule_ids": [
+        "demo_rule_mortgage_cap",
+        "demo_rule_land_permit",
+        "demo_rule_stress_dsr_phase3"
+      ],
+      "supporting_claim_ids": [
+        "CL-KDI23-LTP-VOLUME-DIRECT",
+        "CL-KDI23-LTP-PRICE-DIRECT",
+        "CL-BOK16-DTI-PRICE-TIGHTEN",
+        "CL-KDI22-LTV-PRICE-LONGRUN"
+      ],
+      "related_cohort_ids": [
+        "demo_cohort_high_dsr",
+        "demo_cohort_one_home_mover",
+        "demo_cohort_cash_rich"
+      ],
+      "spillover_from_region_codes": []
+    },
+    {
+      "region_code": "11650",
+      "region_name": "서울 서초구",
+      "price_change": {
+        "low": -1.9,
+        "median": -1.2,
+        "high": -0.5,
+        "ci80_low": -2.4,
+        "ci80_high": -0.2,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "transaction_change": {
+        "low": -20.5,
+        "median": -14.0,
+        "high": -8.0,
+        "ci80_low": -25.0,
+        "ci80_high": -5.0,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "mortgage_limit_change": {
+        "low": -36.0,
+        "median": -29.5,
+        "high": -22.0,
+        "ci80_low": -40.0,
+        "ci80_high": -17.0,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "confidence": "low",
+      "effect_type": "direct",
+      "primary_mechanism": "고가주택 주담대 상한 및 실거주 의무 직접 적용",
+      "driving_rule_ids": [
+        "demo_rule_mortgage_cap",
+        "demo_rule_land_permit",
+        "demo_rule_stress_dsr_phase3"
+      ],
+      "supporting_claim_ids": [
+        "CL-KDI23-LTP-VOLUME-DIRECT",
+        "CL-KDI23-LTP-PRICE-DIRECT",
+        "CL-BOK16-DTI-PRICE-TIGHTEN"
+      ],
+      "related_cohort_ids": [
+        "demo_cohort_high_dsr",
+        "demo_cohort_one_home_mover",
+        "demo_cohort_cash_rich"
+      ],
+      "spillover_from_region_codes": []
+    },
+    {
+      "region_code": "11710",
+      "region_name": "서울 송파구",
+      "price_change": {
+        "low": -1.6,
+        "median": -1.0,
+        "high": -0.3,
+        "ci80_low": -2.1,
+        "ci80_high": 0.1,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "transaction_change": {
+        "low": -18.5,
+        "median": -12.8,
+        "high": -7.2,
+        "ci80_low": -23.0,
+        "ci80_high": -4.5,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "mortgage_limit_change": {
+        "low": -32.0,
+        "median": -25.5,
+        "high": -19.0,
+        "ci80_low": -36.0,
+        "ci80_high": -15.0,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "confidence": "low",
+      "effect_type": "direct",
+      "primary_mechanism": "토지거래허가 실거주 제약 및 갈아타기 처분 기한 단축",
+      "driving_rule_ids": [
+        "demo_rule_mortgage_cap",
+        "demo_rule_land_permit",
+        "demo_rule_one_home_disposal_deadline"
+      ],
+      "supporting_claim_ids": [
+        "CL-KDI23-LTP-VOLUME-DIRECT",
+        "CL-KDI23-LTP-PRICE-DIRECT",
+        "CL-BOK25-MPP-PREEMPTIVE-LOAN"
+      ],
+      "related_cohort_ids": [
+        "demo_cohort_high_dsr",
+        "demo_cohort_one_home_mover"
+      ],
+      "spillover_from_region_codes": []
+    },
+    {
+      "region_code": "11200",
+      "region_name": "서울 성동구",
+      "price_change": {
+        "low": 0.3,
+        "median": 0.8,
+        "high": 1.4,
+        "ci80_low": -0.1,
+        "ci80_high": 1.8,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "transaction_change": {
+        "low": 1.5,
+        "median": 4.8,
+        "high": 8.2,
+        "ci80_low": -1.0,
+        "ci80_high": 11.0,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "mortgage_limit_change": {
+        "low": -21.0,
+        "median": -16.0,
+        "high": -11.0,
+        "ci80_low": -25.0,
+        "ci80_high": -8.0,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "confidence": "low",
+      "effect_type": "spillover",
+      "primary_mechanism": "토지거래허가 비지정 인접 권역으로의 매수 및 갭투자 대체 이동",
+      "driving_rule_ids": [
+        "demo_rule_land_permit",
+        "demo_rule_mortgage_cap"
+      ],
+      "supporting_claim_ids": [
+        "CL-KDI23-LTP-PRICE-SPILLOVER",
+        "CL-BOK25HH-LEAKAGE"
+      ],
+      "related_cohort_ids": [
+        "demo_cohort_one_home_mover",
+        "demo_cohort_cash_rich"
+      ],
+      "spillover_from_region_codes": ["11680", "11650"]
+    },
+    {
+      "region_code": "11440",
+      "region_name": "서울 마포구",
+      "price_change": {
+        "low": 0.2,
+        "median": 0.7,
+        "high": 1.2,
+        "ci80_low": -0.2,
+        "ci80_high": 1.6,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "transaction_change": {
+        "low": 1.0,
+        "median": 4.2,
+        "high": 7.5,
+        "ci80_low": -1.5,
+        "ci80_high": 10.0,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "mortgage_limit_change": {
+        "low": -19.0,
+        "median": -14.5,
+        "high": -10.0,
+        "ci80_low": -23.0,
+        "ci80_high": -7.0,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "confidence": "low",
+      "effect_type": "spillover",
+      "primary_mechanism": "도심 직주근접 대체지 풍선효과 및 갈아타기 수요 유입",
+      "driving_rule_ids": [
+        "demo_rule_land_permit",
+        "demo_rule_one_home_disposal_deadline"
+      ],
+      "supporting_claim_ids": [
+        "CL-KDI23-LTP-PRICE-SPILLOVER",
+        "CL-BOK25HH-MPP-HETEROGENEITY"
+      ],
+      "related_cohort_ids": [
+        "demo_cohort_one_home_mover",
+        "demo_cohort_cash_rich"
+      ],
+      "spillover_from_region_codes": ["11680", "11650"]
+    },
+    {
+      "region_code": "11740",
+      "region_name": "서울 강동구",
+      "price_change": {
+        "low": 0.2,
+        "median": 0.6,
+        "high": 1.1,
+        "ci80_low": -0.2,
+        "ci80_high": 1.5,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "transaction_change": {
+        "low": 0.8,
+        "median": 3.9,
+        "high": 6.8,
+        "ci80_low": -1.8,
+        "ci80_high": 9.2,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "mortgage_limit_change": {
+        "low": -17.0,
+        "median": -13.0,
+        "high": -9.0,
+        "ci80_low": -20.0,
+        "ci80_high": -6.0,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "confidence": "low",
+      "effect_type": "spillover",
+      "primary_mechanism": "송파구 인접 비허가구역 대체 매수 및 6억 한도 내 차입 이동",
+      "driving_rule_ids": [
+        "demo_rule_land_permit",
+        "demo_rule_mortgage_cap"
+      ],
+      "supporting_claim_ids": [
+        "CL-KDI23-LTP-PRICE-SPILLOVER",
+        "CL-BOK25HH-LEAKAGE"
+      ],
+      "related_cohort_ids": [
+        "demo_cohort_one_home_mover",
+        "demo_cohort_high_dsr"
+      ],
+      "spillover_from_region_codes": ["11710"]
+    },
+    {
+      "region_code": "41135",
+      "region_name": "경기 성남시 분당구",
+      "price_change": {
+        "low": 0.1,
+        "median": 0.5,
+        "high": 1.0,
+        "ci80_low": -0.3,
+        "ci80_high": 1.4,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "transaction_change": {
+        "low": -1.5,
+        "median": 2.4,
+        "high": 5.8,
+        "ci80_low": -4.0,
+        "ci80_high": 8.0,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "mortgage_limit_change": {
+        "low": -24.0,
+        "median": -18.5,
+        "high": -13.0,
+        "ci80_low": -28.0,
+        "ci80_high": -10.0,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "confidence": "low",
+      "effect_type": "spillover",
+      "primary_mechanism": "강남권 토지거래허가 회피 수요 유입과 주담대 6억 상한의 상충",
+      "driving_rule_ids": [
+        "demo_rule_land_permit",
+        "demo_rule_mortgage_cap",
+        "demo_rule_stress_dsr_phase3"
+      ],
+      "supporting_claim_ids": [
+        "CL-KDI23-LTP-PRICE-SPILLOVER",
+        "CL-BOK16-DTI-PRICE-TIGHTEN"
+      ],
+      "related_cohort_ids": [
+        "demo_cohort_one_home_mover",
+        "demo_cohort_cash_rich"
+      ],
+      "spillover_from_region_codes": ["11680", "11710"]
+    },
+    {
+      "region_code": "41290",
+      "region_name": "경기 과천시",
+      "price_change": {
+        "low": 0.1,
+        "median": 0.6,
+        "high": 1.1,
+        "ci80_low": -0.4,
+        "ci80_high": 1.5,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "transaction_change": {
+        "low": -2.0,
+        "median": 2.1,
+        "high": 5.5,
+        "ci80_low": -4.5,
+        "ci80_high": 7.8,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "mortgage_limit_change": {
+        "low": -26.0,
+        "median": -20.0,
+        "high": -14.0,
+        "ci80_low": -30.0,
+        "ci80_high": -11.0,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "confidence": "low",
+      "effect_type": "spillover",
+      "primary_mechanism": "서초구 인접 대체 수요 유입 및 고가 신축 단지 대출 상한 제약",
+      "driving_rule_ids": [
+        "demo_rule_land_permit",
+        "demo_rule_mortgage_cap"
+      ],
+      "supporting_claim_ids": [
+        "CL-KDI23-LTP-PRICE-SPILLOVER",
+        "CL-BOK25HH-MPP-HETEROGENEITY"
+      ],
+      "related_cohort_ids": [
+        "demo_cohort_cash_rich",
+        "demo_cohort_one_home_mover"
+      ],
+      "spillover_from_region_codes": ["11650", "11680"]
+    },
+    {
+      "region_code": "41450",
+      "region_name": "경기 하남시",
+      "price_change": {
+        "low": 0.2,
+        "median": 0.5,
+        "high": 0.9,
+        "ci80_low": -0.2,
+        "ci80_high": 1.3,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "transaction_change": {
+        "low": 0.5,
+        "median": 3.4,
+        "high": 6.2,
+        "ci80_low": -1.5,
+        "ci80_high": 8.5,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "mortgage_limit_change": {
+        "low": -14.0,
+        "median": -10.5,
+        "high": -7.0,
+        "ci80_low": -17.0,
+        "ci80_high": -4.5,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "confidence": "low",
+      "effect_type": "spillover",
+      "primary_mechanism": "송파 및 강동권 실수요자의 주담대 6억 한도 내 준신축 대체 이동",
+      "driving_rule_ids": [
+        "demo_rule_mortgage_cap",
+        "demo_rule_stress_dsr_phase3",
+        "demo_rule_policy_loan_exception"
+      ],
+      "supporting_claim_ids": [
+        "CL-KDI23-LTP-PRICE-SPILLOVER",
+        "CL-BOK25HH-POLICYLOAN"
+      ],
+      "related_cohort_ids": [
+        "demo_cohort_newlywed_non_owner",
+        "demo_cohort_high_dsr"
+      ],
+      "spillover_from_region_codes": ["11710", "11740"]
+    },
+    {
+      "region_code": "11350",
+      "region_name": "서울 노원구",
+      "price_change": {
+        "low": 0.1,
+        "median": 0.4,
+        "high": 0.8,
+        "ci80_low": -0.2,
+        "ci80_high": 1.1,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "transaction_change": {
+        "low": 1.2,
+        "median": 4.5,
+        "high": 7.8,
+        "ci80_low": -0.8,
+        "ci80_high": 10.2,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "mortgage_limit_change": {
+        "low": -6.0,
+        "median": -3.5,
+        "high": -1.0,
+        "ci80_low": -8.5,
+        "ci80_high": 0.0,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "confidence": "low",
+      "effect_type": "spillover",
+      "primary_mechanism": "9억 원 이하 정책모기지 우대 유지에 따른 무주택 신혼부부 실수요 유입",
+      "driving_rule_ids": [
+        "demo_rule_policy_loan_exception",
+        "demo_rule_stress_dsr_phase3"
+      ],
+      "supporting_claim_ids": [
+        "CL-BOK25HH-POLICYLOAN",
+        "CL-BOK25HH-LEAKAGE"
+      ],
+      "related_cohort_ids": [
+        "demo_cohort_newlywed_non_owner",
+        "demo_cohort_high_dsr"
+      ],
+      "spillover_from_region_codes": ["11200", "11440"]
+    },
+    {
+      "region_code": "28185",
+      "region_name": "인천 연수구",
+      "price_change": {
+        "low": -0.2,
+        "median": 0.2,
+        "high": 0.6,
+        "ci80_low": -0.5,
+        "ci80_high": 0.9,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "transaction_change": {
+        "low": -0.5,
+        "median": 2.0,
+        "high": 4.6,
+        "ci80_low": -2.5,
+        "ci80_high": 6.5,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "mortgage_limit_change": {
+        "low": -8.0,
+        "median": -5.0,
+        "high": -2.0,
+        "ci80_low": -10.5,
+        "ci80_high": -0.5,
+        "unit": "percent_vs_demo_baseline"
+      },
+      "confidence": "low",
+      "effect_type": "baseline",
+      "primary_mechanism": "스트레스 DSR 3단계 적용 및 정책모기지 적격 수요의 완만한 균형",
+      "driving_rule_ids": [
+        "demo_rule_stress_dsr_phase3",
+        "demo_rule_policy_loan_exception"
+      ],
+      "supporting_claim_ids": [
+        "CL-BOK25HH-POLICYLOAN",
+        "CL-BOK22-DSR-CONSUMPTION-AVG"
+      ],
+      "related_cohort_ids": [
+        "demo_cohort_newlywed_non_owner"
+      ],
+      "spillover_from_region_codes": []
+    }
+  ],
+  "cohorts": [
+    {
+      "cohort_id": "demo_cohort_newlywed_non_owner",
+      "label": "무주택 신혼부부 (정책대출 적격 실수요)",
+      "response": "주택가액 9억 원 이하 정책모기지 우대가 유지되어 노원구, 하남시, 인천 연수구 등 중저가 권역으로 매수 탐색을 집중하며, 9억 원 초과 단지에 대해서는 관망 비중이 높아집니다.",
+      "exposure": 0.42,
+      "purchasing_power_before": {
+        "low": 7.8,
+        "median": 8.5,
+        "high": 9.2,
+        "unit": "eok_krw"
+      },
+      "purchasing_power_after": {
+        "low": 7.5,
+        "median": 8.2,
+        "high": 8.9,
+        "unit": "eok_krw"
+      },
+      "max_loan_before_krw": 500000000,
+      "max_loan_after_krw": 480000000,
+      "dsr_before_percent": 31.5,
+      "dsr_after_percent": 33.0,
+      "selectable_regions_before": [
+        "서울 노원구",
+        "서울 강동구",
+        "경기 하남시",
+        "인천 연수구"
+      ],
+      "selectable_regions_after": [
+        "서울 노원구",
+        "경기 하남시",
+        "인천 연수구"
+      ],
+      "action_probabilities_before": {
+        "buy": 0.46,
+        "sell": 0.0,
+        "lease": 0.30,
+        "gift": 0.0,
+        "wait": 0.24
+      },
+      "action_probabilities_after": {
+        "buy": 0.44,
+        "sell": 0.0,
+        "lease": 0.31,
+        "gift": 0.0,
+        "wait": 0.25
+      },
+      "dominant_constraint": "정책모기지 주택가액 상한(9억 원 이하) 구속",
+      "assumptions": "부부 합산 연소득 8,500만 원, 보유 현금 3.4억 원, 무주택 세대주 기준",
+      "related_region_codes": ["11350", "41450", "28185", "11740"],
+      "driving_rule_ids": [
+        "demo_rule_policy_loan_exception",
+        "demo_rule_stress_dsr_phase3"
+      ],
+      "supporting_claim_ids": [
+        "CL-BOK25HH-POLICYLOAN",
+        "CL-KDI23-LEASE-DEPOSIT-SEOUL"
+      ]
+    },
+    {
+      "cohort_id": "demo_cohort_high_dsr",
+      "label": "고DSR 실수요자 (차입 의존 매수층)",
+      "response": "수도권 주담대 6억 원 상한과 스트레스 DSR 3단계(1.50%p 가산)가 동시에 작동해 대출 가능액이 크게 줄어들고, 매수 보류(관망) 또는 외곽 대체지 이동과 비필수 소비 조정이 발생합니다.",
+      "exposure": 0.84,
+      "purchasing_power_before": {
+        "low": 12.5,
+        "median": 13.8,
+        "high": 15.0,
+        "unit": "eok_krw"
+      },
+      "purchasing_power_after": {
+        "low": 9.8,
+        "median": 10.6,
+        "high": 11.4,
+        "unit": "eok_krw"
+      },
+      "max_loan_before_krw": 840000000,
+      "max_loan_after_krw": 560000000,
+      "dsr_before_percent": 38.5,
+      "dsr_after_percent": 40.0,
+      "selectable_regions_before": [
+        "서울 강남구",
+        "서울 송파구",
+        "서울 성동구",
+        "서울 마포구",
+        "서울 강동구"
+      ],
+      "selectable_regions_after": [
+        "서울 강동구",
+        "경기 하남시",
+        "서울 노원구"
+      ],
+      "action_probabilities_before": {
+        "buy": 0.52,
+        "sell": 0.0,
+        "lease": 0.22,
+        "gift": 0.0,
+        "wait": 0.26
+      },
+      "action_probabilities_after": {
+        "buy": 0.21,
+        "sell": 0.0,
+        "lease": 0.31,
+        "gift": 0.0,
+        "wait": 0.48
+      },
+      "dominant_constraint": "차주단위 DSR 40% (스트레스 금리 1.50%p) 및 주담대 6억 상한 동시 구속",
+      "assumptions": "연소득 1억 2,000만 원, 기존 신용대출 6,000만 원, 보유 현금 5.0억 원 기준 (DSR 1%p 상승 시 연간 소비 -0.37% 압력 병행)",
+      "related_region_codes": ["11680", "11710", "11740", "41450", "11350"],
+      "driving_rule_ids": [
+        "demo_rule_mortgage_cap",
+        "demo_rule_stress_dsr_phase3"
+      ],
+      "supporting_claim_ids": [
+        "CL-BOK16-DTI-PRICE-TIGHTEN",
+        "CL-BOK22-DSR-CONSUMPTION-AVG",
+        "CL-BOK22-DEBT-CONSUMPTION-NONLINEAR",
+        "CL-BOK25HH-LEAKAGE"
+      ]
+    },
+    {
+      "cohort_id": "demo_cohort_one_home_mover",
+      "label": "1주택 갈아타기 가구 (상급지 이동 추진층)",
+      "response": "기존 주택 처분 기한이 2년에서 6개월로 단축되고 강남권 주담대 상한(6억 원) 및 토지거래허가 실거주 요건이 강화되면서, 성동구, 마포구, 분당구 등 비허가 인접 권역으로 목표지를 변경하거나 매도를 지연합니다.",
+      "exposure": 0.68,
+      "purchasing_power_before": {
+        "low": 16.5,
+        "median": 18.0,
+        "high": 19.5,
+        "unit": "eok_krw"
+      },
+      "purchasing_power_after": {
+        "low": 14.0,
+        "median": 15.2,
+        "high": 16.4,
+        "unit": "eok_krw"
+      },
+      "max_loan_before_krw": 850000000,
+      "max_loan_after_krw": 600000000,
+      "dsr_before_percent": 34.0,
+      "dsr_after_percent": 37.5,
+      "selectable_regions_before": [
+        "서울 강남구",
+        "서울 서초구",
+        "서울 송파구",
+        "서울 성동구",
+        "경기 성남시 분당구"
+      ],
+      "selectable_regions_after": [
+        "서울 성동구",
+        "서울 마포구",
+        "경기 성남시 분당구",
+        "서울 강동구"
+      ],
+      "action_probabilities_before": {
+        "buy": 0.44,
+        "sell": 0.34,
+        "lease": 0.04,
+        "gift": 0.02,
+        "wait": 0.16
+      },
+      "action_probabilities_after": {
+        "buy": 0.26,
+        "sell": 0.22,
+        "lease": 0.08,
+        "gift": 0.03,
+        "wait": 0.41
+      },
+      "dominant_constraint": "주담대 6억 원 상한 및 기존 주택 6개월 내 처분 및 전입 약정",
+      "assumptions": "순자산 9.2억 원(기존 주택 매각 대금 포함), 연소득 1억 4,000만 원 기준",
+      "related_region_codes": ["11680", "11710", "11200", "11440", "41135", "11740"],
+      "driving_rule_ids": [
+        "demo_rule_mortgage_cap",
+        "demo_rule_one_home_disposal_deadline",
+        "demo_rule_land_permit"
+      ],
+      "supporting_claim_ids": [
+        "CL-KDI23-LTP-PRICE-SPILLOVER",
+        "CL-KDI23-LTP-VOLUME-DIRECT",
+        "CL-BOK25-MPP-PREEMPTIVE-LOAN"
+      ]
+    },
+    {
+      "cohort_id": "demo_cohort_cash_rich",
+      "label": "현금 비중이 높은 다주택자 및 자산가",
+      "response": "대출 한도 축소의 직접 구속은 낮으나, 토지거래허가구역 내 2년 실거주 의무로 전세 끼고 매수(갭투자)가 차단되어 성동구, 마포구, 과천시 등 인접 비허가 지역으로 매수를 전환하거나 장기 보유 및 증여를 검토합니다.",
+      "exposure": 0.34,
+      "purchasing_power_before": {
+        "low": 22.0,
+        "median": 25.0,
+        "high": 28.0,
+        "unit": "eok_krw"
+      },
+      "purchasing_power_after": {
+        "low": 20.5,
+        "median": 23.0,
+        "high": 25.5,
+        "unit": "eok_krw"
+      },
+      "max_loan_before_krw": 400000000,
+      "max_loan_after_krw": 200000000,
+      "dsr_before_percent": 18.0,
+      "dsr_after_percent": 19.5,
+      "selectable_regions_before": [
+        "서울 강남구",
+        "서울 서초구",
+        "서울 송파구",
+        "서울 성동구",
+        "경기 과천시"
+      ],
+      "selectable_regions_after": [
+        "서울 성동구",
+        "서울 마포구",
+        "경기 과천시",
+        "경기 성남시 분당구"
+      ],
+      "action_probabilities_before": {
+        "buy": 0.38,
+        "sell": 0.14,
+        "lease": 0.18,
+        "gift": 0.10,
+        "wait": 0.20
+      },
+      "action_probabilities_after": {
+        "buy": 0.27,
+        "sell": 0.11,
+        "lease": 0.16,
+        "gift": 0.18,
+        "wait": 0.28
+      },
+      "dominant_constraint": "토지거래허가구역 2년 실거주 의무 (전세 승계 갭투자 제한)",
+      "assumptions": "보유 금융자산 및 현금 18억 원 이상, 다주택 보유 세대 기준",
+      "related_region_codes": ["11680", "11650", "11200", "11440", "41290", "41135"],
+      "driving_rule_ids": [
+        "demo_rule_land_permit",
+        "demo_rule_mortgage_cap"
+      ],
+      "supporting_claim_ids": [
+        "CL-KDI23-LTP-PRICE-DIRECT",
+        "CL-KDI23-LTP-PRICE-SPILLOVER",
+        "CL-KDI22-LTV-PRICE-LONGRUN",
+        "CL-KDI22-HOLDINGTAX-PRICE-LONGRUN"
+      ]
+    }
+  ],
+  "causal_paths": [
+    [
+      "주담대 6억 원 상한 및 스트레스 DSR 3단계",
+      "고DSR 및 갈아타기 차주의 유효 대출 가능액 감소",
+      "고가주택 매수 보류 및 관망 비중 확대",
+      "강남구, 서초구, 송파구 거래량 급감 및 단기 가격 조정 압력"
+    ],
+    [
+      "강남권 아파트 토지거래허가구역 2년 실거주 의무",
+      "전세 보증금 승계 매수(갭투자) 차단",
+      "성동구, 마포구, 강동구, 분당구, 과천시 등 인접 비허가 권역으로 수요 이동",
+      "인접 대체지 거래량 및 매매가격 풍선효과 발생"
+    ],
+    [
+      "무주택 신혼부부 정책모기지 9억 원 이하 우대 유지",
+      "중저가 아파트 구간의 실수요 차입 여력 방어",
+      "노원구, 하남시, 인천 연수구 등 적격 단지로 매수 탐색 집중",
+      "비규제 중저가 권역 거래량 및 가격 하방 경직성 유지"
+    ]
+  ],
+  "structured_causal_chains": {
+    "11680": [
+      {
+        "node_id": "node_11680_rule",
+        "stage": "policy_rule",
+        "label": "주담대 6억 상한 및 토지거래허가 실거주 의무",
+        "detail": "수도권 주담대 최대한도 6억 원 제한과 2년 실거주 의무가 강남구 아파트에 동시 적용됩니다.",
+        "is_uncertain": false,
+        "rule_id": "demo_rule_mortgage_cap",
+        "claim_ids": ["CL-KDI23-LTP-VOLUME-DIRECT", "CL-BOK16-DTI-PRICE-TIGHTEN"],
+        "data_fields": ["max_mortgage_amount_krw", "owner_occupancy_years"]
+      },
+      {
+        "node_id": "node_11680_mech",
+        "stage": "mechanism",
+        "label": "차입 가능액 -31% 축소 및 전세 끼고 매수 차단",
+        "detail": "고DSR 실수요자의 구매 가능액이 약 3.2억 원 감소하고 갭투자 진입 요건이 차단됩니다.",
+        "is_uncertain": false,
+        "rule_id": "demo_rule_land_permit",
+        "claim_ids": ["CL-KDI23-LTP-VOLUME-DIRECT", "CL-BOK22-DSR-CONSUMPTION-AVG"],
+        "data_fields": ["borrowing_capacity", "transaction_eligibility"]
+      },
+      {
+        "node_id": "node_11680_cohort",
+        "stage": "household_behavior",
+        "label": "고DSR 차주 관망(+22%p) 및 갈아타기 수요 대안지 이동",
+        "detail": "차입 의존 매수층은 관망으로 전환하고 현금 자산가는 비허가 인접지나 증여를 검토합니다.",
+        "is_uncertain": false,
+        "rule_id": "demo_rule_one_home_disposal_deadline",
+        "claim_ids": ["CL-BOK25HH-MPP-HETEROGENEITY", "CL-KDI22-LTV-PRICE-LONGRUN"],
+        "data_fields": ["action_probabilities_after.wait", "exposure"]
+      },
+      {
+        "node_id": "node_11680_shift",
+        "stage": "demand_shift",
+        "label": "직접 규제 구역 거래량 급감(-22.0% ~ -9.0%)",
+        "detail": "가격 조정보다 거래량 위축이 먼저 크게 나타나며 성동구, 마포구, 분당구로 일부 수요가 유출됩니다.",
+        "is_uncertain": false,
+        "rule_id": "demo_rule_land_permit",
+        "claim_ids": ["CL-KDI23-LTP-VOLUME-DIRECT", "CL-KDI23-LTP-PRICE-SPILLOVER"],
+        "data_fields": ["transaction_change"]
+      },
+      {
+        "node_id": "node_11680_outcome",
+        "stage": "regional_outcome",
+        "label": "서울 강남구 6개월 가격 범위 -2.1% ~ -0.7% (조건부)",
+        "detail": "단기 실증 연구는 하락 압력을 지지하나 장기 일반균형 연구 및 2년차 감쇠 맥락과 상충 가능성이 존재합니다.",
+        "is_uncertain": true,
+        "rule_id": "demo_rule_mortgage_cap",
+        "claim_ids": ["CL-KDI23-LTP-PRICE-DIRECT", "CL-BOK16-DTI-PRICE-TIGHTEN", "CL-KDI22-LTV-PRICE-LONGRUN"],
+        "data_fields": ["price_change", "confidence"]
+      }
+    ],
+    "11200": [
+      {
+        "node_id": "node_11200_rule",
+        "stage": "policy_rule",
+        "label": "강남권 토지거래허가 지정에 따른 인접 비허가 반사 효과",
+        "detail": "성동구는 주담대 6억 상한은 적용받으나 토지거래허가 실거주 의무 대상에서는 제외된 시나리오입니다.",
+        "is_uncertain": false,
+        "rule_id": "demo_rule_land_permit",
+        "claim_ids": ["CL-KDI23-LTP-PRICE-SPILLOVER"],
+        "data_fields": ["owner_occupancy_years"]
+      },
+      {
+        "node_id": "node_11200_mech",
+        "stage": "mechanism",
+        "label": "전세 승계 매수 가능성에 따른 공간적 대체(풍선효과)",
+        "detail": "실거주 의무를 피하려는 갈아타기 가구와 현금 보유 매수층의 대체 탐색이 유입됩니다.",
+        "is_uncertain": false,
+        "rule_id": "demo_rule_land_permit",
+        "claim_ids": ["CL-KDI23-LTP-PRICE-SPILLOVER", "CL-BOK25HH-LEAKAGE"],
+        "data_fields": ["spatial_substitution"]
+      },
+      {
+        "node_id": "node_11200_cohort",
+        "stage": "household_behavior",
+        "label": "1주택 갈아타기 및 현금 다주택자 목표 지역 전환",
+        "detail": "강남권 진입이 막힌 상급지 이동 가구가 성동구 및 마포구 준신축 단지를 대안으로 선택합니다.",
+        "is_uncertain": false,
+        "rule_id": "demo_rule_one_home_disposal_deadline",
+        "claim_ids": ["CL-BOK25HH-MPP-HETEROGENEITY"],
+        "data_fields": ["selectable_regions_after"]
+      },
+      {
+        "node_id": "node_11200_shift",
+        "stage": "demand_shift",
+        "label": "인접 대체지 거래량 완만한 증가(+1.5% ~ +8.2%)",
+        "detail": "주담대 6억 상한이 상단을 제약하지만 비허가 풍선효과가 유입되며 거래량이 방어됩니다.",
+        "is_uncertain": true,
+        "rule_id": "demo_rule_mortgage_cap",
+        "claim_ids": ["CL-KDI23-LTP-PRICE-SPILLOVER"],
+        "data_fields": ["transaction_change"]
+      },
+      {
+        "node_id": "node_11200_outcome",
+        "stage": "regional_outcome",
+        "label": "서울 성동구 6개월 가격 범위 +0.3% ~ +1.4% (전이 경로)",
+        "detail": "KDI 2023년 인접 비규제 풍선효과(+2.3%)와 KDI 2025년 대체지 확산 해설을 반영한 조건부 범위입니다.",
+        "is_uncertain": true,
+        "rule_id": "demo_rule_land_permit",
+        "claim_ids": ["CL-KDI23-LTP-PRICE-SPILLOVER"],
+        "data_fields": ["price_change"]
+      }
+    ]
+  },
+  "relevant_claim_ids": [
+    "CL-KDI23-LTP-VOLUME-DIRECT",
+    "CL-KDI23-LTP-PRICE-DIRECT",
+    "CL-KDI23-LTP-PRICE-SPILLOVER",
+    "CL-BOK16-DTI-PRICE-TIGHTEN",
+    "CL-BOK16-LTV-PRICE-TIGHTEN",
+    "CL-KDI22-LTV-LOAN-LONGRUN",
+    "CL-KDI22-LTV-PRICE-LONGRUN",
+    "CL-BOK25-RATE-PRICE-12M",
+    "CL-BOK25-MPP-PREEMPTIVE-LOAN",
+    "CL-BOK25-MPP-DELAYED-LOAN",
+    "CL-BOK25HH-MPP-HETEROGENEITY",
+    "CL-BOK25HH-LEAKAGE",
+    "CL-BOK25HH-POLICYLOAN",
+    "CL-BOK22-DSR-CONSUMPTION-AVG",
+    "CL-BOK22-DEBT-CONSUMPTION-NONLINEAR"
+  ],
+  "limitations": [
+    "이 결과는 백테스트되지 않은 합성 데모 픽스처이며 실제 주택가격 예측치가 아닙니다.",
+    "공식 정책 원문과 실거래 및 금리 시계열이 완전히 연결되지 않았습니다.",
+    "단기 시군구 실증 추정(한국은행 2016, KDI 2023)과 장기 일반균형 모형(KDI 2022) 간 방향성 차이는 평균하지 않고 개별 근거 카드로 분리해 보존합니다."
+  ]
+}

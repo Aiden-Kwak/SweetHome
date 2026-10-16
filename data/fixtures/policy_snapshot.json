@@ -1,0 +1,357 @@
+{
+  "schema_version": "1.1.0",
+  "snapshot_id": "demo_snapshot_2025_06_28_seoul_gangnam",
+  "package_title": "수도권 주택담보대출 관리 강화 및 토지거래허가구역 지정 패키지 (데모 스냅샷)",
+  "as_of": "2025-06-28",
+  "as_of_date": "2025-06-28",
+  "region": {
+    "code": "11680",
+    "name": "서울특별시 강남구"
+  },
+  "region_code": "11680",
+  "data_status": "DEMO_INCOMPLETE",
+  "is_investment_advice": false,
+  "coverage": {
+    "status": "DEMO_INCOMPLETE",
+    "policy_coverage": 0.42,
+    "evidence_coverage": 0.78,
+    "limitations": [
+      "이 스냅샷은 API와 화면 계약을 검증하기 위한 합성 데모 자료이며 실제 투자 자문이 아닙니다.",
+      "금융위원회 및 국토교통부 공식 고시 원문 PDF의 조문별 해시 대조가 완료되지 않았습니다.",
+      "보유세, 취득세, 양도소득세 및 정비사업 공급 규정이 현재 데모 스냅샷에 완전히 연결되지 않았습니다."
+    ],
+    "verified_rules": 0,
+    "required_rules": 5
+  },
+  "document_provenance": {
+    "document_id": "demo_doc_2025_06_27_household_debt",
+    "filename": "20250627_수도권_가계부채_및_토지거래허가_관리방안_고시안.hwpx",
+    "format": "HWPX",
+    "authority": "금융위원회, 국토교통부, 서울특별시 합동",
+    "announced_at": "2025-06-27",
+    "document_hash": "sha256:9c8f4b21e5d3a7014c98e0f12b6a4d7c3e918f02a5b4c6d8e7f1a2b3c4d5e6f7",
+    "extraction_status": "COMPLETED",
+    "cache_status": "VERIFIED_SNAPSHOT_CACHE"
+  },
+  "rules": [
+    {
+      "rule_id": "demo_rule_mortgage_cap",
+      "title": "수도권 및 규제지역 주택구입목적 주담대 최대한도 제한 (합성 예시)",
+      "category": "finance",
+      "change_type": "tightened",
+      "package_id": "demo_pkg_2025_06_debt_and_land",
+      "measure_id": "demo_measure_mortgage_cap",
+      "previous_rule_id": "demo_rule_mortgage_prev_ltv_dsr",
+      "previous_summary": "주택가격 및 LTV(무주택 50~70%), 차주별 DSR 40% 범위 내 별도 정액 상한 없음",
+      "proposed_summary": "수도권 및 규제지역 주택구입목적 주택담보대출 최대한도를 6억 원으로 신설 제한",
+      "impact_priority": 1,
+      "source_priority": 2,
+      "parameters": [
+        {
+          "name": "max_mortgage_amount_krw",
+          "previous_value": "별도 정액 상한 없음 (LTV 및 DSR 비례)",
+          "value": 600000000,
+          "unit": "KRW"
+        }
+      ],
+      "announced_at": "2025-06-27",
+      "promulgated_at": "2025-06-27",
+      "effective_from": "2025-06-28",
+      "effective_to": null,
+      "grace_period_from": "2025-06-27",
+      "grace_period_to": "2025-06-27",
+      "grace_period_note": "2025년 6월 27일 이전 주택 매매계약을 체결하고 계약금을 납부한 차주는 종전 규정 적용",
+      "recorded_from": "2025-06-28T09:00:00Z",
+      "recorded_to": null,
+      "applies_to": {
+        "region_codes": ["11680", "11650", "11710", "11200", "11440", "11740", "41135", "41290"],
+        "region_names": ["서울 강남구", "서울 서초구", "서울 송파구", "서울 성동구", "서울 마포구", "서울 강동구", "경기 성남시 분당구", "경기 과천시"],
+        "household_cohorts": ["high_dsr_end_user", "leveraged_home_buyer", "one_home_mover"],
+        "property_types": ["apartment"]
+      },
+      "exceptions": [
+        "2025년 6월 27일 이전 매매계약 체결 및 계약금 납부 완료 증빙 건 경과조치 적용",
+        "정책성 서민 및 신혼부부 주택구입자금 대출은 별도 한도 산정 기준 적용 (원문 대조 필요)"
+      ],
+      "mechanisms": [
+        "borrowing_capacity",
+        "debt_service_constraint",
+        "buyer_demand"
+      ],
+      "relations": [
+        {
+          "relation": "INTERACTS_WITH",
+          "target_rule_id": "demo_rule_stress_dsr_phase3",
+          "note": "정액 한도(6억 원)와 스트레스 DSR 가산금리가 동시에 작동하여 고가주택 차주의 유효 차입 한도를 이중으로 제약합니다."
+        },
+        {
+          "relation": "EXEMPTS",
+          "target_rule_id": "demo_rule_policy_loan_exception",
+          "note": "정책모기지 적격 무주택 신혼부부는 일반 주담대 정액 한도와 구분된 별도 자격 요건을 적용받습니다."
+        }
+      ],
+      "source": {
+        "title": "PolicyMap Synthetic Fixture (원문 검증 필요)",
+        "url": "https://example.invalid/policymap/demo-fixture/mortgage-cap",
+        "authority": "금융위원회 가계부채 점검회의 보도자료 (합성 대조본)",
+        "locator": "제2장 수도권 주담대 관리 강화 제1항 표1",
+        "excerpt": "수도권 및 규제지역 내 주택구입목적 주택담보대출(집단대출 중 잔금대출 포함)의 최대한도를 6억 원으로 제한한다. 다만 시행일 전 매매계약을 체결한 경우 종전 규정을 적용한다.",
+        "is_official": false,
+        "content_hash": "sha256:9c8f4b21e5d3a7014c98e0f12b6a4d7c3e918f02a5b4c6d8e7f1a2b3c4d5e6f7"
+      },
+      "verification_status": "synthetic"
+    },
+    {
+      "rule_id": "demo_rule_land_permit",
+      "title": "강남권 및 주요 과열권역 아파트 토지거래허가구역 확대 및 실거주 의무 (합성 예시)",
+      "category": "land_use",
+      "change_type": "tightened",
+      "package_id": "demo_pkg_2025_06_debt_and_land",
+      "measure_id": "demo_measure_ltp_expansion",
+      "previous_rule_id": "demo_rule_land_permit_dong_level",
+      "previous_summary": "잠실동, 삼성동, 대치동, 청담동 등 일부 법정동 단위 지정 및 2년 실거주 의무",
+      "proposed_summary": "강남구, 서초구, 송파구 주요 아파트 단지로 허가구역을 확대하고 2년 실거주 및 자금조달계획서 전수 검증 의무 부과",
+      "impact_priority": 2,
+      "source_priority": 2,
+      "parameters": [
+        {
+          "name": "owner_occupancy_years",
+          "previous_value": "비지정 단지 실거주 의무 없음 (지정 법정동만 2년)",
+          "value": 2,
+          "unit": "years"
+        }
+      ],
+      "announced_at": "2025-06-27",
+      "promulgated_at": "2025-06-28",
+      "effective_from": "2025-06-28",
+      "effective_to": "2026-06-27",
+      "grace_period_from": null,
+      "grace_period_to": null,
+      "grace_period_note": "지정 효력 발생일 이후 체결되는 신규 매매계약부터 즉시 구청장 허가 필요",
+      "recorded_from": "2025-06-28T09:00:00Z",
+      "recorded_to": null,
+      "applies_to": {
+        "region_codes": ["11680", "11650", "11710"],
+        "region_names": ["서울 강남구", "서울 서초구", "서울 송파구"],
+        "household_cohorts": ["investor_buyer", "gap_investor", "cash_rich_multi_owner"],
+        "property_types": ["apartment"]
+      },
+      "exceptions": [
+        "대지면적 기준 미달 소형 연립 및 다세대 주택 제외 여부 확인 필요",
+        "기존 임대차 보증금 승계 불가 원칙에 따른 입주 시점 유예 예외 조항 확인 필요"
+      ],
+      "mechanisms": [
+        "transaction_eligibility",
+        "residency_obligation",
+        "investor_demand",
+        "spatial_substitution"
+      ],
+      "relations": [
+        {
+          "relation": "AMENDS",
+          "target_rule_id": "demo_rule_mortgage_cap",
+          "note": "대출 한도 축소와 실거주 의무가 결합되어 전세를 끼고 매수하는 갭투자 경로를 직접 차단하고 인접 비규제 구역으로 대체 수요를 이동시킵니다."
+        }
+      ],
+      "source": {
+        "title": "PolicyMap Synthetic Fixture (원문 검증 필요)",
+        "url": "https://example.invalid/policymap/demo-fixture/land-permit",
+        "authority": "서울특별시 토지거래허가구역 지정 공고 (합성 대조본)",
+        "locator": "공고 제2025-demo호 별표1 대상지역 및 허가기준",
+        "excerpt": "허가구역 내 아파트를 취득하려는 자는 관할 구청장의 허가를 받아야 하며, 취득 후 2년간 자기 거주용으로 이용하여야 한다(전세 끼고 매수 불가).",
+        "is_official": false,
+        "content_hash": "sha256:9c8f4b21e5d3a7014c98e0f12b6a4d7c3e918f02a5b4c6d8e7f1a2b3c4d5e6f7"
+      },
+      "verification_status": "synthetic"
+    },
+    {
+      "rule_id": "demo_rule_stress_dsr_phase3",
+      "title": "수도권 주택담보대출 및 신용대출 스트레스 DSR 3단계 가산금리 상향 (합성 예시)",
+      "category": "finance",
+      "change_type": "tightened",
+      "package_id": "demo_pkg_2025_06_debt_and_land",
+      "measure_id": "demo_measure_stress_dsr",
+      "previous_rule_id": "demo_rule_stress_dsr_phase2",
+      "previous_summary": "수도권 주담대 스트레스 가산금리 1.20%p 적용 (2단계)",
+      "proposed_summary": "수도권 모든 가계대출(주담대 및 신용대출)에 스트레스 가산금리 1.50%p 100% 반영",
+      "impact_priority": 3,
+      "source_priority": 2,
+      "parameters": [
+        {
+          "name": "stress_dsr_add_on_rate_pp",
+          "previous_value": 1.2,
+          "value": 1.5,
+          "unit": "percentage_point"
+        }
+      ],
+      "announced_at": "2025-06-27",
+      "promulgated_at": "2025-06-27",
+      "effective_from": "2025-07-01",
+      "effective_to": null,
+      "grace_period_from": "2025-06-27",
+      "grace_period_to": "2025-06-30",
+      "grace_period_note": "2025년 6월 30일까지 입주자모집공고가 시행된 사업장 및 기체결 매매계약은 2단계 가산금리 적용",
+      "recorded_from": "2025-06-28T09:00:00Z",
+      "recorded_to": null,
+      "applies_to": {
+        "region_codes": ["11680", "11650", "11710", "11200", "11440", "11740", "11350", "41135", "41290", "41450", "28185"],
+        "region_names": ["수도권 전역 (서울, 경기, 인천)"],
+        "household_cohorts": ["high_dsr_end_user", "one_home_mover", "newlywed_non_owner"],
+        "property_types": ["apartment", "non_apartment"]
+      },
+      "exceptions": [
+        "신용대출 잔액 1억 원 이하 차주 및 정책서민금융 상품 제외",
+        "2025년 6월 30일 이전 입주자모집공고 단지 잔금대출 경과조치 적용"
+      ],
+      "mechanisms": [
+        "debt_service_constraint",
+        "borrowing_capacity",
+        "discretionary_consumption_cut"
+      ],
+      "relations": [
+        {
+          "relation": "SUPERSEDES",
+          "target_rule_id": "demo_rule_mortgage_cap",
+          "note": "중저가 아파트 구간에서는 6억 원 정액 상한보다 스트레스 DSR 1.50%p 가산금리가 먼저 차입 한도를 구속합니다."
+        }
+      ],
+      "source": {
+        "title": "PolicyMap Synthetic Fixture (원문 검증 필요)",
+        "url": "https://example.invalid/policymap/demo-fixture/stress-dsr-3",
+        "authority": "금융위원회 거시건전성 감독 규정 안내 (합성 대조본)",
+        "locator": "제3장 스트레스 DSR 3단계 시행세칙 제2조",
+        "excerpt": "수도권 주택담보대출 산정 시 향후 금리 변동 위험을 반영하는 스트레스 금리 1.50%p를 100% 적용하여 차주별 DSR 40% 한도를 산출한다.",
+        "is_official": false,
+        "content_hash": "sha256:9c8f4b21e5d3a7014c98e0f12b6a4d7c3e918f02a5b4c6d8e7f1a2b3c4d5e6f7"
+      },
+      "verification_status": "synthetic"
+    },
+    {
+      "rule_id": "demo_rule_one_home_disposal_deadline",
+      "title": "수도권 1주택 갈아타기 차주의 기존 주택 처분 기한 단축 (합성 예시)",
+      "category": "finance",
+      "change_type": "tightened",
+      "package_id": "demo_pkg_2025_06_debt_and_land",
+      "measure_id": "demo_measure_one_home_disposal",
+      "previous_rule_id": "demo_rule_one_home_disposal_2y",
+      "previous_summary": "신규 주택 담보대출 실행 후 2년 이내 기존 주택 처분 조건",
+      "proposed_summary": "수도권 신규 주택 주담대 실행 후 6개월 이내 기존 주택 처분 및 전입 의무 부과",
+      "impact_priority": 4,
+      "source_priority": 3,
+      "parameters": [
+        {
+          "name": "existing_home_disposal_months",
+          "previous_value": 24,
+          "value": 6,
+          "unit": "months"
+        }
+      ],
+      "announced_at": "2025-06-27",
+      "promulgated_at": "2025-06-27",
+      "effective_from": "2025-06-28",
+      "effective_to": null,
+      "grace_period_from": null,
+      "grace_period_to": null,
+      "grace_period_note": "시행일 이후 신규 대출 신청분부터 즉시 적용",
+      "recorded_from": "2025-06-28T09:00:00Z",
+      "recorded_to": null,
+      "applies_to": {
+        "region_codes": ["11680", "11650", "11710", "11200", "11440", "11740", "41135", "41290"],
+        "region_names": ["수도권 주요 갈아타기 권역"],
+        "household_cohorts": ["one_home_mover"],
+        "property_types": ["apartment"]
+      },
+      "exceptions": [
+        "천재지변 또는 법원 경매 지연 등 불가피한 사유 소명 시 금융회사 심사를 거쳐 예외 인정"
+      ],
+      "mechanisms": [
+        "transaction_eligibility",
+        "borrowing_capacity",
+        "lock_in_and_asset_reallocation"
+      ],
+      "relations": [
+        {
+          "relation": "INTERACTS_WITH",
+          "target_rule_id": "demo_rule_land_permit",
+          "note": "토지거래허가구역 내 거래량 급감과 처분 기한 단축(6개월)이 맞물려 1주택 갈아타기 가구의 매도 지연 위험을 높입니다."
+        }
+      ],
+      "source": {
+        "title": "PolicyMap Synthetic Fixture (원문 검증 필요)",
+        "url": "https://example.invalid/policymap/demo-fixture/one-home-disposal",
+        "authority": "은행연합회 가계대출 자율관리 협약 (합성 대조본)",
+        "locator": "제4조 처분조건부 1주택자 약정 기한",
+        "excerpt": "기존 1주택자가 수도권 내 주택을 추가 취득하기 위하여 주택담보대출을 받는 경우 대출 실행일로부터 6개월 이내에 기존 주택을 처분하여야 한다.",
+        "is_official": false,
+        "content_hash": "sha256:9c8f4b21e5d3a7014c98e0f12b6a4d7c3e918f02a5b4c6d8e7f1a2b3c4d5e6f7"
+      },
+      "verification_status": "synthetic"
+    },
+    {
+      "rule_id": "demo_rule_policy_loan_exception",
+      "title": "무주택 신혼부부 및 출산가구 정책모기지 소득 및 주택가액 우대 유지 (합성 예시)",
+      "category": "finance",
+      "change_type": "unchanged",
+      "package_id": "demo_pkg_2025_06_debt_and_land",
+      "measure_id": "demo_measure_policy_loan_protection",
+      "previous_rule_id": "demo_rule_policy_loan_2024",
+      "previous_summary": "주택가액 6억~9억 원 이하 무주택 신혼 및 출산가구 대상 정책모기지 DSR 산정 특례 유지",
+      "proposed_summary": "일반 주담대 한도 축소에도 불구하고 주택가액 9억 원 이하 무주택 신혼 및 출산가구 정책대출 한도 유지",
+      "impact_priority": 5,
+      "source_priority": 2,
+      "parameters": [
+        {
+          "name": "eligible_home_price_cap_krw",
+          "previous_value": 900000000,
+          "value": 900000000,
+          "unit": "KRW"
+        }
+      ],
+      "announced_at": "2025-06-27",
+      "promulgated_at": "2025-06-27",
+      "effective_from": "2025-06-28",
+      "effective_to": null,
+      "grace_period_from": null,
+      "grace_period_to": null,
+      "grace_period_note": "서민 및 실수요자 보호를 위해 종전 우대 요건 계속 적용",
+      "recorded_from": "2025-06-28T09:00:00Z",
+      "recorded_to": null,
+      "applies_to": {
+        "region_codes": ["11350", "11740", "41450", "28185"],
+        "region_names": ["서울 노원구", "서울 강동구", "경기 하남시", "인천 연수구"],
+        "household_cohorts": ["newlywed_non_owner"],
+        "property_types": ["apartment"]
+      },
+      "exceptions": [
+        "주택가액 9억 원 초과 고가주택 매수 시 정책모기지 대상에서 제외되며 일반 주담대 규제 적용"
+      ],
+      "mechanisms": [
+        "policy_loan_exemption",
+        "borrowing_capacity",
+        "spatial_substitution"
+      ],
+      "relations": [
+        {
+          "relation": "EXEMPTS",
+          "target_rule_id": "demo_rule_stress_dsr_phase3",
+          "note": "한국은행 보고서(EV-BOK-2025-HHDEBT)가 지적한 바와 같이, 일반 주담대 규제 강화 시 정책대출 적격 중저가 권역으로 무주택 가구 수요가 집중될 수 있습니다."
+        }
+      ],
+      "source": {
+        "title": "PolicyMap Synthetic Fixture (원문 검증 필요)",
+        "url": "https://example.invalid/policymap/demo-fixture/policy-loan-exception",
+        "authority": "국토교통부 주택기금과 보도참고자료 (합성 대조본)",
+        "locator": "붙임 2 서민 및 실수요자 정책금융 지원 유지 기준",
+        "excerpt": "무주택 신혼부부 및 신생아 특례 디딤돌 대출 등 정책성 주택구입자금 대출은 실수요 보호를 위해 기존 주택가액 요건(9억 원 이하)과 한도를 유지한다.",
+        "is_official": false,
+        "content_hash": "sha256:9c8f4b21e5d3a7014c98e0f12b6a4d7c3e918f02a5b4c6d8e7f1a2b3c4d5e6f7"
+      },
+      "verification_status": "synthetic"
+    }
+  ],
+  "missing_requirements": [
+    "금융위원회 및 국토교통부 공식 보도자료 원문 PDF의 조문별 해시 대조가 완료되지 않았습니다.",
+    "서울시 구별 및 법정동별 토지거래허가구역 지정 공고문 원문 대조가 필요합니다.",
+    "보유세, 취득세, 양도소득세 및 정비사업 공급 규정이 현재 데모 스냅샷에 완전히 연결되지 않았습니다."
+  ]
+}
