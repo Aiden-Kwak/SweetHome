@@ -1,0 +1,95 @@
+{
+  "scenario_id": "experiment_f9315c39d97875c9",
+  "text_hash": "ebfc3a024445c35d77465bef0c9f49fd1a8c741a66fc123317354b3ec36e2552",
+  "source_url": null,
+  "candidate": {
+    "id": "candidate_bd5c787d3c3e",
+    "extraction_confidence": "unmeasured",
+    "kind": "mortgage_cap",
+    "label": "주택담보대출 한도",
+    "before": 600000000.0,
+    "after": 400000000.0,
+    "unit": "KRW",
+    "quote": "수도권 주택담보대출 한도를 6억 원에서 4억 원으로 변경한다.",
+    "start": 0,
+    "end": 34
+  },
+  "data_status": "INCOMPLETE",
+  "model_status": "EXPERIMENTAL",
+  "model_version": "policy-constraints-v2",
+  "simulation_date": "2026-10-20",
+  "effective_from": null,
+  "hypothetical": true,
+  "applied": true,
+  "assumptions": {
+    "content_text": "수도권 주택담보대출 한도를 6억 원에서 4억 원으로 변경한다.",
+    "source_url": null,
+    "candidate": {
+      "id": "candidate_bd5c787d3c3e",
+      "extraction_confidence": "unmeasured",
+      "kind": "mortgage_cap",
+      "label": "주택담보대출 한도",
+      "before": 600000000.0,
+      "after": 400000000.0,
+      "unit": "KRW",
+      "quote": "수도권 주택담보대출 한도를 6억 원에서 4억 원으로 변경한다.",
+      "start": 0,
+      "end": 34
+    },
+    "reviewed": true,
+    "region_codes": [
+      "11680"
+    ],
+    "households": [
+      {
+        "id": "demo_household",
+        "label": "합성 계산 검증 사례",
+        "eligible": true,
+        "cash_krw": 200000000.0,
+        "financing_need_krw": 700000000.0,
+        "property_price_krw": 900000000.0,
+        "annual_income_krw": 80000000.0,
+        "other_annual_payment_krw": 0.0
+      }
+    ],
+    "effective_from": null,
+    "simulation_date": "2026-10-20",
+    "proposed": false,
+    "hypothetical": true,
+    "annual_rate_percent": 4.0,
+    "loan_years": 30,
+    "price_elasticity": 0.1,
+    "supply_assumptions": []
+  },
+  "households": [
+    {
+      "id": "demo_household",
+      "label": "합성 계산 검증 사례",
+      "eligible": true,
+      "financing_before_krw": 600000000.0,
+      "financing_after_krw": 400000000.0,
+      "budget_before_krw": 800000000.0,
+      "budget_after_krw": 600000000.0,
+      "budget_change_percent": -25.0
+    }
+  ],
+  "regions": [
+    {
+      "code": "11680",
+      "name": "강남구",
+      "assumed_target": true,
+      "price_sensitivity_percent": -2.5,
+      "metric_label": "가격 민감도",
+      "metric_value": -2.5,
+      "metric_unit": "%"
+    }
+  ],
+  "supply": [],
+  "formula": "자금 한도 = min(입력한 대출한도, 가구의 자금 수요)",
+  "limitations": [
+    "선택한 단일 규칙과 직접 입력한 적용 대상, 시행 조건을 비교하는 시나리오입니다.",
+    "입력 가정 기반 민감도이며 실제 가격 전망이나 통계적 신뢰구간과 구분합니다.",
+    "가구 입력값은 모집단 통계가 아닌 비교용 프로필입니다. 예산 변화는 프로필의 단순평균이며, 동일한 입력의 지역은 동일한 결과를 갖습니다.",
+    "대출은 선택한 규칙의 상한, 전세보증은 보증 범위를 비교합니다. 다른 대출 규제와 승인 심사는 별도입니다."
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "document_hash": "ebfc3a024445c35d77465bef0c9f49fd1a8c741a66fc123317354b3ec36e2552",
+  "text_hash": "ebfc3a024445c35d77465bef0c9f49fd1a8c741a66fc123317354b3ec36e2552",
+  "filename": "pasted-text.txt",
+  "source_url": null,
+  "extracted_at": "2026-10-16T04:28:52.325119Z",
+  "engine": "RULE_BASED_V1",
+  "status": "REVIEW_REQUIRED",
+  "content_text": "수도권 주택담보대출 한도를 6억 원에서 4억 원으로 변경한다.",
+  "candidates": [
+    {
+      "id": "candidate_bd5c787d3c3e",
+      "kind": "mortgage_cap",
+      "label": "주택담보대출 한도",
+      "before": 600000000,
+      "after": 400000000,
+      "unit": "KRW",
+      "quote": "수도권 주택담보대출 한도를 6억 원에서 4억 원으로 변경한다.",
+      "start": 0,
+      "end": 34
+    }
+  ],
+  "warnings": [
+    "변경 전후 수치가 명시된 일부 규칙만 추출합니다. 모든 조문이나 예외의 추출 완료가 아닙니다.",
+    "시행일, 대상 지역, 가구 요건, 경과규정과 예외를 원문과 대조해 확인해 주세요.",
+    "입력과 출처 URL은 사용자 제공 자료이며 공식 법령 여부를 자동 검증하지 않습니다.",
+    "Gemini를 호출하지 않은 제한된 규칙 기반 추출입니다."
+  ]
+}

@@ -186,7 +186,7 @@ def test_graph_contains_policy_and_mechanism_relationships() -> None:
     }.issubset(edge_relations)
 
 
-def test_policy_extract_endpoint_and_hwp_visible_fallback() -> None:
+def test_legacy_extraction_only_allows_explicit_demo_samples() -> None:
     sample_resp = client.post(
         "/api/v1/policies/extract",
         json={
@@ -214,11 +214,8 @@ def test_policy_extract_endpoint_and_hwp_visible_fallback() -> None:
             "region_code": "11680",
         },
     )
-    assert hwpx_resp.status_code == 200
-    hwpx_data = hwpx_resp.json()
-    assert hwpx_data["fallback_message"] is None
-    assert len(hwpx_data["extraction_steps"]) == 4
-    assert hwpx_data["snapshot"]["document_provenance"]["extraction_status"] == "COMPLETED"
+    assert hwpx_resp.status_code == 410
+    assert "/api/v1/policies/analyze" in hwpx_resp.json()["detail"]["message"]
 
     hwp_resp = client.post(
         "/api/v1/policies/extract",
@@ -230,13 +227,7 @@ def test_policy_extract_endpoint_and_hwp_visible_fallback() -> None:
             "region_code": "11680",
         },
     )
-    assert hwp_resp.status_code == 200
-    hwp_data = hwp_resp.json()
-    assert hwp_data["fallback_message"] is not None
-    assert hwp_data["extraction_steps"][0]["status"] == "fallback_warning"
-    assert (
-        hwp_data["snapshot"]["document_provenance"]["extraction_status"] == "FAILED_FALLBACK_TEXT"
-    )
+    assert hwp_resp.status_code == 410
 
 
 def test_extract_text_from_hwpx_bytes() -> None:

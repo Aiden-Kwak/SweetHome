@@ -16,6 +16,17 @@ from policymap_api.models import (
     ScenarioRequest,
     ScenarioResult,
 )
+from policymap_api.policy_examples import PolicyExample, load_policy_examples
+from policymap_api.policy_pipeline import (
+    Analysis,
+    AnalyzeRequest,
+    ExperimentRequest,
+    ExperimentResult,
+    PipelineError,
+    analyze,
+    experiment,
+)
+from policymap_api.public_data import PublicContext, load_public_context
 from policymap_api.repository import FixtureNotFoundError, FixtureRepository
 
 settings = get_settings()
@@ -94,6 +105,29 @@ def claims() -> list[dict]:
     return repository.get_claims()
 
 
+@app.get("/api/v1/public-context", response_model=PublicContext)
+def public_context() -> PublicContext:
+    try:
+        return load_public_context()
+    except FileNotFoundError as error:
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "message": "공공데이터 스냅샷이 없습니다. 데이터 수집 스크립트를 실행해 주세요."
+            },
+        ) from error
+
+
+@app.get("/api/v1/policy-examples", response_model=list[PolicyExample])
+def policy_examples() -> list[PolicyExample]:
+    try:
+        return load_policy_examples()
+    except FileNotFoundError as error:
+        raise HTTPException(
+            status_code=503, detail={"message": "Policy examples unavailable"}
+        ) from error
+
+
 @app.get("/api/v1/graph", response_model=GraphResponse)
 def graph(
     date: str = Query(pattern=r"^\d{4}-\d{2}-\d{2}$"),
@@ -107,6 +141,15 @@ def graph(
 
 @app.post("/api/v1/policies/extract", response_model=PolicyExtractResponse)
 def extract_policy(request: PolicyExtractRequest) -> PolicyExtractResponse:
+    if request.input_type != "sample":
+        raise HTTPException(
+            status_code=410,
+            detail={
+                "message": (
+                    "실제 문서는 /api/v1/policies/analyze를 사용하세요. 데모 대체를 차단했습니다."
+                )
+            },
+        )
     try:
         return repository.extract_policy_document(request)
     except FixtureNotFoundError as error:
@@ -144,3 +187,19 @@ def simulate(request: ScenarioRequest) -> ScenarioResult:
         )
 
     return repository.get_scenario_result(request)
+
+
+@app.post("/api/v1/policies/analyze", response_model=Analysis)
+def analyze_policy(request: AnalyzeRequest) -> Analysis:
+    try:
+        return analyze(request)
+    except PipelineError as error:
+        raise HTTPException(status_code=422, detail={"message": str(error)}) from error
+
+
+@app.post("/api/v1/scenarios/policy", response_model=ExperimentResult)
+def simulate_policy(request: ExperimentRequest) -> ExperimentResult:
+    try:
+        return experiment(request)
+    except PipelineError as error:
+        raise HTTPException(status_code=422, detail={"message": str(error)}) from error

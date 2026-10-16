@@ -1,0 +1,139 @@
+{
+  "$defs": {
+    "PolicyAttachment": {
+      "additionalProperties": false,
+      "properties": {
+        "format": {
+          "enum": [
+            "PDF",
+            "HWPX"
+          ],
+          "title": "Format",
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "format",
+        "url"
+      ],
+      "title": "PolicyAttachment",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "title_en": {
+      "title": "Title En",
+      "type": "string"
+    },
+    "authority": {
+      "title": "Authority",
+      "type": "string"
+    },
+    "announced_at": {
+      "format": "date",
+      "title": "Announced At",
+      "type": "string"
+    },
+    "effective_from": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Effective From"
+    },
+    "legal_status": {
+      "enum": [
+        "SCHEDULED",
+        "PROPOSED"
+      ],
+      "title": "Legal Status",
+      "type": "string"
+    },
+    "source_url": {
+      "format": "uri",
+      "maxLength": 2083,
+      "minLength": 1,
+      "title": "Source Url",
+      "type": "string"
+    },
+    "source_title": {
+      "title": "Source Title",
+      "type": "string"
+    },
+    "locator": {
+      "title": "Locator",
+      "type": "string"
+    },
+    "source_excerpt": {
+      "title": "Source Excerpt",
+      "type": "string"
+    },
+    "summary": {
+      "title": "Summary",
+      "type": "string"
+    },
+    "summary_en": {
+      "title": "Summary En",
+      "type": "string"
+    },
+    "attachments": {
+      "items": {
+        "$ref": "#/$defs/PolicyAttachment"
+      },
+      "title": "Attachments",
+      "type": "array"
+    },
+    "verified_on": {
+      "format": "date",
+      "title": "Verified On",
+      "type": "string"
+    },
+    "review_note": {
+      "title": "Review Note",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "title_en",
+    "authority",
+    "announced_at",
+    "effective_from",
+    "legal_status",
+    "source_url",
+    "source_title",
+    "locator",
+    "source_excerpt",
+    "summary",
+    "summary_en",
+    "attachments",
+    "verified_on",
+    "review_note"
+  ],
+  "title": "PolicyExample",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://policymap.dev/schemas/policy-example.schema.json"
+}

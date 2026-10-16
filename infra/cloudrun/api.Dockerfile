@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY services/api ./services/api
 COPY data/fixtures ./data/fixtures
+COPY data/public ./data/public
 RUN uv sync --project services/api --frozen --no-dev
 
 ENV POLICYMAP_ENV=production

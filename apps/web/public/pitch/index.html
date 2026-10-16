@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101824">
+  <title>PolicyMap | Final Pitch</title>
+  <link rel="stylesheet" href="./pitch.css">
+  <script type="module" src="./pitch.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">PolicyMap <span>FINAL PITCH</span></a>
+    <nav aria-label="발표 도구">
+      <a href="./PolicyMap_final_pitch_v1.pptx" download>원본 PPTX</a>
+      <button id="fullscreen" type="button">전체화면</button>
+      <a class="demo-link" href="/">시뮬레이터 열기</a>
+    </nav>
+  </header>
+  <main>
+    <div class="deck-heading">
+      <div><p class="eyebrow">POLICY IMPACT SIMULATION</p><h1>정책을 시행하기 전에, 영향을 살펴봅니다.</h1></div>
+      <p class="hint">방향키로 이동 · F 전체화면</p>
+    </div>
+    <section class="viewer" aria-label="발표 슬라이드" aria-roledescription="carousel" tabindex="0">
+      <img id="slide" width="1536" height="864" alt="발표자료를 불러오는 중입니다">
+      <p id="error" role="alert" hidden>발표자료를 불러오지 못했습니다. 페이지를 새로고침하거나 원본 PPTX를 내려받아 주세요.</p>
+    </section>
+    <div class="controls">
+      <div class="position"><span id="counter" aria-live="polite">01 / 11</span><span id="slide-title"></span></div>
+      <div class="arrows"><button id="prev" aria-label="이전 슬라이드">←</button><button id="next" aria-label="다음 슬라이드">→</button></div>
+    </div>
+    <div class="progress" aria-hidden="true"><div id="progress-fill"></div></div>
+    <nav id="thumbnails" aria-label="슬라이드 목차"></nav>
+    <details id="transcript"><summary>슬라이드 텍스트와 발표자 노트 보기</summary><div id="slide-text"></div><h2>발표자 노트 및 출처</h2><div id="slide-notes"></div></details>
+    <p class="disclaimer">원본 발표자료를 웹으로 변환했습니다. 제품 콘셉트와 예시 화면이 포함되어 있으며, 실제 구현 상태나 검증된 가격 예측을 보장하지 않습니다. 연구 결과의 적용 범위는 각 슬라이드의 출처를 확인해 주세요.</p>
+  </main>
+  <noscript>슬라이드 탐색에는 JavaScript가 필요합니다. 상단에서 원본 PPTX를 내려받을 수 있습니다.</noscript>
+</body>
+</html>

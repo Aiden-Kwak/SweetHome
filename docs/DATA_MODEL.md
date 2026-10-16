@@ -1,5 +1,23 @@
 # 데이터 모델
 
+## 문서 분석과 단일 정책 실험 계약 (2026-10-16)
+
+문서 분석과 실험의 요청 및 응답 계약은 `policy_pipeline.py`와 `packages/contracts/policy-*-*.schema.json`에 정의한다. `Candidate`는 원문 인용과 문자 위치가 있는 미검토 수치 변경 후보이며 확정된 `PolicyRule`과 구분한다. `Analysis`는 문서 해시, 본문 해시와 추출 방식을 포함한다. `ExperimentResult`는 `INCOMPLETE / EXPERIMENTAL` 상태와 입력 전제를 보존한다. 지원 범위와 계산식은 [새 정책 처리 경로](POLICY_PIPELINE.md)를 따른다.
+
+## 공식 문서 검토 예시 계약 추가 (2026-10-16)
+
+`GET /api/v1/policy-examples`는 `policy_examples.PolicyExample` 목록을 반환한다. 데이터 원본은 `data/public/policy-examples.json`이다. 실행 가능한 `PolicyRule`이 아니라 공식 본문을 확인해 작성한 검토 요약이다. 제목, 발표 기관과 발표일, 시행 예정일, 문서 상태, 원문 URL, 원문 위치, 짧은 발췌, 한영 요약, 첨부 링크, 확인일과 검토 범위를 보존한다.
+
+`SCHEDULED`는 확인 시점에 시행 예정으로 안내된 자료이며 `PROPOSED`는 미확정 입법예고이다. 입법예고의 시행일은 추측하지 않고 null로 남긴다. 상태는 확인일 기준의 기록이며 자동으로 현재 법적 상태를 갱신하지 않는다. 첨부파일 전문을 추출한 상태나 모든 정책의 수집 완료를 뜻하지 않는다.
+
+입력 창에서 예시를 선택하면 출처가 포함된 검토 요약을 기존 메모 뒤에 추가한다. 별도의 자동 추출과 검토 단계를 거쳐 단일 정책 실험을 실행할 수 있다. 예시 선택만으로 원자 규칙 확정, 서버 원장 저장이나 지식그래프 갱신을 실행하지 않는다. 2026년 자료를 불러와도 기존 2025년 합성 시나리오의 정책이나 결과는 바꾸지 않는다.
+
+## 공개 관측 자료 계약 추가 (2026-10-16)
+
+`packages/contracts/public-context.schema.json`과 `public_data.PublicContext`가 `/api/v1/public-context`의 계약이다. `status`는 `OBSERVED_SAMPLE`로 고정하며 예측 검증 상태와 혼합하지 않는다. `boundaries`는 2018년 경계의 표시용 자료이며 `region_code`가 null이면 시나리오가 없는 배경 지역이다. `transactions`는 계약일, 면적, 층, 원 단위 금액, 취소일과 `source_query`를 보존한다. `queries`는 원본 URL, 해시, 응답 전체 건수와 실제 수집 건수를 제공한다. `retrieved_at`은 시간대를 포함한다.
+
+실거래는 별도 관측 패널에만 사용하며 `ScenarioRequest`의 입력이나 시뮬레이션 계수로 전달하지 않는다. 현재 조회한 과거 계약은 당시의 정보 집합과 같지 않으므로 백테스트 시점의 입력으로 재사용하지 않는다.
+
 ## 1. 모델링 원칙
 
 - 정책 패키지와 실제 적용되는 원자 규칙을 분리한다.
@@ -126,3 +144,11 @@ source_url
 5. 언론과 비공식 해설
 
 낮은 우선순위의 자료가 높은 우선순위의 법적 상태를 변경해서는 안 된다.
+
+## 10. 새 정책 시나리오 v2
+
+`policy-experiment-request.schema.json`은 선택한 규칙, 지역, 가구와 `supply_assumptions`를 받는다. 공급 입력은 지역별 주택 수, 사업 수와 규모, 부등호, 기간, 공급 전환 비율, 가격 반응 계수, 기타 요건 충족 가정, 입력 출발점과 선택적 출처를 보존한다.
+
+응답의 `regions`는 `metric_label`, `metric_value`, `metric_unit`으로 정책에 맞는 계산 지표를 명시한다. `price_sensitivity_percent`가 없는 경우 구매 예산, 임차 예산 또는 기준 변화 지표를 사용한다. `supply`는 경로 대상 여부, 계획 세대수, 공급 시점 변화, 주택 수 대비 변화율과 가격 민감도를 반환한다. 공급과 연령 결과의 `households`는 빈 목록이다.
+
+구체적인 계산식과 입력 의미는 [정책 파이프라인](POLICY_PIPELINE.md)을 따른다. 가정 기반 가격 민감도를 관측 가격이나 통계적 전망과 구분한다.

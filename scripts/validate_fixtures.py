@@ -47,6 +47,11 @@ def main() -> int:
     registry = build_registry()
     checks: list[tuple[Any, str, str]] = [
         (
+            read_json(REPO_ROOT / "data" / "public" / "context.json"),
+            "public-context.schema.json",
+            "public/context.json",
+        ),
+        (
             read_json(FIXTURE_DIR / "policy_snapshot.json"),
             "policy-snapshot.schema.json",
             "policy_snapshot.json",
@@ -58,6 +63,19 @@ def main() -> int:
         ),
     ]
 
+    for name in [
+        "policy-analysis-request", "policy-analysis-response",
+        "policy-experiment-request", "policy-experiment-response",
+    ]:
+        checks.append((
+            read_json(FIXTURE_DIR / f"demo_{name}.json"),
+            f"{name}.schema.json", f"demo_{name}.json",
+        ))
+    examples = read_json(REPO_ROOT / "data" / "public" / "policy-examples.json")
+    checks.extend(
+        (example, "policy-example.schema.json", f"policy-examples.json[{index}]")
+        for index, example in enumerate(examples)
+    )
     claims = read_json(FIXTURE_DIR / "claims.json")
     checks.extend(
         (claim, "claim.schema.json", f"claims.json[{index}]")

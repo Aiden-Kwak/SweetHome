@@ -1,0 +1,305 @@
+{
+  "$defs": {
+    "Boundary": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "region_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Region Code"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "rings": {
+          "items": {
+            "items": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "title": "Rings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code",
+        "region_code",
+        "name",
+        "rings"
+      ],
+      "title": "Boundary",
+      "type": "object"
+    },
+    "ObservedTransaction": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "region_code": {
+          "title": "Region Code",
+          "type": "string"
+        },
+        "region_name": {
+          "title": "Region Name",
+          "type": "string"
+        },
+        "neighborhood": {
+          "title": "Neighborhood",
+          "type": "string"
+        },
+        "building_name": {
+          "title": "Building Name",
+          "type": "string"
+        },
+        "contract_date": {
+          "format": "date",
+          "title": "Contract Date",
+          "type": "string"
+        },
+        "area_m2": {
+          "exclusiveMinimum": 0,
+          "title": "Area M2",
+          "type": "number"
+        },
+        "floor": {
+          "title": "Floor",
+          "type": "integer"
+        },
+        "price_krw": {
+          "exclusiveMinimum": 0,
+          "title": "Price Krw",
+          "type": "integer"
+        },
+        "canceled_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Canceled At"
+        },
+        "transaction_type": {
+          "title": "Transaction Type",
+          "type": "string"
+        },
+        "source_query": {
+          "minimum": 0,
+          "title": "Source Query",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "region_code",
+        "region_name",
+        "neighborhood",
+        "building_name",
+        "contract_date",
+        "area_m2",
+        "floor",
+        "price_krw",
+        "canceled_at",
+        "transaction_type",
+        "source_query"
+      ],
+      "title": "ObservedTransaction",
+      "type": "object"
+    },
+    "PublicSource": {
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        },
+        "publisher": {
+          "title": "Publisher",
+          "type": "string"
+        },
+        "license": {
+          "title": "License",
+          "type": "string"
+        },
+        "reference_year": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Year"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        }
+      },
+      "required": [
+        "title",
+        "url",
+        "publisher",
+        "license"
+      ],
+      "title": "PublicSource",
+      "type": "object"
+    },
+    "SourceQuery": {
+      "additionalProperties": false,
+      "properties": {
+        "region_code": {
+          "title": "Region Code",
+          "type": "string"
+        },
+        "contract_date": {
+          "format": "date",
+          "title": "Contract Date",
+          "type": "string"
+        },
+        "source_url": {
+          "title": "Source Url",
+          "type": "string"
+        },
+        "sha256": {
+          "title": "Sha256",
+          "type": "string"
+        },
+        "total_matching": {
+          "minimum": 0,
+          "title": "Total Matching",
+          "type": "integer"
+        },
+        "returned": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Returned",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "region_code",
+        "contract_date",
+        "source_url",
+        "sha256",
+        "total_matching",
+        "returned"
+      ],
+      "title": "SourceQuery",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "const": "OBSERVED_SAMPLE",
+      "title": "Status",
+      "type": "string"
+    },
+    "retrieved_at": {
+      "format": "date-time",
+      "title": "Retrieved At",
+      "type": "string"
+    },
+    "boundary_source": {
+      "$ref": "#/$defs/PublicSource"
+    },
+    "transaction_source": {
+      "$ref": "#/$defs/PublicSource"
+    },
+    "sampling_note": {
+      "title": "Sampling Note",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "boundaries": {
+      "items": {
+        "$ref": "#/$defs/Boundary"
+      },
+      "title": "Boundaries",
+      "type": "array"
+    },
+    "queries": {
+      "items": {
+        "$ref": "#/$defs/SourceQuery"
+      },
+      "title": "Queries",
+      "type": "array"
+    },
+    "transactions": {
+      "items": {
+        "$ref": "#/$defs/ObservedTransaction"
+      },
+      "title": "Transactions",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "retrieved_at",
+    "boundary_source",
+    "transaction_source",
+    "sampling_note",
+    "limitations",
+    "boundaries",
+    "queries",
+    "transactions"
+  ],
+  "title": "PublicContext",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://policymap.local/schemas/public-context.schema.json"
+}

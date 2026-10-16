@@ -1,0 +1,690 @@
+{
+  "$defs": {
+    "Candidate": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "extraction_confidence": {
+          "const": "unmeasured",
+          "default": "unmeasured",
+          "title": "Extraction Confidence",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "mortgage_cap",
+            "guarantee_cap",
+            "ltv",
+            "dsr",
+            "age",
+            "units",
+            "area_share"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "before": {
+          "maximum": 10000000000000,
+          "minimum": 0,
+          "title": "Before",
+          "type": "number"
+        },
+        "after": {
+          "maximum": 10000000000000,
+          "minimum": 0,
+          "title": "After",
+          "type": "number"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "quote": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        },
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "minimum": 0,
+          "title": "End",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "label",
+        "before",
+        "after",
+        "unit",
+        "quote",
+        "start",
+        "end"
+      ],
+      "title": "Candidate",
+      "type": "object"
+    },
+    "ExperimentRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "content_text": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Content Text",
+          "type": "string"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        },
+        "candidate": {
+          "$ref": "#/$defs/Candidate"
+        },
+        "reviewed": {
+          "const": true,
+          "title": "Reviewed",
+          "type": "boolean"
+        },
+        "region_codes": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Region Codes",
+          "type": "array"
+        },
+        "households": {
+          "items": {
+            "$ref": "#/$defs/Household"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "title": "Households",
+          "type": "array"
+        },
+        "effective_from": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Effective From"
+        },
+        "simulation_date": {
+          "format": "date",
+          "title": "Simulation Date",
+          "type": "string"
+        },
+        "proposed": {
+          "default": false,
+          "title": "Proposed",
+          "type": "boolean"
+        },
+        "hypothetical": {
+          "default": false,
+          "title": "Hypothetical",
+          "type": "boolean"
+        },
+        "annual_rate_percent": {
+          "default": 4,
+          "maximum": 30,
+          "minimum": 0,
+          "title": "Annual Rate Percent",
+          "type": "number"
+        },
+        "loan_years": {
+          "default": 30,
+          "maximum": 50,
+          "minimum": 1,
+          "title": "Loan Years",
+          "type": "integer"
+        },
+        "price_elasticity": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Price Elasticity"
+        },
+        "supply_assumptions": {
+          "items": {
+            "$ref": "#/$defs/SupplyAssumption"
+          },
+          "maxItems": 100,
+          "title": "Supply Assumptions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "content_text",
+        "candidate",
+        "reviewed",
+        "region_codes",
+        "households",
+        "simulation_date"
+      ],
+      "title": "ExperimentRequest",
+      "type": "object"
+    },
+    "Household": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "eligible": {
+          "title": "Eligible",
+          "type": "boolean"
+        },
+        "cash_krw": {
+          "maximum": 1000000000000,
+          "minimum": 0,
+          "title": "Cash Krw",
+          "type": "number"
+        },
+        "financing_need_krw": {
+          "maximum": 1000000000000,
+          "minimum": 0,
+          "title": "Financing Need Krw",
+          "type": "number"
+        },
+        "property_price_krw": {
+          "exclusiveMinimum": 0,
+          "maximum": 1000000000000,
+          "title": "Property Price Krw",
+          "type": "number"
+        },
+        "annual_income_krw": {
+          "exclusiveMinimum": 0,
+          "maximum": 100000000000,
+          "title": "Annual Income Krw",
+          "type": "number"
+        },
+        "other_annual_payment_krw": {
+          "maximum": 100000000000,
+          "minimum": 0,
+          "title": "Other Annual Payment Krw",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "eligible",
+        "cash_krw",
+        "financing_need_krw",
+        "property_price_krw",
+        "annual_income_krw",
+        "other_annual_payment_krw"
+      ],
+      "title": "Household",
+      "type": "object"
+    },
+    "HouseholdImpact": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "eligible": {
+          "title": "Eligible",
+          "type": "boolean"
+        },
+        "financing_before_krw": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Financing Before Krw"
+        },
+        "financing_after_krw": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Financing After Krw"
+        },
+        "budget_before_krw": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Budget Before Krw"
+        },
+        "budget_after_krw": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Budget After Krw"
+        },
+        "budget_change_percent": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Budget Change Percent"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "eligible",
+        "financing_before_krw",
+        "financing_after_krw",
+        "budget_before_krw",
+        "budget_after_krw",
+        "budget_change_percent"
+      ],
+      "title": "HouseholdImpact",
+      "type": "object"
+    },
+    "RegionImpact": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "assumed_target": {
+          "title": "Assumed Target",
+          "type": "boolean"
+        },
+        "price_sensitivity_percent": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Price Sensitivity Percent"
+        },
+        "metric_label": {
+          "default": "가격 민감도",
+          "title": "Metric Label",
+          "type": "string"
+        },
+        "metric_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metric Value"
+        },
+        "metric_unit": {
+          "default": "%",
+          "title": "Metric Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "name",
+        "assumed_target",
+        "price_sensitivity_percent"
+      ],
+      "title": "RegionImpact",
+      "type": "object"
+    },
+    "SupplyAssumption": {
+      "additionalProperties": false,
+      "properties": {
+        "region_code": {
+          "title": "Region Code",
+          "type": "string"
+        },
+        "housing_stock": {
+          "exclusiveMinimum": 0,
+          "maximum": 10000000,
+          "title": "Housing Stock",
+          "type": "integer"
+        },
+        "project_count": {
+          "maximum": 100000,
+          "minimum": 0,
+          "title": "Project Count",
+          "type": "integer"
+        },
+        "units_per_project": {
+          "exclusiveMinimum": 0,
+          "maximum": 100000,
+          "title": "Units Per Project",
+          "type": "integer"
+        },
+        "residential_share_percent": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Residential Share Percent",
+          "type": "number"
+        },
+        "comparator": {
+          "enum": [
+            "lt",
+            "lte"
+          ],
+          "title": "Comparator",
+          "type": "string"
+        },
+        "delivery_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Delivery Fraction",
+          "type": "number"
+        },
+        "horizon_months": {
+          "maximum": 120,
+          "minimum": 1,
+          "title": "Horizon Months",
+          "type": "integer"
+        },
+        "price_response_coefficient": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Price Response Coefficient",
+          "type": "number"
+        },
+        "other_conditions_satisfied": {
+          "const": true,
+          "title": "Other Conditions Satisfied",
+          "type": "boolean"
+        },
+        "input_basis": {
+          "enum": [
+            "user_input",
+            "illustrative"
+          ],
+          "title": "Input Basis",
+          "type": "string"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        }
+      },
+      "required": [
+        "region_code",
+        "housing_stock",
+        "project_count",
+        "units_per_project",
+        "residential_share_percent",
+        "comparator",
+        "delivery_fraction",
+        "horizon_months",
+        "price_response_coefficient",
+        "other_conditions_satisfied",
+        "input_basis"
+      ],
+      "title": "SupplyAssumption",
+      "type": "object"
+    },
+    "SupplyImpact": {
+      "additionalProperties": false,
+      "properties": {
+        "region_code": {
+          "title": "Region Code",
+          "type": "string"
+        },
+        "eligible_before": {
+          "title": "Eligible Before",
+          "type": "boolean"
+        },
+        "eligible_after": {
+          "title": "Eligible After",
+          "type": "boolean"
+        },
+        "planned_units": {
+          "title": "Planned Units",
+          "type": "integer"
+        },
+        "accelerated_units": {
+          "title": "Accelerated Units",
+          "type": "number"
+        },
+        "stock_change_percent": {
+          "title": "Stock Change Percent",
+          "type": "number"
+        },
+        "horizon_months": {
+          "title": "Horizon Months",
+          "type": "integer"
+        },
+        "price_sensitivity_percent": {
+          "title": "Price Sensitivity Percent",
+          "type": "number"
+        }
+      },
+      "required": [
+        "region_code",
+        "eligible_before",
+        "eligible_after",
+        "planned_units",
+        "accelerated_units",
+        "stock_change_percent",
+        "horizon_months",
+        "price_sensitivity_percent"
+      ],
+      "title": "SupplyImpact",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "scenario_id": {
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "text_hash": {
+      "title": "Text Hash",
+      "type": "string"
+    },
+    "source_url": {
+      "anyOf": [
+        {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Source Url"
+    },
+    "candidate": {
+      "$ref": "#/$defs/Candidate"
+    },
+    "data_status": {
+      "const": "INCOMPLETE",
+      "default": "INCOMPLETE",
+      "title": "Data Status",
+      "type": "string"
+    },
+    "model_status": {
+      "const": "EXPERIMENTAL",
+      "default": "EXPERIMENTAL",
+      "title": "Model Status",
+      "type": "string"
+    },
+    "model_version": {
+      "const": "policy-constraints-v2",
+      "default": "policy-constraints-v2",
+      "title": "Model Version",
+      "type": "string"
+    },
+    "simulation_date": {
+      "format": "date",
+      "title": "Simulation Date",
+      "type": "string"
+    },
+    "effective_from": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Effective From"
+    },
+    "hypothetical": {
+      "title": "Hypothetical",
+      "type": "boolean"
+    },
+    "applied": {
+      "title": "Applied",
+      "type": "boolean"
+    },
+    "assumptions": {
+      "$ref": "#/$defs/ExperimentRequest"
+    },
+    "households": {
+      "items": {
+        "$ref": "#/$defs/HouseholdImpact"
+      },
+      "title": "Households",
+      "type": "array"
+    },
+    "regions": {
+      "items": {
+        "$ref": "#/$defs/RegionImpact"
+      },
+      "title": "Regions",
+      "type": "array"
+    },
+    "supply": {
+      "items": {
+        "$ref": "#/$defs/SupplyImpact"
+      },
+      "title": "Supply",
+      "type": "array"
+    },
+    "formula": {
+      "title": "Formula",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "scenario_id",
+    "text_hash",
+    "source_url",
+    "candidate",
+    "simulation_date",
+    "effective_from",
+    "hypothetical",
+    "applied",
+    "assumptions",
+    "households",
+    "regions",
+    "formula",
+    "limitations"
+  ],
+  "title": "ExperimentResult",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://policymap.dev/schemas/policy-experiment-response.schema.json"
+}

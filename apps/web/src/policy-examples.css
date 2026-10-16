@@ -1,0 +1,20 @@
+.policy-dialog.policy-dialog { width: min(900px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); overflow-y: auto; }
+.policy-examples { margin: 24px 0; border-top: 1px solid var(--line, #e5e8eb); padding-top: 24px; }
+.policy-examples h3 { font-size: 18px; margin: 0 0 8px; }
+.policy-examples > p { font-size: 14px; }
+.policy-example-list { display: grid; gap: 16px; margin-top: 16px; }
+.policy-example { border: 1px solid #e5e8eb; border-radius: 16px; padding: 20px; background: #f9fafb; }
+.policy-example h4 { margin: 12px 0 8px; font-size: 18px; line-height: 1.5; }
+.policy-example-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 12px; color: #4e5968; }
+.policy-example-summary { font-size: 14px; line-height: 1.7; margin: 8px 0; }
+.policy-example-date, .policy-example details { font-size: 12px; line-height: 1.6; color: #4e5968; }
+.policy-example details p { overflow-wrap: anywhere; }
+.policy-example-actions { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-top: 16px; }
+.policy-example-actions > div { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; }
+.policy-example-actions button { color: #1b64da; background: #e8f3ff; border: 1px solid #c9e2ff; }
+.policy-example-actions a:focus-visible, .policy-example summary:focus-visible { outline: 3px solid #3182f6; outline-offset: 3px; }
+@media (max-width: 600px) {
+  .policy-dialog { padding: 20px; max-height: calc(100dvh - 24px); }
+  .policy-example { padding: 16px; }
+  .policy-example-actions button { width: 100%; }
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "fsc-20261015-housing-finance",
+    "title": "보금자리론 및 청년 전세대출보증 지원 변경",
+    "title_en": "Changes to Bogeumjari mortgages and youth rental guarantees",
+    "authority": "금융위원회",
+    "announced_at": "2026-10-15",
+    "effective_from": "2026-10-19",
+    "legal_status": "SCHEDULED",
+    "source_url": "https://www.fsc.go.kr/no010101/87939",
+    "source_title": "2026년 9월 가계대출 동향(잠정) 및 가계부채 점검회의 개최",
+    "locator": "주요 논의사항 (2) 8.13대책 후속조치 이행 현황 점검, 각주 1~2",
+    "source_excerpt": "보금자리론 결혼페널티 해소",
+    "summary": "금융위원회는 2026년 10월 15일 점검회의에서 8.13 금융 종합대책의 후속조치를 확인했습니다. 보금자리론 소득요건 개선과 무주택 청년 특례 전세대출보증 지원 강화는 10월 19일부터 시행될 예정이라고 안내했습니다. 소득요건은 부부 중 한 사람의 연소득 7천만 원 이하 등을 기준으로 개선되며, 청년 보증 대상은 만 34세 이하에서 만 39세 이하로 확대하고 신혼 또는 유자녀 가구의 보증한도는 2억 원에서 3억 원으로 확대하는 내용입니다. 실제 신청에는 상품별 추가 요건과 취급기관 확인이 필요합니다.",
+    "summary_en": "The FSC reviewed follow-up measures to its August 13 package on October 15, 2026. Changes to Bogeumjari mortgage income requirements and special rental-deposit guarantees for young non-homeowners are scheduled for October 19. The announcement describes an income criterion including annual income of KRW 70 million or less for one spouse, an age-limit increase from 34 to 39, and a guarantee-limit increase from KRW 200 million to KRW 300 million for newlywed households or households with children. Additional product eligibility conditions still require review.",
+    "attachments": [
+      {"format":"PDF","url":"https://www.fsc.go.kr/comm/getFile?fileNo=2&fileTy=ATTACH&srvcId=BBSTY1&upperNo=87939"},
+      {"format":"HWPX","url":"https://www.fsc.go.kr/comm/getFile?fileNo=1&fileTy=ATTACH&srvcId=BBSTY1&upperNo=87939"}
+    ],
+    "verified_on": "2026-10-16",
+    "review_note": "공식 웹 본문의 해당 문단을 확인했습니다. 첨부파일 본문 전체와 상품별 시행 규정은 별도로 검토해야 합니다. 이 자료만으로 지역별 가격 효과를 산출하지 않습니다."
+  },
+  {
+    "id": "molit-20260916-housing-act-draft",
+    "title": "주택법 시행령 개정안: 주상복합 건축허가 기준 완화",
+    "title_en": "Draft Housing Act amendment: mixed-use building permit thresholds",
+    "authority": "국토교통부 / 법제처",
+    "announced_at": "2026-09-16",
+    "effective_from": null,
+    "legal_status": "PROPOSED",
+    "source_url": "https://moleg.go.kr/lawinfo/makingInfo.mo?currentPage=10&lawCd=0&lawSeq=88638&lawType=TYPE5&mid=a10104010000&pageCnt=10",
+    "source_title": "주택법 시행령 일부개정령안 입법예고 (국토교통부공고 제2026-1186호)",
+    "locator": "1. 개정이유 및 주요내용 / 예고기간 2026-09-16~2026-10-28",
+    "source_excerpt": "세대수 기준을 300세대 미만에서 500세대 미만으로",
+    "summary": "국토교통부는 상업지역과 준주거지역에서 건축법상 건축허가를 받아 건축하는 주상복합의 기준을 완화하는 주택법 시행령 개정안을 입법예고했습니다. 세대수 기준은 300세대 미만에서 500세대 미만으로, 연면적 비율 기준은 90% 미만에서 100% 미만으로 완화하는 내용이며, 한시적 완화 기한은 2030년 12월 31일로 제시되어 있습니다. 의견 제출 기한은 2026년 10월 28일입니다. 10월 16일 확인 시점에는 입법예고 중인 안이며 공포 또는 시행된 규정으로 취급하지 않습니다.",
+    "summary_en": "MOLIT proposed easing permit thresholds for mixed-use housing in commercial and quasi-residential zones. The draft would raise the unit-count threshold from fewer than 300 to fewer than 500 units and the floor-area-share threshold from below 90% to below 100%, with temporary easing through December 31, 2030. Public comments are due October 28, 2026. At the October 16 review date, this is a proposed amendment, not an enacted or effective rule.",
+    "attachments": [],
+    "verified_on": "2026-10-16",
+    "review_note": "공식 입법예고 본문을 확인했습니다. 원문 페이지에서 법령안 PDF와 HWPX 첨부파일을 확인할 수 있습니다. 최종 공포 여부, 시행일, 실제 공급 시차와 지역별 효과는 미확정입니다."
+  }
+]

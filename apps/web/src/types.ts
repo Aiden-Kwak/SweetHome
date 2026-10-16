@@ -29,12 +29,13 @@ export interface Coverage {
 
 export interface DocumentProvenance {
   document_id: string;
-  title: string;
-  input_type: "text" | "pdf" | "hwpx" | "hwp" | "sample";
-  extraction_status: "COMPLETED" | "PARTIAL" | "FAILED_FALLBACK_TEXT";
-  source_hash: string;
-  cache_mode: CacheStatus;
-  fallback_reason?: string | null;
+  filename: string;
+  format: "TEXT" | "PDF" | "HWPX" | "HWP";
+  authority: string;
+  announced_at: string;
+  document_hash: string;
+  extraction_status: string;
+  cache_status: string;
 }
 
 export interface MacroContext {
@@ -45,11 +46,11 @@ export interface MacroContext {
 
 export interface PolicySource {
   title: string;
-  publisher: string;
+  authority: string;
   url: string;
-  published_at: string;
-  excerpt: string;
-  locator?: string | null;
+  excerpt?: string | null;
+  locator: string;
+  is_official: boolean;
 }
 
 export interface RuleRelation {
@@ -64,7 +65,7 @@ export interface PolicyRule {
   measure_id?: string | null;
   title: string;
   category: "finance" | "tax" | "supply" | "land_use" | "lease";
-  change_type: "tighten" | "loosen" | "maintain" | "expire";
+  change_type: "new" | "tightened" | "loosened" | "extended" | "expired" | "superseded" | "corrected" | "unchanged";
   impact_priority?: number | null;
   announced_at: string | null;
   promulgated_at?: string | null;
@@ -75,7 +76,9 @@ export interface PolicyRule {
   previous_summary?: string | null;
   proposed_summary?: string | null;
   mechanisms: string[];
-  verification_status: "verified" | "needs_review" | "synthetic";
+  verification_status: "verified" | "unverified" | "conflicted" | "synthetic";
+  exceptions: string[];
+  applies_to: { region_codes: string[]; region_names?: string[] | null; household_cohorts: string[]; property_types: string[] };
   source: PolicySource;
   relations?: RuleRelation[];
 }
@@ -121,29 +124,31 @@ export interface RegionResult {
 }
 
 export interface ActionProbabilities {
-  buy_target: number;
-  buy_substitute: number;
-  delay_or_jeonse: number;
+  buy: number;
+  sell: number;
+  lease: number;
+  gift: number;
+  wait: number;
 }
 
 export interface CohortResult {
   cohort_id: string;
   label: string;
-  description?: string | null;
   response: string;
   exposure: number;
-  budget_before_krw?: number | null;
-  budget_after_krw?: number | null;
+  purchasing_power_before?: ValueRange | null;
+  purchasing_power_after?: ValueRange | null;
   max_loan_before_krw?: number | null;
   max_loan_after_krw?: number | null;
-  dsr_before_pct?: number | null;
-  dsr_after_pct?: number | null;
+  dsr_before_percent?: number | null;
+  dsr_after_percent?: number | null;
   selectable_regions_before?: string[];
   selectable_regions_after?: string[];
   action_probabilities_before?: ActionProbabilities | null;
   action_probabilities_after?: ActionProbabilities | null;
-  target_region_codes?: string[];
-  substitute_region_codes?: string[];
+  related_region_codes?: string[] | null;
+  dominant_constraint?: string | null;
+  assumptions?: string | null;
 }
 
 export interface CausalNode {
@@ -267,20 +272,62 @@ export interface GraphNode {
   id: string;
   kind: string;
   label: string;
-  metadata?: Record<string, unknown>;
+  status?: string | null;
+  metadata?: Record<string, unknown> | null;
 }
 
 export interface GraphEdge {
   source: string;
   target: string;
   relation: string;
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, unknown> | null;
 }
 
 export interface GraphResponse {
+  // Request scope added by fetchGraph; not fields returned by the server.
   as_of: string;
   region_code: string;
   data_status: DataStatus;
   nodes: GraphNode[];
   edges: GraphEdge[];
+}
+
+export interface PublicSource {
+  title: string; url: string; publisher: string; license: string;
+  reference_year?: number | null; sha256?: string | null;
+}
+
+export interface PolicyExample {
+  id: string;
+  title: string;
+  title_en: string;
+  authority: string;
+  announced_at: string;
+  effective_from: string | null;
+  legal_status: "SCHEDULED" | "PROPOSED";
+  source_url: string;
+  source_title: string;
+  locator: string;
+  source_excerpt: string;
+  summary: string;
+  summary_en: string;
+  attachments: { format: "PDF" | "HWPX"; url: string }[];
+  verified_on: string;
+  review_note: string;
+}
+export interface Boundary {
+  code: string; region_code: string | null; name: string;
+  rings: [number, number][][];
+}
+export interface ObservedTransaction {
+  id: string; region_code: string; region_name: string; neighborhood: string;
+  building_name: string; contract_date: string; area_m2: number; floor: number;
+  price_krw: number; canceled_at: string | null; transaction_type: string; source_query: number;
+}
+export interface PublicContext {
+  schema_version: "1.0.0"; status: "OBSERVED_SAMPLE"; retrieved_at: string;
+  boundary_source: PublicSource; transaction_source: PublicSource;
+  sampling_note: string; limitations: string[]; boundaries: Boundary[];
+  queries: { region_code: string; contract_date: string; source_url: string; sha256: string; total_matching: number; returned: number }[];
+  transactions: ObservedTransaction[];
 }

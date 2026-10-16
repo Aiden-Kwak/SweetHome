@@ -1,0 +1,25 @@
+.term-info { display:inline-flex; vertical-align:middle; margin-left:3px; line-height:1; }
+.term-info-button { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; padding:0; border:0; background:transparent; vertical-align:middle; cursor:help; flex-shrink:0; }
+.term-info-button > span { display:grid; place-items:center; width:15px; height:15px; border:1px solid #8b9caf; border-radius:50%; font:600 11px/1 Georgia,serif; color:#60748c; background:#f7faff; }
+.term-info-button:hover > span,.term-info-button[aria-expanded="true"] > span { color:#246be9; border-color:#246be9; background:#e8f3ff; }
+.term-info-button:focus-visible { outline:2px solid #3182f6; outline-offset:2px; border-radius:50%; }
+.term-pair { white-space:nowrap; }
+.rule-title { display:flex; align-items:center; gap:2px; min-width:0; }
+.term-hints { display:inline-flex; flex-shrink:0; }
+.term-tooltip { position:fixed; display:block; z-index:1000; width:min(340px,calc(100vw - 24px)); max-height:calc(100vh - 24px); overflow:auto; background:#fff; border:1px solid #cedced; border-radius:14px; box-shadow:0 8px 32px #16325225; padding:18px; color:#283648; font-size:13px; font-weight:400; line-height:1.7; text-align:left; word-break:keep-all; }
+.term-tooltip strong { display:block; color:#215eb8; font-size:15px; margin-bottom:8px; }
+.term-tooltip .term-definition { display:block; }
+.term-tooltip small { display:block; margin-top:10px; color:#748195; font-size:11px; line-height:1.5; }
+.term-tooltip .term-dismiss { font-size:10px; margin-top:5px; }
+.glossary-quick { display:flex; flex-wrap:wrap; align-items:center; gap:8px 18px; font-size:12px; color:#607086; padding:12px 0; border-top:1px solid #e5e8eb; }
+.glossary-quick > strong { color:#48596e; font-size:12px; }
+.glossary-dialog { width:min(700px,calc(100% - 32px)); max-height:85vh; border:1px solid #e5e8eb; border-radius:20px; padding:28px; color:#191f28; box-shadow:0 20px 80px #14223a35; }
+.glossary-dialog::backdrop { background:#182b4555; backdrop-filter:blur(3px); }
+.glossary-dialog input { width:100%; border:1px solid #cad7e7; background:#f8fafc; border-radius:10px; padding:13px; font-size:15px; }
+.glossary-count { color:#6b7684; font-size:12px; margin:12px 0; }
+.glossary-dialog dl { margin:0; }.glossary-dialog dl > div { padding:18px 0; border-top:1px solid #e5e8eb; }
+.glossary-dialog dt { font-weight:700; font-size:16px; color:#245db8; }.glossary-dialog dd { margin:8px 0 0; font-size:14px; line-height:1.7; }
+.glossary-dialog dd a { display:inline-block; font-size:12px; margin-top:8px; }
+.household-terms { padding:0 16px 8px; font-size:12px; color:#6b7684; }
+.kg-term-context { font-size:13px; line-height:1.7; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid #e5e8eb; }
+@media (pointer:coarse) { .term-info-button { width:28px; height:28px; } }

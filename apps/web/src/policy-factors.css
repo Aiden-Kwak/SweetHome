@@ -1,0 +1,30 @@
+.policy-factors { margin: 4px 0 24px; }
+.policy-factors .section-heading { margin-bottom: 12px; }
+.factors-context { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px; color:#4e5968; font-size:13px; }
+.factors-context p { margin-right:auto; }
+.factors-context select { max-width:100%; padding:9px 12px; border:1px solid #d1d6db; border-radius:10px; background:white; color:#191f28; }
+.factor-table-scroll { overflow-x:auto; border:1px solid #e5e8eb; border-radius:12px; }
+.factor-table { width:100%; border-collapse:collapse; text-align:left; table-layout:fixed; min-width:760px; font-size:13px; }
+.factor-table th,.factor-table td { padding:12px 16px; border-bottom:1px solid #e5e8eb; vertical-align:top; line-height:1.65; overflow-wrap:anywhere; white-space:normal; word-break:keep-all; }
+.factor-table thead { background:#f7f8fa; color:#6b7684; }
+.factor-table thead th:nth-child(1) { width:20%; }
+.factor-table thead th:nth-child(2),.factor-table thead th:nth-child(3) { width:29%; }
+.factor-table thead th:nth-child(4) { width:22%; }
+.factor-table tbody th { font-weight:600; }
+.factor-table td:nth-child(3) { background:#f7faff; }
+.factor-table small { display:block; font-size:12px; font-weight:400; margin-top:4px; }
+.factor-table tr:last-child>* { border-bottom:0; }
+.factor-household { background:#e8f3ff; }
+.factor-household td:nth-child(3) { background:#e8f3ff; }
+.factor-household strong { font-size:22px; color:#1b64da; }
+.factor-reference-label { color:#6b7684; font-size:12px; }
+.factor-source { margin-top:6px; }
+.factor-source summary { color:#246be9; font-size:12px; }
+.factor-source[open] { min-width:0; }
+.factor-source p,.factor-source blockquote { margin:8px 0; font-size:12px; }
+.factor-source blockquote { border-left:2px solid #c8d9f2; padding-left:8px; }
+.factor-source ul { padding-left:16px; }
+.factor-scope { font-size:12px; }
+.factor-excluded th small { color:#91520b; }
+.factor-footnote { margin-top:12px; color:#6b7684; font-size:12px; }
+@media(max-width:700px) { .policy-factors .section-heading { align-items:flex-start; flex-direction:column; gap:8px; }.factors-context { gap:8px; }.factors-context p { flex-basis:100%; }.factors-context select { width:100%; }.factor-table { min-width:760px; } }

@@ -1,0 +1,66 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "content_text": {
+      "anyOf": [
+        {
+          "maxLength": 100000,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Content Text"
+    },
+    "file_base64": {
+      "anyOf": [
+        {
+          "maxLength": 2800000,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "File Base64"
+    },
+    "filename": {
+      "default": "pasted-text.txt",
+      "maxLength": 200,
+      "title": "Filename",
+      "type": "string"
+    },
+    "source_url": {
+      "anyOf": [
+        {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Url"
+    },
+    "engine": {
+      "default": "auto",
+      "enum": [
+        "auto",
+        "rules",
+        "gemini"
+      ],
+      "title": "Engine",
+      "type": "string"
+    }
+  },
+  "title": "AnalyzeRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://policymap.dev/schemas/policy-analysis-request.schema.json"
+}

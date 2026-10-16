@@ -18,6 +18,7 @@ export function formatMedian(range: ValueRange): string {
 }
 
 export function formatPercent(value: number): string {
+  if (!Number.isFinite(value)) return "미확보";
   return `${Math.round(value * 100)}%`;
 }
 
@@ -39,19 +40,30 @@ export function formatClaimEffect(claim: Claim): string {
       : claim.unit === "percent_point"
         ? "%p"
         : claim.unit ?? "";
-  return `${signed(claim.effect_value)}${unitLabel}`;
+  const value = claim.effect_value;
+  return `${value > 0 ? "+" : ""}${value.toLocaleString("ko-KR", { maximumFractionDigits: 4 })}${unitLabel}`;
+}
+
+export function formatPurchasingPower(range: ValueRange | null | undefined): string {
+  if (!range || range.unit !== "eok_krw") return "미확보";
+  return `${range.low.toLocaleString("ko-KR")}~${range.high.toLocaleString("ko-KR")}억`;
+}
+
+export function formatObservedPrice(amountKrw: number): string {
+  return `${(amountKrw / 100_000_000).toLocaleString("ko-KR", { maximumFractionDigits: 4 })}억 원`;
 }
 
 export function getDivergingTone(
   range: ValueRange,
+  strongThreshold = 1,
 ): "down-strong" | "down-mild" | "neutral" | "up-mild" | "up-strong" {
   const mid =
     typeof range.median === "number"
       ? range.median
       : (range.low + range.high) / 2;
-  if (mid <= -1.2) return "down-strong";
-  if (mid < -0.2) return "down-mild";
-  if (mid >= 0.7) return "up-strong";
-  if (mid > 0.15) return "up-mild";
+  if (mid <= -strongThreshold) return "down-strong";
+  if (mid < -strongThreshold * 0.2) return "down-mild";
+  if (mid >= strongThreshold) return "up-strong";
+  if (mid > strongThreshold * 0.2) return "up-mild";
   return "neutral";
 }

@@ -1,0 +1,163 @@
+{
+  "$defs": {
+    "Candidate": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "extraction_confidence": {
+          "const": "unmeasured",
+          "default": "unmeasured",
+          "title": "Extraction Confidence",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "mortgage_cap",
+            "guarantee_cap",
+            "ltv",
+            "dsr",
+            "age",
+            "units",
+            "area_share"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "before": {
+          "maximum": 10000000000000,
+          "minimum": 0,
+          "title": "Before",
+          "type": "number"
+        },
+        "after": {
+          "maximum": 10000000000000,
+          "minimum": 0,
+          "title": "After",
+          "type": "number"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "quote": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        },
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "minimum": 0,
+          "title": "End",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "label",
+        "before",
+        "after",
+        "unit",
+        "quote",
+        "start",
+        "end"
+      ],
+      "title": "Candidate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "document_hash": {
+      "title": "Document Hash",
+      "type": "string"
+    },
+    "text_hash": {
+      "title": "Text Hash",
+      "type": "string"
+    },
+    "filename": {
+      "title": "Filename",
+      "type": "string"
+    },
+    "source_url": {
+      "anyOf": [
+        {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Source Url"
+    },
+    "extracted_at": {
+      "format": "date-time",
+      "title": "Extracted At",
+      "type": "string"
+    },
+    "engine": {
+      "title": "Engine",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "REVIEW_REQUIRED",
+        "NO_SUPPORTED_RULES"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "content_text": {
+      "title": "Content Text",
+      "type": "string"
+    },
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/Candidate"
+      },
+      "title": "Candidates",
+      "type": "array"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "document_hash",
+    "text_hash",
+    "filename",
+    "source_url",
+    "extracted_at",
+    "engine",
+    "status",
+    "content_text",
+    "candidates",
+    "warnings"
+  ],
+  "title": "Analysis",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://policymap.dev/schemas/policy-analysis-response.schema.json"
+}

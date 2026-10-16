@@ -6,7 +6,21 @@ import type {
   PolicyExtractResponse,
   PolicySnapshot,
   ScenarioResult,
+  PublicContext,
+  PolicyExample,
 } from "./types";
+import type { PolicyAnalysis, PolicyExperimentRequest, PolicyExperimentResult } from "./policy-pipeline";
+
+export async function analyzePolicy(request: { content_text?: string; file_base64?: string; filename: string; source_url: string | null; engine: "auto" | "rules" | "gemini" }, signal?: AbortSignal): Promise<PolicyAnalysis> {
+  return parseResponse<PolicyAnalysis>(await fetch(`${API_URL}/api/v1/policies/analyze`, {
+    method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(request), signal,
+  }));
+}
+export async function runPolicyExperiment(request: PolicyExperimentRequest, signal?: AbortSignal): Promise<PolicyExperimentResult> {
+  return parseResponse<PolicyExperimentResult>(await fetch(`${API_URL}/api/v1/scenarios/policy`, {
+    method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(request), signal,
+  }));
+}
 
 const DEFAULT_API_URL =
   typeof window !== "undefined" && window.location.port === "5174"
@@ -17,6 +31,14 @@ const API_URL =
   import.meta.env.VITE_API_URL ??
   import.meta.env.VITE_API_BASE_URL ??
   DEFAULT_API_URL;
+
+export async function fetchPolicyExamples(signal?: AbortSignal): Promise<PolicyExample[]> {
+  return parseResponse<PolicyExample[]>(await fetch(`${API_URL}/api/v1/policy-examples`, {signal}));
+}
+
+export async function fetchPublicContext(): Promise<PublicContext> {
+  return parseResponse<PublicContext>(await fetch(`${API_URL}/api/v1/public-context`));
+}
 
 async function parseResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
@@ -100,5 +122,7 @@ export async function fetchGraph(
   const url = new URL("/api/v1/graph", API_URL);
   url.searchParams.set("date", asOf);
   url.searchParams.set("region_code", regionCode);
-  return parseResponse<GraphResponse>(await fetch(url));
+  const graph = await parseResponse<Omit<GraphResponse, "as_of" | "region_code">>(await fetch(url));
+  // The graph endpoint does not echo its query scope. Keep it for draft isolation.
+  return {...graph, as_of:asOf, region_code:regionCode};
 }

@@ -1,0 +1,38 @@
+{
+  "content_text": "수도권 주택담보대출 한도를 6억 원에서 4억 원으로 변경한다.",
+  "source_url": null,
+  "candidate": {
+    "id": "candidate_bd5c787d3c3e",
+    "kind": "mortgage_cap",
+    "label": "주택담보대출 한도",
+    "before": 600000000,
+    "after": 400000000,
+    "unit": "KRW",
+    "quote": "수도권 주택담보대출 한도를 6억 원에서 4억 원으로 변경한다.",
+    "start": 0,
+    "end": 34
+  },
+  "reviewed": true,
+  "region_codes": [
+    "11680"
+  ],
+  "households": [
+    {
+      "id": "demo_household",
+      "label": "합성 계산 검증 사례",
+      "eligible": true,
+      "cash_krw": 200000000,
+      "financing_need_krw": 700000000,
+      "property_price_krw": 900000000,
+      "annual_income_krw": 80000000,
+      "other_annual_payment_krw": 0
+    }
+  ],
+  "effective_from": null,
+  "simulation_date": "2026-10-20",
+  "proposed": false,
+  "hypothetical": true,
+  "annual_rate_percent": 4,
+  "loan_years": 30,
+  "price_elasticity": 0.1
+}

@@ -4,6 +4,8 @@ PolicyMap은 한국 부동산 정책을 시간 기반 지식 그래프로 구성
 
 현재 저장소는 개발 하네스입니다. 포함된 정책과 결과 데이터는 합성된 데모 자료이며 실제 가격 예측이나 투자 판단에 사용할 수 없습니다.
 
+2026년 10월 16일에 실제 행정경계와 서울시 실거래 표본 30건을 연결했습니다. 관측 자료는 합성 예측과 구분되어 있으며 [변경 내용과 인수인계](docs/UI_DATA_HANDOFF.md), [공개 자료 출처](data/public/README.md)에서 범위와 한계를 확인할 수 있습니다.
+
 ## 빠른 시작
 
 필요한 도구는 Node.js 20 이상, Python 3.12 이상, `uv`, Docker입니다.
@@ -81,6 +83,10 @@ cp .env.example .env.local
 
 ## 문서
 
+- [실제 정책 문서 추출과 조건부 시뮬레이션](docs/POLICY_PIPELINE.md)
+
+- [금융 용어 사전과 빠른 도움말](docs/GLOSSARY.md)
+- [지식 그래프 탐색과 노코드 편집](docs/GRAPH_EDITOR.md)
 - [제품 기획](docs/PRODUCT_SPEC.md)
 - [시스템 아키텍처](docs/ARCHITECTURE.md)
 - [데이터 모델](docs/DATA_MODEL.md)
