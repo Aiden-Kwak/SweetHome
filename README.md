@@ -1,5 +1,7 @@
 # SweetHome
 
+[Open the live SweetHome demo](https://sweethome-811194547051.asia-northeast3.run.app/)
+
 ## What is SweetHome?
 
 SweetHome is a housing policy simulation prototype for South Korea. It helps policymakers explore how a proposed rule could affect different regions and households before putting it into practice. Individuals can also use it to understand changes in borrowing limits and housing affordability.
